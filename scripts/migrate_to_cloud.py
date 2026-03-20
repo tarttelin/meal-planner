@@ -10,8 +10,11 @@ via the REST API on the target server.
 
 import asyncio
 import json
+import os
 import sys
 import urllib.request
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'backend'))
 
 if len(sys.argv) < 3:
     print("Usage: uv run python ../scripts/migrate_to_cloud.py <API_BASE_URL> <API_KEY>")
