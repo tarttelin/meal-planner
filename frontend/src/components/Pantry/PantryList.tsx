@@ -55,13 +55,15 @@ export default function PantryList() {
   }
 
   const handleScan = async (code: string) => {
-    setScanning(false)
     try {
       const item = await scanBarcode(code)
+      setScanning(false)
       flash(`Added: ${item.brand ? item.brand + ' ' : ''}${item.name}`)
       refresh()
-    } catch {
-      flash('Product not found for that barcode', 'error')
+    } catch (e: any) {
+      setScanning(false)
+      const detail = e?.response?.data?.detail || 'Product not found'
+      flash(`Barcode ${code}: ${detail}`, 'error')
     }
   }
 

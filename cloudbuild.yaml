@@ -33,6 +33,7 @@ steps:
       - '--memory=512Mi'
       - '--cpu=1'
       - '--max-instances=2'
+      - '--timeout=60s'
       - '--set-env-vars=REPO_TYPE=firestore,ALLOWED_DOMAIN=tarttelin.co.uk,API_KEY=${_API_KEY}'
       - '--allow-unauthenticated'
 

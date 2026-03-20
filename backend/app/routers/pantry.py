@@ -28,9 +28,9 @@ async def scan_barcode(body: BarcodeScanRequest, repo=Depends(get_pantry_repo)):
     url = OFF_URL.format(barcode=body.barcode)
     loop = asyncio.get_event_loop()
     try:
-        data = await loop.run_in_executor(None, functools.partial(_fetch, url))
+        data = await loop.run_in_executor(None, functools.partial(_fetch, url, 30))
     except Exception:
-        raise HTTPException(status_code=502, detail="Failed to reach Open Food Facts")
+        raise HTTPException(status_code=502, detail="Failed to reach Open Food Facts — try again")
 
     if data.get("status") != 1:
         raise HTTPException(status_code=404, detail="Product not found")
@@ -89,9 +89,9 @@ async def scan_to_update(item_id: str, body: BarcodeScanRequest, repo=Depends(ge
     url = OFF_URL.format(barcode=body.barcode)
     loop = asyncio.get_event_loop()
     try:
-        data = await loop.run_in_executor(None, functools.partial(_fetch, url))
+        data = await loop.run_in_executor(None, functools.partial(_fetch, url, 30))
     except Exception:
-        raise HTTPException(status_code=502, detail="Failed to reach Open Food Facts")
+        raise HTTPException(status_code=502, detail="Failed to reach Open Food Facts — try again")
 
     if data.get("status") != 1:
         raise HTTPException(status_code=404, detail="Product not found for that barcode")
