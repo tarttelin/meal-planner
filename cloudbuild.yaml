@@ -33,7 +33,7 @@ steps:
       - '--memory=512Mi'
       - '--cpu=1'
       - '--max-instances=2'
-      - '--set-env-vars=REPO_TYPE=firestore,ALLOWED_DOMAIN=tarttelin.co.uk'
+      - '--set-env-vars=REPO_TYPE=firestore,ALLOWED_DOMAIN=tarttelin.co.uk,API_KEY=${_API_KEY}'
       - '--allow-unauthenticated'
 
 options:
@@ -44,6 +44,7 @@ substitutions:
   _REGION: 'europe-west1'
   _FIREBASE_API_KEY: ''
   _FIREBASE_AUTH_DOMAIN: 'npzr-2010.firebaseapp.com'
+  _API_KEY: ''
 
 images:
   - 'gcr.io/$PROJECT_ID/meal-planner:$SHORT_SHA'

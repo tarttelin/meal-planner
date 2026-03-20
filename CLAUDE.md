@@ -16,6 +16,15 @@ Never activate the venv manually. `uv run` handles everything.
 ### Environment variables
 - `REPO_TYPE=sqlite` (default) — uses SQLAlchemy + SQLite at backend/data/meals.db
 - `REPO_TYPE=firestore` — uses Google Cloud Firestore
+- `ALLOWED_DOMAIN` — restrict Firebase Auth to this email domain (empty = auth disabled)
+- `API_KEY` — shared secret for machine access (Claude Code, scripts)
+
+### Deployed API access
+The deployed API at `https://meal-planner-567448989003.europe-west1.run.app` requires auth.
+Use the `X-API-Key` header for machine access:
+```bash
+curl -H "X-API-Key: $MEAL_PLANNER_API_KEY" https://meal-planner-567448989003.europe-west1.run.app/api/recipes
+```
 
 ### Running locally
 - Backend: `cd backend && uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000`

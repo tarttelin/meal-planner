@@ -1,9 +1,10 @@
 import os
 from fastapi import Request, HTTPException
 from starlette.middleware.base import BaseHTTPMiddleware
-from firebase_admin import auth, credentials, initialize_app
+from firebase_admin import auth, initialize_app
 
 ALLOWED_DOMAIN = os.environ.get("ALLOWED_DOMAIN", "")
+API_KEY = os.environ.get("API_KEY", "")
 _initialized = False
 
 
@@ -26,10 +27,15 @@ class FirebaseAuthMiddleware(BaseHTTPMiddleware):
             return await call_next(request)
 
         path = request.url.path
-        # Only protect API routes — static files, SPA routes, and docs are public
         if not path.startswith("/api/"):
             return await call_next(request)
 
+        # API key auth (for Claude Code / scripts)
+        if API_KEY and request.headers.get("x-api-key") == API_KEY:
+            request.state.user_email = "api-key"
+            return await call_next(request)
+
+        # Firebase token auth (for browser users)
         auth_header = request.headers.get("authorization", "")
         if not auth_header.startswith("Bearer "):
             raise HTTPException(status_code=401, detail="Missing auth token")

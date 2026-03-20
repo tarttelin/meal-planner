@@ -2,7 +2,7 @@
 
 Usage:
     cd backend
-    uv run python ../scripts/migrate_to_cloud.py https://your-cloud-run-url.run.app
+    uv run python ../scripts/migrate_to_cloud.py <API_BASE_URL> <API_KEY>
 
 This reads from the local SQLite database and creates all records
 via the REST API on the target server.
@@ -13,14 +13,14 @@ import json
 import sys
 import urllib.request
 
-# Target API base URL from command line
-if len(sys.argv) < 2:
-    print("Usage: uv run python ../scripts/migrate_to_cloud.py <API_BASE_URL>")
-    print("Example: uv run python ../scripts/migrate_to_cloud.py https://shopping-backend-xxxxx.run.app")
+if len(sys.argv) < 3:
+    print("Usage: uv run python ../scripts/migrate_to_cloud.py <API_BASE_URL> <API_KEY>")
+    print("Example: uv run python ../scripts/migrate_to_cloud.py https://meal-planner-xxxxx.run.app my-secret-key")
     sys.exit(1)
 
 API_BASE = sys.argv[1].rstrip("/")
-HEADERS = {"Content-Type": "application/json"}
+API_KEY = sys.argv[2]
+HEADERS = {"Content-Type": "application/json", "X-API-Key": API_KEY}
 
 
 def post(path: str, data: dict) -> dict:

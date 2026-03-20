@@ -58,5 +58,5 @@ jobs:
         run: |
           gcloud builds submit \
             --config=cloudbuild.yaml \
-            --substitutions=_REGION=${{ env.GCP_REGION }},SHORT_SHA=${{ github.sha }},_FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }},_FIREBASE_AUTH_DOMAIN=npzr-2010.firebaseapp.com \
+            --substitutions=_REGION=${{ env.GCP_REGION }},SHORT_SHA=${{ github.sha }},_FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }},_FIREBASE_AUTH_DOMAIN=npzr-2010.firebaseapp.com,_API_KEY=${{ secrets.API_KEY }} \
             .
