@@ -54,8 +54,6 @@ jobs:
       - uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: ${{ env.GCP_PROJECT_ID }}
-      - name: Configure Docker
-        run: gcloud auth configure-docker
       - name: Submit to Cloud Build
         run: |
           gcloud builds submit \

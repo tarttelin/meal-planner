@@ -190,7 +190,6 @@ export default function WeekView() {
             date={date}
             dayIndex={i}
             plans={plans}
-            profiles={profiles}
             onAdd={openPicker}
             onRemove={handleRemove}
             profileName={profileName}
@@ -205,7 +204,6 @@ export default function WeekView() {
             date={weekDates[mobileDay]}
             dayIndex={mobileDay}
             plans={plans}
-            profiles={profiles}
             onAdd={openPicker}
             onRemove={handleRemove}
             profileName={profileName}
