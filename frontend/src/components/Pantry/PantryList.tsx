@@ -107,11 +107,6 @@ export default function PantryList() {
     refresh()
   }
 
-  const handleCategoryChange = async (item: PantryItem, category: string) => {
-    await updatePantryItem(item.id, { ...item, category: category || null })
-    refresh()
-  }
-
   const startEditing = (item: PantryItem) => {
     setEditingId(item.id)
     setEditData({ ...item })

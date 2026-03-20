@@ -36,11 +36,10 @@ const slotColors: Record<string, string> = {
 
 function formatDate(d: Date) { return d.toISOString().split('T')[0] }
 
-function DayCard({ date, dayIndex, plans, profiles, onAdd, onRemove, profileName }: {
+function DayCard({ date, dayIndex, plans, onAdd, onRemove, profileName }: {
   date: Date
   dayIndex: number
   plans: MealPlan[]
-  profiles: { id: string; name: string }[]
   onAdd: (dateStr: string, slot: string) => void
   onRemove: (id: string) => void
   profileName: (id: string | null) => string
