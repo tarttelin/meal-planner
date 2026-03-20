@@ -1,0 +1,95 @@
+export interface Ingredient {
+  id?: string
+  name: string
+  quantity: number | null
+  unit: string | null
+  notes: string | null
+  tesco_search_term: string | null
+  calories: number | null
+  protein: number | null
+  carbs: number | null
+  fat: number | null
+  pantry_item_id?: string | null
+}
+
+export interface PantryItem {
+  id: string
+  name: string
+  brand: string | null
+  barcode: string | null
+  category: string | null
+  calories_per_100g: number | null
+  protein_per_100g: number | null
+  carbs_per_100g: number | null
+  fat_per_100g: number | null
+  image_url: string | null
+}
+
+export interface Recipe {
+  id: string
+  name: string
+  description: string | null
+  servings: number
+  prep_time_mins: number | null
+  cook_time_mins: number | null
+  instructions: string[] | null
+  tags: string[] | null
+  ingredients: Ingredient[]
+}
+
+export interface RecipeCreate {
+  name: string
+  description?: string | null
+  servings?: number
+  prep_time_mins?: number | null
+  cook_time_mins?: number | null
+  instructions?: string[] | null
+  tags?: string[] | null
+  ingredients?: Ingredient[]
+}
+
+export interface Profile {
+  id: string
+  name: string
+  calorie_target: number | null
+  protein_target: number | null
+  carbs_target: number | null
+  fat_target: number | null
+}
+
+export interface MealPlan {
+  id: string
+  date: string
+  slot: 'breakfast' | 'lunch' | 'dinner'
+  recipe_id: string
+  servings: number | null
+  profile_id: string | null
+  recipe: { id: string; name: string; servings: number } | null
+}
+
+export interface FoodLogEntry {
+  id: string
+  date: string
+  slot: string | null
+  name: string
+  pantry_item_id: string | null
+  recipe_id: string | null
+  recipe_servings: number | null
+  profile_id: string | null
+  quantity_g: number | null
+  calories: number | null
+  protein: number | null
+  carbs: number | null
+  fat: number | null
+}
+
+export interface ShoppingListItem {
+  id: string
+  ingredient_name: string
+  quantity: number | null
+  unit: string | null
+  category: string | null
+  tesco_search_term: string | null
+  tesco_product_id: string | null
+  added_to_basket: boolean
+}

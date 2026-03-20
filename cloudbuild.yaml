@@ -1,0 +1,52 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '--build-arg=VITE_FIREBASE_API_KEY=${_FIREBASE_API_KEY}'
+      - '--build-arg=VITE_FIREBASE_AUTH_DOMAIN=${_FIREBASE_AUTH_DOMAIN}'
+      - '--build-arg=VITE_FIREBASE_PROJECT_ID=$PROJECT_ID'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/meal-planner:$SHORT_SHA'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/meal-planner:latest'
+      - '-f'
+      - 'Dockerfile'
+      - '.'
+    timeout: 600s
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/meal-planner:$SHORT_SHA']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/meal-planner:latest']
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'meal-planner'
+      - '--image=gcr.io/$PROJECT_ID/meal-planner:$SHORT_SHA'
+      - '--region=${_REGION}'
+      - '--platform=managed'
+      - '--port=8080'
+      - '--memory=512Mi'
+      - '--cpu=1'
+      - '--max-instances=2'
+      - '--set-env-vars=REPO_TYPE=firestore,ALLOWED_DOMAIN=tarttelin.co.uk'
+      - '--allow-unauthenticated'
+
+options:
+  machineType: 'E2_MEDIUM'
+  substitutionOption: 'ALLOW_LOOSE'
+
+substitutions:
+  _REGION: 'europe-west1'
+  _FIREBASE_API_KEY: ''
+  _FIREBASE_AUTH_DOMAIN: 'npzr-2010.firebaseapp.com'
+
+images:
+  - 'gcr.io/$PROJECT_ID/meal-planner:$SHORT_SHA'
+  - 'gcr.io/$PROJECT_ID/meal-planner:latest'
+
+timeout: 1200s
