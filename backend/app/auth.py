@@ -26,7 +26,8 @@ class FirebaseAuthMiddleware(BaseHTTPMiddleware):
             return await call_next(request)
 
         path = request.url.path
-        if path.startswith("/docs") or path.startswith("/openapi") or path == "/":
+        # Only protect API routes — static files, SPA routes, and docs are public
+        if not path.startswith("/api/"):
             return await call_next(request)
 
         auth_header = request.headers.get("authorization", "")

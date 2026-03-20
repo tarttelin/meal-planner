@@ -38,6 +38,14 @@ static_dir = os.path.join(os.path.dirname(__file__), "..", "static")
 if os.path.isdir(static_dir):
     app.mount("/assets", StaticFiles(directory=os.path.join(static_dir, "assets")), name="static-assets")
 
+    @app.get("/favicon.svg")
+    async def favicon():
+        return FileResponse(os.path.join(static_dir, "favicon.svg"))
+
+    @app.get("/")
+    async def index():
+        return FileResponse(os.path.join(static_dir, "index.html"))
+
     @app.get("/{path:path}")
     async def serve_spa(path: str):
         if path.startswith("api/"):
