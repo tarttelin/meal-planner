@@ -5,7 +5,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, UploadFile, File
 
 router = APIRouter(tags=["barcode"])
 
@@ -95,3 +95,67 @@ async def search_food(q: str, page: int = 1):
 
     products = data.get("products", [])
     return [_format_product(p) for p in products if p.get("product_name")]
+
+
+def _decode_barcode_image(image_bytes: bytes) -> str | None:
+    import cv2
+    import numpy as np
+    from PIL import Image
+    from pyzbar.pyzbar import decode
+    import io
+
+    img = Image.open(io.BytesIO(image_bytes))
+    arr = np.array(img)
+
+    # Convert to grayscale
+    if len(arr.shape) == 3:
+        gray = cv2.cvtColor(arr, cv2.COLOR_RGB2GRAY)
+    else:
+        gray = arr
+
+    # Try decoding at multiple processing levels
+    for processed in _preprocess_variants(gray):
+        results = decode(processed)
+        if results:
+            return results[0].data.decode("utf-8")
+
+    return None
+
+
+def _preprocess_variants(gray):
+    import cv2
+
+    # 1. Raw grayscale
+    yield gray
+
+    # 2. Contrast boost (CLAHE)
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+    enhanced = clahe.apply(gray)
+    yield enhanced
+
+    # 3. Enhanced + slight blur to reduce noise
+    blurred = cv2.GaussianBlur(enhanced, (3, 3), 0)
+    yield blurred
+
+    # 4. Sharpened
+    sharp = cv2.addWeighted(enhanced, 1.5, blurred, -0.5, 0)
+    yield sharp
+
+    # 5. Binary threshold
+    _, binary = cv2.threshold(enhanced, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    yield binary
+
+
+@router.post("/barcode/decode")
+async def decode_barcode_image(file: UploadFile = File(...)):
+    image_bytes = await file.read()
+    if len(image_bytes) == 0:
+        raise HTTPException(status_code=400, detail="Empty file")
+
+    loop = asyncio.get_event_loop()
+    result = await loop.run_in_executor(None, _decode_barcode_image, image_bytes)
+
+    if not result:
+        raise HTTPException(status_code=404, detail="No barcode found in image")
+
+    return {"barcode": result}
