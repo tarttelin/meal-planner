@@ -25,6 +25,7 @@ async def init_db():
             ("pantry_items", "category", "TEXT"),
             ("shopping_list_items", "category", "TEXT"),
             ("ingredients", "notes", "TEXT"),
+            ("pantry_items", "nutriments", "JSON"),
         ]:
             result = await conn.execute(text(f"PRAGMA table_info({table})"))
             cols = [row[1] for row in result]

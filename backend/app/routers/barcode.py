@@ -1,11 +1,15 @@
 import asyncio
 import functools
 import json
+import logging
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
 
 from fastapi import APIRouter, HTTPException, UploadFile, File
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(tags=["barcode"])
 
@@ -13,16 +17,42 @@ OFF_URL = "https://world.openfoodfacts.org/api/v2/product/{barcode}.json"
 OFF_SEARCH_URL = "https://world.openfoodfacts.org/cgi/search.pl"
 HEADERS = {"User-Agent": "MealPlanner/1.0 (local app)"}
 
+MAX_RETRIES = 3
+BACKOFF_BASE = 0.5
+
 
 def _fetch(url: str, timeout: int = 10) -> dict:
-    req = urllib.request.Request(url, headers=HEADERS)
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
-            return json.loads(resp.read())
-    except urllib.error.HTTPError as e:
-        if e.code == 404:
-            return {"status": 0}
-        raise
+    last_exc = None
+    for attempt in range(MAX_RETRIES):
+        req = urllib.request.Request(url, headers=HEADERS)
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                return json.loads(resp.read())
+        except urllib.error.HTTPError as e:
+            if e.code == 404:
+                return {"status": 0}
+            body = ""
+            try:
+                body = e.read().decode("utf-8", errors="replace")[:500]
+            except Exception:
+                pass
+            logger.warning(
+                "Open Food Facts returned HTTP %d (attempt %d/%d) url=%s body=%s",
+                e.code, attempt + 1, MAX_RETRIES, url, body,
+            )
+            last_exc = e
+        except urllib.error.URLError as e:
+            logger.warning(
+                "Open Food Facts connection error (attempt %d/%d) url=%s reason=%s",
+                attempt + 1, MAX_RETRIES, url, e.reason,
+            )
+            last_exc = e
+
+        if attempt < MAX_RETRIES - 1:
+            delay = BACKOFF_BASE * (2 ** attempt)
+            time.sleep(delay)
+
+    raise last_exc
 
 
 @router.get("/barcode/{barcode}")
@@ -31,7 +61,8 @@ async def lookup_barcode(barcode: str):
     loop = asyncio.get_event_loop()
     try:
         data = await loop.run_in_executor(None, functools.partial(_fetch, url))
-    except Exception:
+    except Exception as e:
+        logger.error("Barcode lookup failed after %d retries: barcode=%s error=%s", MAX_RETRIES, barcode, e)
         raise HTTPException(status_code=502, detail="Failed to reach Open Food Facts")
 
     if data.get("status") != 1:
@@ -46,14 +77,12 @@ async def lookup_barcode(barcode: str):
         "brand": product.get("brands", ""),
         "quantity": product.get("quantity", ""),
         "image_url": product.get("image_front_small_url"),
+        "nutriments": nutrients,
         "per_100g": {
             "calories": nutrients.get("energy-kcal_100g"),
             "protein": nutrients.get("proteins_100g"),
             "carbs": nutrients.get("carbohydrates_100g"),
             "fat": nutrients.get("fat_100g"),
-            "fibre": nutrients.get("fiber_100g"),
-            "sugar": nutrients.get("sugars_100g"),
-            "salt": nutrients.get("salt_100g"),
         },
     }
 
@@ -66,6 +95,7 @@ def _format_product(product: dict) -> dict:
         "brand": product.get("brands", ""),
         "quantity": product.get("quantity", ""),
         "image_url": product.get("image_front_small_url"),
+        "nutriments": nutrients,
         "per_100g": {
             "calories": nutrients.get("energy-kcal_100g"),
             "protein": nutrients.get("proteins_100g"),
@@ -90,8 +120,9 @@ async def search_food(q: str, page: int = 1):
     loop = asyncio.get_event_loop()
     try:
         data = await loop.run_in_executor(None, functools.partial(_fetch, url, 30))
-    except Exception:
-        raise HTTPException(status_code=502, detail="Search timed out — Open Food Facts may be slow. Try again.")
+    except Exception as e:
+        logger.error("Food search failed after %d retries: query=%s error=%s", MAX_RETRIES, q, e)
+        raise HTTPException(status_code=502, detail="Search failed — Open Food Facts may be slow. Try again.")
 
     products = data.get("products", [])
     return [_format_product(p) for p in products if p.get("product_name")]

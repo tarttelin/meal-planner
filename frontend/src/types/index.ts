@@ -23,6 +23,7 @@ export interface PantryItem {
   carbs_per_100g: number | null
   fat_per_100g: number | null
   image_url: string | null
+  nutriments: Record<string, number | string> | null
 }
 
 export interface Recipe {

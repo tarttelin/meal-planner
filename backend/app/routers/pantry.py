@@ -47,6 +47,7 @@ async def scan_barcode(body: BarcodeScanRequest, repo=Depends(get_pantry_repo)):
         carbs_per_100g=nutrients.get("carbohydrates_100g"),
         fat_per_100g=nutrients.get("fat_100g"),
         image_url=product.get("image_front_small_url"),
+        nutriments=nutrients or None,
     )
     return await repo.create(item_data)
 
@@ -109,6 +110,7 @@ async def scan_to_update(item_id: str, body: BarcodeScanRequest, repo=Depends(ge
         carbs_per_100g=nutrients.get("carbohydrates_100g") or item.carbs_per_100g,
         fat_per_100g=nutrients.get("fat_100g") or item.fat_per_100g,
         image_url=product.get("image_front_small_url") or item.image_url,
+        nutriments=nutrients or getattr(item, 'nutriments', None),
     )
     return await repo.update(item_id, update_data)
 

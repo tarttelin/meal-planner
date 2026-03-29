@@ -104,6 +104,7 @@ export default function PantryList() {
       carbs_per_100g: result.per_100g.carbs,
       fat_per_100g: result.per_100g.fat,
       image_url: result.image_url,
+      nutriments: result.nutriments,
     })
     flash(`Added: ${result.brand ? result.brand + ' ' : ''}${result.name}`)
     refresh()
@@ -341,6 +342,22 @@ export default function PantryList() {
                 </div>
               </div>
             </div>
+            {editData.nutriments && Object.keys(editData.nutriments).length > 0 && (
+              <div>
+                <label className="block text-xs text-gray-500 mb-1">Full nutrition (per 100g)</label>
+                <div className="max-h-40 overflow-y-auto bg-gray-50 rounded p-2 text-xs space-y-0.5">
+                  {Object.entries(editData.nutriments)
+                    .filter(([k]) => k.endsWith('_100g'))
+                    .sort(([a], [b]) => a.localeCompare(b))
+                    .map(([key, val]) => (
+                      <div key={key} className="flex justify-between">
+                        <span className="text-gray-600">{key.replace('_100g', '').replace(/-/g, ' ')}</span>
+                        <span className="text-gray-800 font-mono">{typeof val === 'number' ? Math.round(val * 100) / 100 : val}</span>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            )}
             {editData.barcode && <p className="text-xs text-gray-400">Barcode: {editData.barcode}</p>}
             <div className="flex gap-2 pt-2">
               <button type="button" onClick={saveEdit} className="bg-indigo-600 text-white px-4 py-2 rounded text-sm hover:bg-indigo-700 flex-1">Save</button>

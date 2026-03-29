@@ -6,14 +6,12 @@ export interface BarcodeResult {
   brand: string
   quantity: string
   image_url: string | null
+  nutriments: Record<string, number | string> | null
   per_100g: {
     calories: number | null
     protein: number | null
     carbs: number | null
     fat: number | null
-    fibre: number | null
-    sugar: number | null
-    salt: number | null
   }
 }
 

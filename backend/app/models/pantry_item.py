@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime, timezone
-from sqlalchemy import String, Float, DateTime
+from sqlalchemy import String, Float, DateTime, JSON
 from sqlalchemy.orm import Mapped, mapped_column
 from app.models.database import Base
 
@@ -16,4 +16,5 @@ class PantryItem(Base):
     fat_per_100g: Mapped[float | None] = mapped_column(Float, nullable=True)
     category: Mapped[str | None] = mapped_column(String(100), nullable=True)
     image_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    nutriments: Mapped[dict | None] = mapped_column(JSON, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda: datetime.now(timezone.utc))

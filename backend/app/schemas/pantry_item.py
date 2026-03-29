@@ -10,6 +10,7 @@ class PantryItemCreate(BaseModel):
     fat_per_100g: float | None = None
     category: str | None = None
     image_url: str | None = None
+    nutriments: dict | None = None
 
 class PantryItemOut(PantryItemCreate):
     id: str
