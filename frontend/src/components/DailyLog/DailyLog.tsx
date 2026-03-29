@@ -123,14 +123,13 @@ export default function DailyLog() {
   const confirmPlannedMeal = async (plan: MealPlan) => {
     const recipe = recipes.find(r => r.id === plan.recipe_id)
     if (!recipe) return
-    const servings = plan.servings || recipe.servings
-    const n = recipeNutrition(recipe, servings)
+    const n = recipeNutrition(recipe, recipe.servings)
     await createFoodLogEntry({
       date: dateStr,
       slot: plan.slot,
       name: recipe.name,
       recipe_id: recipe.id,
-      recipe_servings: servings,
+      recipe_servings: recipe.servings,
       profile_id: profileId ?? null,
       pantry_item_id: null,
       quantity_g: null,
