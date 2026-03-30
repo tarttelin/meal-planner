@@ -61,7 +61,7 @@ export interface Profile {
 export interface MealPlan {
   id: string
   date: string
-  slot: 'breakfast' | 'lunch' | 'dinner'
+  slot: 'breakfast' | 'lunch' | 'dinner' | 'snack'
   recipe_id: string
   servings: number | null
   profile_id: string | null

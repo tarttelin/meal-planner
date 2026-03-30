@@ -24,7 +24,7 @@ function getWeekDates(date: Date): Date[] {
   })
 }
 
-const SLOTS = ['breakfast', 'lunch', 'dinner'] as const
+const SLOTS = ['breakfast', 'lunch', 'dinner', 'snack'] as const
 const DAY_NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 const FULL_DAY_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
@@ -32,6 +32,7 @@ const slotColors: Record<string, string> = {
   breakfast: 'bg-amber-50 border-amber-200',
   lunch: 'bg-green-50 border-green-200',
   dinner: 'bg-blue-50 border-blue-200',
+  snack: 'bg-purple-50 border-purple-200',
 }
 
 function formatDate(d: Date) { return d.toISOString().split('T')[0] }

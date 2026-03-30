@@ -166,7 +166,7 @@ export default function DailyLog() {
     loadData()
   }
 
-  const SLOTS = ['breakfast', 'lunch', 'dinner'] as const
+  const SLOTS = ['breakfast', 'lunch', 'dinner', 'snack'] as const
   const snacks = foodLog.filter(e => !e.slot)
 
   const dayTotal = { calories: 0, protein: 0, carbs: 0, fat: 0 }

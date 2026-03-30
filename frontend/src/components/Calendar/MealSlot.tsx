@@ -11,6 +11,7 @@ const slotColors: Record<string, string> = {
   breakfast: 'bg-amber-50 border-amber-200',
   lunch: 'bg-green-50 border-green-200',
   dinner: 'bg-blue-50 border-blue-200',
+  snack: 'bg-purple-50 border-purple-200',
 }
 
 export default function MealSlot({ slot, plan, onAdd, onRemove }: Props) {
