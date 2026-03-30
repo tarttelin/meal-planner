@@ -16,6 +16,13 @@ class MealPlanRepository:
             return None
         data = doc.to_dict()
         data["id"] = doc.id
+        ingredients = []
+        ing_refs = self.db.collection("recipes").document(doc.id).collection("ingredients")
+        async for ing_doc in ing_refs.stream():
+            ing_data = ing_doc.to_dict()
+            ing_data["id"] = ing_doc.id
+            ingredients.append(Entity(ing_data))
+        data["ingredients"] = ingredients
         return Entity(data)
 
     def _to_entity(self, doc) -> Entity:
