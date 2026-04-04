@@ -3,7 +3,7 @@ from datetime import date, datetime, timezone
 
 from app.repositories.firestore.client import get_firestore_client
 from app.repositories.firestore.entity import Entity
-from app.schemas.food_log import FoodLogCreate
+from app.schemas.food_log import FoodLogPersist
 
 
 class FoodLogRepository:
@@ -32,7 +32,7 @@ class FoodLogRepository:
             entries.append(entity)
         return entries
 
-    async def create(self, data: FoodLogCreate) -> Entity:
+    async def create(self, data: FoodLogPersist) -> Entity:
         entry_id = str(uuid.uuid4())
         doc_data = data.model_dump()
         doc_data["date"] = data.date.isoformat()

@@ -1,6 +1,6 @@
 from datetime import date
 from fastapi import APIRouter, Depends, HTTPException, Query
-from app.dependencies import get_food_log_repo
+from app.dependencies import get_food_log_repo, get_food_log_service
 from app.schemas.food_log import FoodLogCreate, FoodLogOut
 
 router = APIRouter(tags=["food-log"])
@@ -17,8 +17,8 @@ async def get_food_log(
 
 
 @router.post("/food-log", response_model=FoodLogOut, status_code=201)
-async def create_food_log_entry(data: FoodLogCreate, repo=Depends(get_food_log_repo)):
-    return await repo.create(data)
+async def create_food_log_entry(data: FoodLogCreate, service=Depends(get_food_log_service)):
+    return await service.create(data)
 
 
 @router.delete("/food-log/{entry_id}", status_code=204)

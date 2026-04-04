@@ -16,24 +16,6 @@ function getWeekString(date: Date): string {
   return `${d.getFullYear()}-W${String(weekNum).padStart(2, '0')}`
 }
 
-function recipeNutrition(recipe: Recipe, servings: number) {
-  const total = recipe.ingredients.reduce(
-    (acc, ing) => ({
-      calories: acc.calories + (ing.calories || 0),
-      protein: acc.protein + (ing.protein || 0),
-      carbs: acc.carbs + (ing.carbs || 0),
-      fat: acc.fat + (ing.fat || 0),
-    }),
-    { calories: 0, protein: 0, carbs: 0, fat: 0 },
-  )
-  return {
-    calories: total.calories / servings,
-    protein: total.protein / servings,
-    carbs: total.carbs / servings,
-    fat: total.fat / servings,
-  }
-}
-
 function NutritionLabel({ calories, protein, carbs, fat }: { calories: number; protein: number; carbs: number; fat: number }) {
   return (
     <span className="text-xs text-gray-500">
@@ -101,21 +83,13 @@ export default function DailyLog() {
   }
 
   const logRecipe = async (recipe: Recipe, slot: string) => {
-    const servings = pickerServings || 1
-    const n = recipeNutrition(recipe, servings)
     await createFoodLogEntry({
       date: dateStr,
       slot,
       name: recipe.name,
       recipe_id: recipe.id,
-      consumed_servings: servings,
+      consumed_servings: pickerServings || 1,
       profile_id: profileId ?? null,
-      pantry_item_id: null,
-      quantity_g: null,
-      calories: Math.round(n.calories),
-      protein: Math.round(n.protein * 10) / 10,
-      carbs: Math.round(n.carbs * 10) / 10,
-      fat: Math.round(n.fat * 10) / 10,
     })
     setPicker(null)
     loadData()
@@ -124,40 +98,26 @@ export default function DailyLog() {
   const confirmPlannedMeal = async (plan: MealPlan) => {
     const recipe = recipes.find(r => r.id === plan.recipe_id)
     if (!recipe) return
-    const n = recipeNutrition(recipe, recipe.yield_servings)
     await createFoodLogEntry({
       date: dateStr,
       slot: plan.slot,
       name: recipe.name,
       recipe_id: recipe.id,
+      meal_plan_id: plan.id,
       consumed_servings: recipe.yield_servings,
       profile_id: profileId ?? null,
-      pantry_item_id: null,
-      quantity_g: null,
-      calories: Math.round(n.calories),
-      protein: Math.round(n.protein * 10) / 10,
-      carbs: Math.round(n.carbs * 10) / 10,
-      fat: Math.round(n.fat * 10) / 10,
     })
     loadData()
   }
 
   const logPantryItem = async (item: PantryItem, slot: string | null) => {
-    const qty = pantryQty || 100
-    const scale = qty / 100
     await createFoodLogEntry({
       date: dateStr,
       slot,
       name: [item.brand, item.name].filter(Boolean).join(' '),
       pantry_item_id: item.id,
-      recipe_id: null,
-      consumed_servings: null,
       profile_id: profileId ?? null,
-      quantity_g: qty,
-      calories: item.calories_per_100g != null ? Math.round(item.calories_per_100g * scale) : null,
-      protein: item.protein_per_100g != null ? Math.round(item.protein_per_100g * scale * 10) / 10 : null,
-      carbs: item.carbs_per_100g != null ? Math.round(item.carbs_per_100g * scale * 10) / 10 : null,
-      fat: item.fat_per_100g != null ? Math.round(item.fat_per_100g * scale * 10) / 10 : null,
+      quantity_g: pantryQty || 100,
     })
     setPicker(null)
     loadData()
@@ -176,30 +136,31 @@ export default function DailyLog() {
     const logged = foodLog.filter(e => e.slot === slot)
     if (logged.length > 0) {
       logged.forEach(e => {
-        dayTotal.calories += e.calories || 0
-        dayTotal.protein += e.protein || 0
-        dayTotal.carbs += e.carbs || 0
-        dayTotal.fat += e.fat || 0
+        dayTotal.calories += e.nutrition?.calories || 0
+        dayTotal.protein += e.nutrition?.protein || 0
+        dayTotal.carbs += e.nutrition?.carbs || 0
+        dayTotal.fat += e.nutrition?.fat || 0
       })
     } else {
       const plan = plans.find(p => p.slot === slot)
       if (plan) {
         const recipe = recipes.find(r => r.id === plan.recipe_id)
         if (recipe) {
-          const n = recipeNutrition(recipe, plan.planned_servings || recipe.yield_servings)
-          dayTotal.calories += n.calories
-          dayTotal.protein += n.protein
-          dayTotal.carbs += n.carbs
-          dayTotal.fat += n.fat
+          const servings = plan.planned_servings || recipe.yield_servings
+          const perServing = recipe.per_serving
+          dayTotal.calories += perServing.calories * servings
+          dayTotal.protein += perServing.protein * servings
+          dayTotal.carbs += perServing.carbs * servings
+          dayTotal.fat += perServing.fat * servings
         }
       }
     }
   })
   snacks.forEach(e => {
-    dayTotal.calories += e.calories || 0
-    dayTotal.protein += e.protein || 0
-    dayTotal.carbs += e.carbs || 0
-    dayTotal.fat += e.fat || 0
+    dayTotal.calories += e.nutrition?.calories || 0
+    dayTotal.protein += e.nutrition?.protein || 0
+    dayTotal.carbs += e.nutrition?.carbs || 0
+    dayTotal.fat += e.nutrition?.fat || 0
   })
 
   const isToday = dateStr === formatDate(new Date())
@@ -283,7 +244,7 @@ export default function DailyLog() {
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
-                      <NutritionLabel calories={entry.calories || 0} protein={entry.protein || 0} carbs={entry.carbs || 0} fat={entry.fat || 0} />
+                      <NutritionLabel calories={entry.nutrition?.calories || 0} protein={entry.nutrition?.protein || 0} carbs={entry.nutrition?.carbs || 0} fat={entry.nutrition?.fat || 0} />
                       <button onClick={() => removeEntry(entry.id)} className="text-red-300 hover:text-red-500">x</button>
                     </div>
                   </div>
@@ -320,7 +281,7 @@ export default function DailyLog() {
                 <p className="text-xs text-gray-400">{entry.quantity_g ? `${entry.quantity_g}g` : ''}</p>
               </div>
               <div className="flex items-center gap-2">
-                <NutritionLabel calories={entry.calories || 0} protein={entry.protein || 0} carbs={entry.carbs || 0} fat={entry.fat || 0} />
+                <NutritionLabel calories={entry.nutrition?.calories || 0} protein={entry.nutrition?.protein || 0} carbs={entry.nutrition?.carbs || 0} fat={entry.nutrition?.fat || 0} />
                 <button onClick={() => removeEntry(entry.id)} className="text-red-300 hover:text-red-500">x</button>
               </div>
             </div>
@@ -356,19 +317,16 @@ export default function DailyLog() {
             <div className="overflow-y-auto flex-1">
               {recipes
                 .filter(r => !searchTerm || r.name.toLowerCase().includes(searchTerm.toLowerCase()))
-                .map(r => {
-                  const n = recipeNutrition(r, pickerServings || 1)
-                  return (
-                    <button
-                      key={r.id}
-                      onClick={() => logRecipe(r, picker.slot)}
-                      className="block w-full text-left px-3 py-2 rounded hover:bg-indigo-50 text-sm"
-                    >
-                      {r.name}
-                      <span className="text-xs text-gray-400 ml-1">({Math.round(n.calories)} kcal/serving)</span>
-                    </button>
-                  )
-                })}
+                .map(r => (
+                  <button
+                    key={r.id}
+                    onClick={() => logRecipe(r, picker.slot)}
+                    className="block w-full text-left px-3 py-2 rounded hover:bg-indigo-50 text-sm"
+                  >
+                    {r.name}
+                    <span className="text-xs text-gray-400 ml-1">({Math.round(r.per_serving.calories)} kcal/serving)</span>
+                  </button>
+                ))}
             </div>
           </div>
         </div>

@@ -1,8 +1,8 @@
 from datetime import date
-from sqlalchemy import select, delete as sa_delete
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.food_log import FoodLogEntry
-from app.schemas.food_log import FoodLogCreate
+from app.schemas.food_log import FoodLogPersist
 
 class FoodLogRepository:
     def __init__(self, session: AsyncSession):
@@ -19,7 +19,7 @@ class FoodLogRepository:
         result = await self.session.execute(stmt)
         return list(result.scalars().all())
 
-    async def create(self, data: FoodLogCreate) -> FoodLogEntry:
+    async def create(self, data: FoodLogPersist) -> FoodLogEntry:
         entry = FoodLogEntry(**data.model_dump())
         self.session.add(entry)
         await self.session.commit()

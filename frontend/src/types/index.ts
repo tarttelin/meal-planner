@@ -85,13 +85,14 @@ export interface FoodLogEntry {
   name: string
   pantry_item_id: string | null
   recipe_id: string | null
+  meal_plan_id: string | null
   consumed_servings: number | null
   profile_id: string | null
   quantity_g: number | null
-  calories: number | null
-  protein: number | null
-  carbs: number | null
-  fat: number | null
+  nutrition: Nutrition
+  recipe_yield_servings_snapshot: number | null
+  recipe_total_nutrition_snapshot: Nutrition | null
+  recipe_per_serving_nutrition_snapshot: Nutrition | null
 }
 
 export interface ShoppingListItem {
