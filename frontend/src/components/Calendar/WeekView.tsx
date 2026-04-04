@@ -98,7 +98,7 @@ export default function WeekView() {
   const [showPicker, setShowPicker] = useState<{ date: string; slot: string } | null>(null)
   const [pickerSearch, setPickerSearch] = useState('')
   const [pickerTag, setPickerTag] = useState<string | null>(null)
-  const [pickerServings, setPickerServings] = useState(1)
+  const [pickerServings, setPickerServings] = useState<number | ''>(1)
   const [pickerProfileId, setPickerProfileId] = useState<string>('')
 
   const weekStr = getWeekString(currentDate)
@@ -137,7 +137,7 @@ export default function WeekView() {
       date: showPicker.date,
       slot: showPicker.slot,
       recipe_id: recipeId,
-      servings: pickerServings,
+      servings: pickerServings || 1,
       profile_id: pickerProfileId || null,
     })
     setShowPicker(null)
@@ -262,9 +262,10 @@ export default function WeekView() {
                   <label className="text-xs text-gray-500">Portions:</label>
                   <input
                     type="number"
+                    inputMode="numeric"
                     min={1}
                     value={pickerServings}
-                    onChange={e => setPickerServings(Math.max(1, +e.target.value))}
+                    onChange={e => setPickerServings(e.target.value === '' ? '' : +e.target.value)}
                     className="border rounded px-2 py-1 text-sm w-14"
                   />
                 </div>
@@ -298,7 +299,7 @@ export default function WeekView() {
                   >
                     {r.name}
                     <span className="text-xs text-gray-400 ml-1">
-                      ({Math.round(r.ingredients.reduce((s, ing) => s + (ing.calories || 0), 0) / pickerServings)} kcal/serving)
+                      ({Math.round(r.ingredients.reduce((s, ing) => s + (ing.calories || 0), 0) / (pickerServings || 1))} kcal/serving)
                     </span>
                   </button>
                 ))}

@@ -12,7 +12,7 @@ export default function RecipeEditor() {
 
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
-  const [servings, setServings] = useState(4)
+  const [servings, setServings] = useState<number | ''>(4)
   const [prepTime, setPrepTime] = useState<number | ''>('')
   const [cookTime, setCookTime] = useState<number | ''>('')
   const [instructions, setInstructions] = useState('')
@@ -141,7 +141,7 @@ export default function RecipeEditor() {
     const data = {
       name,
       description: description || null,
-      servings,
+      servings: servings || 1,
       prep_time_mins: prepTime || null,
       cook_time_mins: cookTime || null,
       instructions: instructions ? instructions.split('\n').filter(Boolean) : null,
@@ -174,7 +174,7 @@ export default function RecipeEditor() {
       <div className="grid grid-cols-3 gap-4">
         <div>
           <label className="block text-sm font-medium mb-1">Servings</label>
-          <input type="number" value={servings} onChange={e => setServings(+e.target.value)} className="border rounded px-3 py-2 w-full text-sm" />
+          <input type="number" inputMode="numeric" min={1} value={servings} onChange={e => setServings(e.target.value === '' ? '' : +e.target.value)} className="border rounded px-3 py-2 w-full text-sm" />
         </div>
         <div>
           <label className="block text-sm font-medium mb-1">Prep (mins)</label>
@@ -286,8 +286,9 @@ export default function RecipeEditor() {
 }
 
 function BarcodeResultCard({ result, onAdd }: { result: BarcodeResult; onAdd: (weightG: number) => void }) {
-  const [weight, setWeight] = useState(100)
+  const [weight, setWeight] = useState<number | ''>(100)
   const per100 = result.per_100g
+  const effectiveWeight = weight || 100
 
   return (
     <div className="mt-2 p-2 bg-white rounded border text-sm">
@@ -305,17 +306,19 @@ function BarcodeResultCard({ result, onAdd }: { result: BarcodeResult; onAdd: (w
         <label className="text-xs text-gray-500">Weight:</label>
         <input
           type="number"
+          inputMode="numeric"
+          min={1}
           value={weight}
-          onChange={e => setWeight(+e.target.value)}
+          onChange={e => setWeight(e.target.value === '' ? '' : +e.target.value)}
           className="border rounded px-2 py-1 text-xs w-20"
         />
         <span className="text-xs text-gray-400">g</span>
         <span className="text-xs text-gray-500 ml-2">
-          = {per100.calories != null ? Math.round(per100.calories * weight / 100) : '?'} kcal
+          = {per100.calories != null ? Math.round(per100.calories * effectiveWeight / 100) : '?'} kcal
         </span>
         <button
           type="button"
-          onClick={() => onAdd(weight)}
+          onClick={() => onAdd(effectiveWeight)}
           className="ml-auto bg-green-600 text-white px-3 py-1 rounded text-xs hover:bg-green-700"
         >
           Add ingredient

@@ -56,8 +56,8 @@ export default function DailyLog() {
   const [picker, setPicker] = useState<PickerMode | null>(null)
   const [pantryItems, setPantryItems] = useState<PantryItem[]>([])
   const [searchTerm, setSearchTerm] = useState('')
-  const [pickerServings, setPickerServings] = useState(1)
-  const [pantryQty, setPantryQty] = useState(100)
+  const [pickerServings, setPickerServings] = useState<number | ''>(1)
+  const [pantryQty, setPantryQty] = useState<number | ''>(100)
 
   const profileId = activeProfile?.id
   const dateStr = formatDate(currentDate)
@@ -101,13 +101,14 @@ export default function DailyLog() {
   }
 
   const logRecipe = async (recipe: Recipe, slot: string) => {
-    const n = recipeNutrition(recipe, pickerServings)
+    const servings = pickerServings || 1
+    const n = recipeNutrition(recipe, servings)
     await createFoodLogEntry({
       date: dateStr,
       slot,
       name: recipe.name,
       recipe_id: recipe.id,
-      recipe_servings: pickerServings,
+      recipe_servings: servings,
       profile_id: profileId ?? null,
       pantry_item_id: null,
       quantity_g: null,
@@ -142,7 +143,8 @@ export default function DailyLog() {
   }
 
   const logPantryItem = async (item: PantryItem, slot: string | null) => {
-    const scale = pantryQty / 100
+    const qty = pantryQty || 100
+    const scale = qty / 100
     await createFoodLogEntry({
       date: dateStr,
       slot,
@@ -151,7 +153,7 @@ export default function DailyLog() {
       recipe_id: null,
       recipe_servings: null,
       profile_id: profileId ?? null,
-      quantity_g: pantryQty,
+      quantity_g: qty,
       calories: item.calories_per_100g != null ? Math.round(item.calories_per_100g * scale) : null,
       protein: item.protein_per_100g != null ? Math.round(item.protein_per_100g * scale * 10) / 10 : null,
       carbs: item.carbs_per_100g != null ? Math.round(item.carbs_per_100g * scale * 10) / 10 : null,
@@ -343,9 +345,10 @@ export default function DailyLog() {
                 <label className="text-xs text-gray-500">Portions:</label>
                 <input
                   type="number"
+                  inputMode="numeric"
                   min={1}
                   value={pickerServings}
-                  onChange={e => setPickerServings(Math.max(1, +e.target.value))}
+                  onChange={e => setPickerServings(e.target.value === '' ? '' : +e.target.value)}
                   className="border rounded px-2 py-1 text-sm w-14"
                 />
               </div>
@@ -354,7 +357,7 @@ export default function DailyLog() {
               {recipes
                 .filter(r => !searchTerm || r.name.toLowerCase().includes(searchTerm.toLowerCase()))
                 .map(r => {
-                  const n = recipeNutrition(r, pickerServings)
+                  const n = recipeNutrition(r, pickerServings || 1)
                   return (
                     <button
                       key={r.id}
@@ -387,9 +390,10 @@ export default function DailyLog() {
               <div className="flex items-center gap-1">
                 <input
                   type="number"
+                  inputMode="numeric"
                   min={1}
                   value={pantryQty}
-                  onChange={e => setPantryQty(Math.max(1, +e.target.value))}
+                  onChange={e => setPantryQty(e.target.value === '' ? '' : +e.target.value)}
                   className="border rounded px-2 py-1 text-sm w-16"
                 />
                 <span className="text-xs text-gray-500">g</span>
@@ -398,7 +402,8 @@ export default function DailyLog() {
             <div className="overflow-y-auto flex-1">
               {pantryItems.length === 0 && <p className="text-gray-500 text-sm py-4 text-center">No pantry items found.</p>}
               {pantryItems.map(item => {
-                const cal = item.calories_per_100g != null ? Math.round(item.calories_per_100g * pantryQty / 100) : null
+                const previewQty = pantryQty || 100
+                const cal = item.calories_per_100g != null ? Math.round(item.calories_per_100g * previewQty / 100) : null
                 return (
                   <button
                     key={item.id}
@@ -408,7 +413,7 @@ export default function DailyLog() {
                     {item.image_url && <img src={item.image_url} alt="" className="w-8 h-8 object-contain rounded" />}
                     <div className="flex-1 min-w-0">
                       <p className="truncate">{item.brand ? `${item.brand} ` : ''}{item.name}</p>
-                      <p className="text-xs text-gray-400">{cal != null ? `${cal} kcal for ${pantryQty}g` : ''}</p>
+                      <p className="text-xs text-gray-400">{cal != null ? `${cal} kcal for ${previewQty}g` : ''}</p>
                     </div>
                   </button>
                 )
