@@ -8,7 +8,7 @@ class FoodLogCreate(BaseModel):
     name: str
     pantry_item_id: str | None = None
     recipe_id: str | None = None
-    recipe_servings: int | None = None
+    consumed_servings: int | None = None
     quantity_g: float | None = None
     calories: float | None = None
     protein: float | None = None

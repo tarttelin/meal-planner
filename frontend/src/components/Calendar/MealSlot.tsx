@@ -15,7 +15,7 @@ const slotColors: Record<string, string> = {
 }
 
 export default function MealSlot({ slot, plan, onAdd, onRemove }: Props) {
-  const servings = plan?.servings || plan?.recipe?.servings || 1
+  const servings = plan?.planned_servings || plan?.recipe?.yield_servings || 1
 
   return (
     <div className={`rounded border px-2 py-1 mb-1 text-xs ${slotColors[slot] || 'bg-gray-50 border-gray-200'}`}>

@@ -13,7 +13,7 @@ class FoodLogEntry(Base):
     name: Mapped[str] = mapped_column(String(255))
     pantry_item_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("pantry_items.id"), nullable=True)
     recipe_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("recipes.id"), nullable=True)
-    recipe_servings: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    consumed_servings: Mapped[int | None] = mapped_column("consumed_servings", Integer, nullable=True)
     quantity_g: Mapped[float | None] = mapped_column(Float, nullable=True)
     calories: Mapped[float | None] = mapped_column(Float, nullable=True)
     protein: Mapped[float | None] = mapped_column(Float, nullable=True)

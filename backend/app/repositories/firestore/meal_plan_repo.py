@@ -56,7 +56,7 @@ class MealPlanRepository:
             "date": data.date.isoformat(),
             "slot": data.slot,
             "recipe_id": data.recipe_id,
-            "servings": data.servings,
+            "planned_servings": data.planned_servings,
             "profile_id": data.profile_id,
         }
         await self.db.collection("meal_plans").document(plan_id).set(doc_data)

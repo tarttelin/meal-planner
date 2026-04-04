@@ -14,6 +14,9 @@ async def lifespan(app: FastAPI):
     if REPO_TYPE == "sqlite":
         from app.models.database import init_db
         await init_db()
+    elif REPO_TYPE == "firestore":
+        from app.repositories.firestore.migrations import run_migrations
+        await run_migrations()
     yield
 
 app = FastAPI(title="Meal Planner", lifespan=lifespan)

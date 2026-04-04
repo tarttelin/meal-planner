@@ -71,7 +71,7 @@ export default function RecipeList() {
             </div>
             {r.description && <p className="text-sm text-gray-500 mt-1">{r.description}</p>}
             <div className="flex gap-2 mt-2 text-xs text-gray-400">
-              <span>{r.servings} servings</span>
+              <span>{r.yield_servings} servings</span>
               {r.prep_time_mins && <span>{r.prep_time_mins}m prep</span>}
               {r.cook_time_mins && <span>{r.cook_time_mins}m cook</span>}
             </div>

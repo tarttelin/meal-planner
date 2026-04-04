@@ -5,7 +5,7 @@ class MealPlanCreate(BaseModel):
     date: date
     slot: str
     recipe_id: str
-    servings: int | None = None
+    planned_servings: float | None = None
     profile_id: str | None = None
 
 class MealPlanOut(BaseModel):
@@ -13,7 +13,7 @@ class MealPlanOut(BaseModel):
     date: date
     slot: str
     recipe_id: str
-    servings: int | None = None
+    planned_servings: float | None = None
     profile_id: str | None = None
     recipe: "RecipeOutBrief | None" = None
     model_config = {"from_attributes": True}
@@ -21,7 +21,7 @@ class MealPlanOut(BaseModel):
 class RecipeOutBrief(BaseModel):
     id: str
     name: str
-    servings: int
+    yield_servings: int
     model_config = {"from_attributes": True}
 
 MealPlanOut.model_rebuild()

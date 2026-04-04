@@ -11,7 +11,7 @@ class Recipe(Base):
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     name: Mapped[str] = mapped_column(String(255))
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
-    servings: Mapped[int] = mapped_column(Integer, default=4)
+    yield_servings: Mapped[int] = mapped_column("yield_servings", Integer, default=4)
     prep_time_mins: Mapped[int | None] = mapped_column(Integer, nullable=True)
     cook_time_mins: Mapped[int | None] = mapped_column(Integer, nullable=True)
     instructions: Mapped[str | None] = mapped_column(Text, nullable=True)

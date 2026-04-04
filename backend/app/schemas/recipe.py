@@ -1,5 +1,8 @@
 from pydantic import BaseModel
 
+from app.schemas.nutrition import Nutrition
+
+
 class IngredientIn(BaseModel):
     name: str
     quantity: float | None = None
@@ -20,7 +23,7 @@ class IngredientOut(IngredientIn):
 class RecipeCreate(BaseModel):
     name: str
     description: str | None = None
-    servings: int = 4
+    yield_servings: int = 4
     prep_time_mins: int | None = None
     cook_time_mins: int | None = None
     instructions: list[str] | None = None
@@ -34,10 +37,12 @@ class RecipeOut(BaseModel):
     id: str
     name: str
     description: str | None = None
-    servings: int
+    yield_servings: int
     prep_time_mins: int | None = None
     cook_time_mins: int | None = None
     instructions: list[str] | None = None
     tags: list[str] | None = None
     ingredients: list[IngredientOut] = []
+    total: Nutrition = Nutrition()
+    per_serving: Nutrition = Nutrition()
     model_config = {"from_attributes": True}

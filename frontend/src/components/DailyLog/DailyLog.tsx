@@ -108,7 +108,7 @@ export default function DailyLog() {
       slot,
       name: recipe.name,
       recipe_id: recipe.id,
-      recipe_servings: servings,
+      consumed_servings: servings,
       profile_id: profileId ?? null,
       pantry_item_id: null,
       quantity_g: null,
@@ -124,13 +124,13 @@ export default function DailyLog() {
   const confirmPlannedMeal = async (plan: MealPlan) => {
     const recipe = recipes.find(r => r.id === plan.recipe_id)
     if (!recipe) return
-    const n = recipeNutrition(recipe, recipe.servings)
+    const n = recipeNutrition(recipe, recipe.yield_servings)
     await createFoodLogEntry({
       date: dateStr,
       slot: plan.slot,
       name: recipe.name,
       recipe_id: recipe.id,
-      recipe_servings: recipe.servings,
+      consumed_servings: recipe.yield_servings,
       profile_id: profileId ?? null,
       pantry_item_id: null,
       quantity_g: null,
@@ -151,7 +151,7 @@ export default function DailyLog() {
       name: [item.brand, item.name].filter(Boolean).join(' '),
       pantry_item_id: item.id,
       recipe_id: null,
-      recipe_servings: null,
+      consumed_servings: null,
       profile_id: profileId ?? null,
       quantity_g: qty,
       calories: item.calories_per_100g != null ? Math.round(item.calories_per_100g * scale) : null,
@@ -186,7 +186,7 @@ export default function DailyLog() {
       if (plan) {
         const recipe = recipes.find(r => r.id === plan.recipe_id)
         if (recipe) {
-          const n = recipeNutrition(recipe, plan.servings || recipe.servings)
+          const n = recipeNutrition(recipe, plan.planned_servings || recipe.yield_servings)
           dayTotal.calories += n.calories
           dayTotal.protein += n.protein
           dayTotal.carbs += n.carbs
@@ -278,7 +278,7 @@ export default function DailyLog() {
                     <div>
                       <p className="text-sm font-medium">{entry.name}</p>
                       <p className="text-xs text-gray-400">
-                        {entry.recipe_servings && entry.recipe_servings > 1 ? `Your portion (1 of ${entry.recipe_servings})` : ''}
+                        {entry.consumed_servings && entry.consumed_servings > 1 ? `Your portion (1 of ${entry.consumed_servings})` : ''}
                         {entry.quantity_g ? `${entry.quantity_g}g` : ''}
                       </p>
                     </div>

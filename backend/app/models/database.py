@@ -19,7 +19,7 @@ async def init_db():
             ("ingredients", "pantry_item_id", "TEXT REFERENCES pantry_items(id)"),
             ("food_log", "slot", "TEXT"),
             ("food_log", "recipe_id", "TEXT REFERENCES recipes(id)"),
-            ("food_log", "recipe_servings", "INTEGER"),
+            ("food_log", "consumed_servings", "INTEGER"),
             ("meal_plans", "profile_id", "TEXT REFERENCES profiles(id)"),
             ("food_log", "profile_id", "TEXT REFERENCES profiles(id)"),
             ("pantry_items", "category", "TEXT"),
@@ -31,6 +31,21 @@ async def init_db():
             cols = [row[1] for row in result]
             if col not in cols:
                 await conn.execute(text(f"ALTER TABLE {table} ADD COLUMN {col} {coldef}"))
+
+        for table, old_col, new_col in [
+            ("recipes", "servings", "yield_servings"),
+            ("meal_plans", "servings", "planned_servings"),
+            ("food_log", "recipe_servings", "consumed_servings"),
+        ]:
+            result = await conn.execute(text(f"PRAGMA table_info({table})"))
+            cols = [row[1] for row in result]
+            if old_col in cols and new_col in cols:
+                await conn.execute(text(
+                    f"UPDATE {table} SET {new_col} = {old_col} WHERE {new_col} IS NULL AND {old_col} IS NOT NULL"
+                ))
+                await conn.execute(text(f"ALTER TABLE {table} DROP COLUMN {old_col}"))
+            elif old_col in cols:
+                await conn.execute(text(f"ALTER TABLE {table} RENAME COLUMN {old_col} TO {new_col}"))
 
 async def get_session() -> AsyncSession:
     async with async_session() as session:

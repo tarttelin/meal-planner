@@ -32,7 +32,7 @@ export default function RecipeEditor() {
       getRecipe(id).then(r => {
         setName(r.name)
         setDescription(r.description || '')
-        setServings(r.servings)
+        setServings(r.yield_servings)
         setPrepTime(r.prep_time_mins ?? '')
         setCookTime(r.cook_time_mins ?? '')
         setInstructions(r.instructions?.join('\n') || '')
@@ -141,7 +141,7 @@ export default function RecipeEditor() {
     const data = {
       name,
       description: description || null,
-      servings: servings || 1,
+      yield_servings: servings || 1,
       prep_time_mins: prepTime || null,
       cook_time_mins: cookTime || null,
       instructions: instructions ? instructions.split('\n').filter(Boolean) : null,

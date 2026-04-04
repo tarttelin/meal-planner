@@ -64,7 +64,7 @@ function DayCard({ date, dayIndex, plans, onAdd, onRemove, profileName }: {
                   <span className="text-gray-800 truncate">
                     {plan.recipe?.name}
                     <span className="text-gray-400 ml-1">
-                      {plan.servings && plan.servings > 1 ? `(${plan.servings}p) ` : ''}
+                      {plan.planned_servings && plan.planned_servings > 1 ? `(${plan.planned_servings}p) ` : ''}
                       {profileName(plan.profile_id) !== 'Everyone' ? profileName(plan.profile_id) : ''}
                     </span>
                   </span>
@@ -137,7 +137,7 @@ export default function WeekView() {
       date: showPicker.date,
       slot: showPicker.slot,
       recipe_id: recipeId,
-      servings: pickerServings || 1,
+      planned_servings: pickerServings || 1,
       profile_id: pickerProfileId || null,
     })
     setShowPicker(null)

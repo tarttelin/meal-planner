@@ -1,9 +1,19 @@
 import json
 from fastapi import APIRouter, Depends, HTTPException
 from app.dependencies import get_recipe_repo
+from app.schemas.nutrition import Nutrition
 from app.schemas.recipe import RecipeCreate, RecipeUpdate, RecipeOut, IngredientOut
 
 router = APIRouter(tags=["recipes"])
+
+
+def _ingredient_nutrition(ingredient) -> Nutrition:
+    return Nutrition(
+        calories=ingredient.calories or 0,
+        protein=ingredient.protein or 0,
+        carbs=ingredient.carbs or 0,
+        fat=ingredient.fat or 0,
+    )
 
 
 def _to_out(recipe) -> RecipeOut:
@@ -13,16 +23,20 @@ def _to_out(recipe) -> RecipeOut:
         instructions = json.loads(instructions)
     if isinstance(tags, str):
         tags = json.loads(tags)
+    total = Nutrition.sum_of([_ingredient_nutrition(i) for i in recipe.ingredients])
+    per_serving = total.divide(recipe.yield_servings) if recipe.yield_servings else Nutrition()
     return RecipeOut(
         id=recipe.id,
         name=recipe.name,
         description=recipe.description,
-        servings=recipe.servings,
+        yield_servings=recipe.yield_servings,
         prep_time_mins=recipe.prep_time_mins,
         cook_time_mins=recipe.cook_time_mins,
         instructions=instructions,
         tags=tags,
         ingredients=[IngredientOut.model_validate(i) for i in recipe.ingredients],
+        total=total,
+        per_serving=per_serving,
     )
 
 

@@ -17,7 +17,7 @@ class ShoppingService:
         for plan in plans:
             if not plan.recipe:
                 continue
-            scale = (plan.servings or plan.recipe.servings) / plan.recipe.servings
+            scale = (plan.planned_servings or plan.recipe.yield_servings) / plan.recipe.yield_servings
             for ing in plan.recipe.ingredients:
                 key = (ing.name.lower(), ing.unit)
                 if ing.quantity:

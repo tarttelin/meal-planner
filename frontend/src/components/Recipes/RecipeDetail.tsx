@@ -20,7 +20,7 @@ export default function RecipeDetail() {
       <h1 className="text-2xl font-bold mb-2">{recipe.name}</h1>
       {recipe.description && <p className="text-gray-600 mb-4">{recipe.description}</p>}
       <div className="flex gap-4 text-sm text-gray-500 mb-4">
-        <span>{recipe.servings} servings</span>
+        <span>{recipe.yield_servings} servings</span>
         {recipe.prep_time_mins && <span>{recipe.prep_time_mins}m prep</span>}
         {recipe.cook_time_mins && <span>{recipe.cook_time_mins}m cook</span>}
       </div>
@@ -37,10 +37,10 @@ export default function RecipeDetail() {
         )
         const hasNutrition = totals.calories > 0
         const perServing = {
-          calories: Math.round(totals.calories / recipe.servings),
-          protein: Math.round(totals.protein / recipe.servings),
-          carbs: Math.round(totals.carbs / recipe.servings),
-          fat: Math.round(totals.fat / recipe.servings),
+          calories: Math.round(totals.calories / recipe.yield_servings),
+          protein: Math.round(totals.protein / recipe.yield_servings),
+          carbs: Math.round(totals.carbs / recipe.yield_servings),
+          fat: Math.round(totals.fat / recipe.yield_servings),
         }
         return (
           <div className="mb-4">
@@ -76,7 +76,7 @@ export default function RecipeDetail() {
                     <td className="py-1 text-right">{Math.round(totals.fat)}g</td>
                   </tr>
                   <tr className="text-gray-500">
-                    <td className="py-1">Per serving ({recipe.servings})</td>
+                    <td className="py-1">Per serving ({recipe.yield_servings})</td>
                     <td className="py-1 text-right">{perServing.calories}</td>
                     <td className="py-1 text-right">{perServing.protein}g</td>
                     <td className="py-1 text-right">{perServing.carbs}g</td>

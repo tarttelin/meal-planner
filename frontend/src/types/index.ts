@@ -1,3 +1,11 @@
+export interface Nutrition {
+  calories: number
+  protein: number
+  carbs: number
+  fat: number
+  nutriments: Record<string, number | string>
+}
+
 export interface Ingredient {
   id?: string
   name: string
@@ -30,18 +38,20 @@ export interface Recipe {
   id: string
   name: string
   description: string | null
-  servings: number
+  yield_servings: number
   prep_time_mins: number | null
   cook_time_mins: number | null
   instructions: string[] | null
   tags: string[] | null
   ingredients: Ingredient[]
+  total: Nutrition
+  per_serving: Nutrition
 }
 
 export interface RecipeCreate {
   name: string
   description?: string | null
-  servings?: number
+  yield_servings?: number
   prep_time_mins?: number | null
   cook_time_mins?: number | null
   instructions?: string[] | null
@@ -63,9 +73,9 @@ export interface MealPlan {
   date: string
   slot: 'breakfast' | 'lunch' | 'dinner' | 'snack'
   recipe_id: string
-  servings: number | null
+  planned_servings: number | null
   profile_id: string | null
-  recipe: { id: string; name: string; servings: number } | null
+  recipe: { id: string; name: string; yield_servings: number } | null
 }
 
 export interface FoodLogEntry {
@@ -75,7 +85,7 @@ export interface FoodLogEntry {
   name: string
   pantry_item_id: string | null
   recipe_id: string | null
-  recipe_servings: number | null
+  consumed_servings: number | null
   profile_id: string | null
   quantity_g: number | null
   calories: number | null

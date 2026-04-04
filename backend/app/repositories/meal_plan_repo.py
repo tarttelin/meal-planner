@@ -25,7 +25,7 @@ class MealPlanRepository:
     async def create(self, data: MealPlanCreate) -> MealPlan:
         meal_plan = MealPlan(
             date=data.date, slot=data.slot,
-            recipe_id=data.recipe_id, servings=data.servings,
+            recipe_id=data.recipe_id, planned_servings=data.planned_servings,
             profile_id=data.profile_id,
         )
         self.session.add(meal_plan)

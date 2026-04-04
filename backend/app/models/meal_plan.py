@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import String, Integer, Date, ForeignKey
+from sqlalchemy import String, Float, Date, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.models.database import Base
 from app.models.recipe import Recipe
@@ -11,6 +11,6 @@ class MealPlan(Base):
     date: Mapped[dt.date] = mapped_column(Date)
     slot: Mapped[str] = mapped_column(String(20))
     recipe_id: Mapped[str] = mapped_column(String(36), ForeignKey("recipes.id", ondelete="CASCADE"))
-    servings: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    planned_servings: Mapped[float | None] = mapped_column("planned_servings", Float, nullable=True)
     profile_id: Mapped[str | None] = mapped_column(String(36), ForeignKey("profiles.id"), nullable=True)
     recipe: Mapped["Recipe"] = relationship()

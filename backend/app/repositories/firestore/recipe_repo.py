@@ -55,7 +55,7 @@ class RecipeRepository:
         doc_data = {
             "name": data.name,
             "description": data.description,
-            "servings": data.servings,
+            "yield_servings": data.yield_servings,
             "prep_time_mins": data.prep_time_mins,
             "cook_time_mins": data.cook_time_mins,
             "instructions": json.dumps(data.instructions) if data.instructions else None,
@@ -97,7 +97,7 @@ class RecipeRepository:
         doc_data = {
             "name": data.name,
             "description": data.description,
-            "servings": data.servings,
+            "yield_servings": data.yield_servings,
             "prep_time_mins": data.prep_time_mins,
             "cook_time_mins": data.cook_time_mins,
             "instructions": json.dumps(data.instructions) if data.instructions else None,
