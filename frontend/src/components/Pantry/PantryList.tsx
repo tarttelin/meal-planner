@@ -4,7 +4,7 @@ import { searchFood, type BarcodeResult } from '../../api/barcode'
 import type { PantryItem } from '../../types'
 import BarcodeScanner from './BarcodeScanner'
 
-const CATEGORIES = [
+const DEFAULT_CATEGORIES = [
   'Fresh fruit & veg',
   'Meat & fish',
   'Dairy & eggs',
@@ -155,6 +155,7 @@ export default function PantryList() {
     if (b === 'Uncategorised') return -1
     return a.localeCompare(b)
   })
+  const allCategories = [...new Set([...DEFAULT_CATEGORIES, ...items.map(i => i.category).filter(Boolean) as string[]])].sort()
 
   return (
     <div className="max-w-4xl space-y-4">
@@ -242,10 +243,10 @@ export default function PantryList() {
             <input placeholder="Name" required value={newItem.name} onChange={e => setNewItem({ ...newItem, name: e.target.value })} className="border rounded px-2 py-1 text-sm flex-1" />
             <input placeholder="Brand" value={newItem.brand} onChange={e => setNewItem({ ...newItem, brand: e.target.value })} className="border rounded px-2 py-1 text-sm flex-1" />
           </div>
-          <select value={newItem.category} onChange={e => setNewItem({ ...newItem, category: e.target.value })} className="border rounded px-2 py-1 text-sm w-full">
-            <option value="">No category</option>
-            {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-          </select>
+          <input list="category-options" placeholder="Category" value={newItem.category} onChange={e => setNewItem({ ...newItem, category: e.target.value })} className="border rounded px-2 py-1 text-sm w-full" />
+          <datalist id="category-options">
+            {allCategories.map(c => <option key={c} value={c} />)}
+          </datalist>
           <div className="flex gap-2">
             <input placeholder="kcal/100g" type="number" value={newItem.calories_per_100g} onChange={e => setNewItem({ ...newItem, calories_per_100g: e.target.value })} className="border rounded px-2 py-1 text-xs w-24" />
             <input placeholder="P g/100g" type="number" step="0.1" value={newItem.protein_per_100g} onChange={e => setNewItem({ ...newItem, protein_per_100g: e.target.value })} className="border rounded px-2 py-1 text-xs w-24" />
@@ -316,10 +317,10 @@ export default function PantryList() {
             </div>
             <div>
               <label className="block text-xs text-gray-500 mb-1">Category</label>
-              <select value={editData.category || ''} onChange={e => setEditData({ ...editData, category: e.target.value || null })} className="border rounded px-3 py-2 text-sm w-full">
-                <option value="">No category</option>
-                {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-              </select>
+              <input list="category-options-edit" placeholder="Category" value={editData.category || ''} onChange={e => setEditData({ ...editData, category: e.target.value || null })} className="border rounded px-3 py-2 text-sm w-full" />
+              <datalist id="category-options-edit">
+                {allCategories.map(c => <option key={c} value={c} />)}
+              </datalist>
             </div>
             <div>
               <label className="block text-xs text-gray-500 mb-1">Nutrition per 100g</label>
