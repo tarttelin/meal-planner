@@ -14,12 +14,19 @@ class ShoppingService:
         aggregated: dict[tuple[str, str | None], float] = defaultdict(float)
         tesco_terms: dict[str, str | None] = {}
 
+        names: dict[str, str] = {}
+        units: dict[str, str | None] = {}
+
         for plan in plans:
             if not plan.recipe:
                 continue
             scale = (plan.planned_servings or plan.recipe.yield_servings) / plan.recipe.yield_servings
             for ing in plan.recipe.ingredients:
-                key = (ing.name.lower(), ing.unit)
+                pid = getattr(ing, 'pantry_item_id', None)
+                key = pid if pid else (ing.name.lower(), ing.unit)
+                if key not in names:
+                    names[key] = ing.name.lower()
+                    units[key] = ing.unit if not pid else "g"
                 if ing.quantity:
                     aggregated[key] += ing.quantity * scale
                 else:
@@ -33,7 +40,9 @@ class ShoppingService:
         await self.shopping_repo.clear()
 
         items = []
-        for (name, unit), qty in sorted(aggregated.items()):
+        for key, qty in sorted(aggregated.items(), key=lambda kv: names[kv[0]]):
+            name = names[key]
+            unit = units[key]
             items.append(ShoppingListItemCreate(
                 ingredient_name=name,
                 quantity=qty if qty > 0 else None,
