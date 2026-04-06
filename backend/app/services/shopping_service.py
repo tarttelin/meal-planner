@@ -45,7 +45,7 @@ class ShoppingService:
             unit = units[key]
             items.append(ShoppingListItemCreate(
                 ingredient_name=name,
-                quantity=qty if qty > 0 else None,
+                quantity=round(qty, 1) if qty > 0 else None,
                 unit=unit,
                 category=category_map.get(name),
                 tesco_search_term=tesco_terms.get(name),
