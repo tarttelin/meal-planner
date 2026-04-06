@@ -104,7 +104,7 @@ export default function DailyLog() {
       name: recipe.name,
       recipe_id: recipe.id,
       meal_plan_id: plan.id,
-      consumed_servings: recipe.yield_servings,
+      consumed_servings: 1,
       profile_id: profileId ?? null,
     })
     loadData()
