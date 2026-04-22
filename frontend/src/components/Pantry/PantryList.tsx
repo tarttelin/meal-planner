@@ -159,8 +159,6 @@ export default function PantryList() {
 
   return (
     <div className="max-w-4xl space-y-4">
-      <h1 className="ui-page-title text-xl font-bold">Pantry</h1>
-
       {message && (
         <div className={`text-sm px-3 py-2 ${messageType === 'success' ? 'ui-alert-success' : 'ui-alert-error'}`}>
           {message}
