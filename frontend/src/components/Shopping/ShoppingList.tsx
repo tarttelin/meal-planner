@@ -154,8 +154,7 @@ export default function ShoppingList() {
 
   return (
     <div className="max-w-2xl">
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="ui-page-title text-xl font-bold">Shopping List</h1>
+      <div className="flex justify-end mb-4">
         <div className="flex items-center gap-2 text-xs">
           <span className={`inline-block w-2 h-2 rounded-full ${online ? 'bg-green-500' : 'bg-red-500'}`} />
           <span className="ui-muted">{online ? 'Online' : 'Offline'}</span>

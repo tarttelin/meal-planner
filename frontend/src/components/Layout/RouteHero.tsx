@@ -15,8 +15,8 @@ const routeHeroes: ReadonlyArray<RouteHeroConfig> = [
   {
     path: '/',
     eyebrow: 'Kitchen Mode',
-    title: 'Plan the week ahead',
-    description: 'Keep breakfasts, dinners, and household portions moving without losing the quick weekly scan.',
+    title: 'Meal Plan',
+    description: 'Plan the week ahead without losing the quick scan across breakfasts, lunches, dinners, and shared portions.',
     imageSrc: '/imagery/kitchen-hero.png',
     imagePosition: 'right center',
     highlights: ['Weekly plan', 'Shared portions', 'Low-friction edits'],
@@ -24,7 +24,7 @@ const routeHeroes: ReadonlyArray<RouteHeroConfig> = [
   {
     path: '/recipes',
     eyebrow: 'Kitchen Mode',
-    title: 'Build a recipe library you will actually reuse',
+    title: 'Recipes',
     description: 'Keep staple dishes, faster weeknight options, and tagged favourites close to the planner.',
     imageSrc: '/imagery/kitchen-hero.png',
     imagePosition: 'right center',
@@ -33,7 +33,7 @@ const routeHeroes: ReadonlyArray<RouteHeroConfig> = [
   {
     path: '/shopping',
     eyebrow: 'Kitchen Mode',
-    title: 'Shop from a calmer list',
+    title: 'Shopping List',
     description: 'Turn the meal plan into something you can scan quickly at home or in the aisle.',
     imageSrc: '/imagery/pantry-hero.png',
     imagePosition: 'right center',
@@ -42,7 +42,7 @@ const routeHeroes: ReadonlyArray<RouteHeroConfig> = [
   {
     path: '/pantry',
     eyebrow: 'Kitchen Mode',
-    title: 'See what is already in',
+    title: 'Pantry',
     description: 'Keep staples, scanned products, and nutrition details organised before you buy duplicates.',
     imageSrc: '/imagery/pantry-hero.png',
     imagePosition: 'right center',
@@ -51,7 +51,7 @@ const routeHeroes: ReadonlyArray<RouteHeroConfig> = [
   {
     path: '/log',
     eyebrow: 'Fusion Mode',
-    title: 'Food and training in one day view',
+    title: 'Daily Log',
     description: 'Keep meals, macros, and performance context together without losing single-screen clarity.',
     imageSrc: '/imagery/log-hero.png',
     imagePosition: 'right center',
@@ -60,7 +60,7 @@ const routeHeroes: ReadonlyArray<RouteHeroConfig> = [
   {
     path: '/profiles',
     eyebrow: 'Kitchen Mode',
-    title: 'Set targets for each person',
+    title: 'Family Members',
     description: 'Keep household planning and personal nutrition targets close enough to work together.',
     imageSrc: '/imagery/kitchen-hero.png',
     imagePosition: 'right center',

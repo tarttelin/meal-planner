@@ -10,8 +10,7 @@ export default function ProfileManager() {
 
   return (
     <div className="max-w-lg">
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="ui-page-title text-xl font-bold">Family Members</h1>
+      <div className="flex justify-end mb-4">
         <button onClick={() => setShowAdd(true)} className="ui-btn ui-btn-primary px-4 py-2 text-sm">
           Add Person
         </button>
