@@ -159,78 +159,78 @@ export default function RecipeEditor() {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-2xl space-y-4">
-      <h1 className="text-xl font-bold">{isNew ? 'New Recipe' : 'Edit Recipe'}</h1>
+      <h1 className="ui-page-title text-xl font-bold">{isNew ? 'New Recipe' : 'Edit Recipe'}</h1>
 
       <div>
-        <label className="block text-sm font-medium mb-1">Name</label>
-        <input value={name} onChange={e => setName(e.target.value)} required className="border rounded px-3 py-2 w-full text-sm" />
+        <label className="ui-form-label block mb-1">Name</label>
+        <input value={name} onChange={e => setName(e.target.value)} required className="ui-input px-3 py-2 w-full text-sm" />
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">Description</label>
-        <textarea value={description} onChange={e => setDescription(e.target.value)} className="border rounded px-3 py-2 w-full text-sm" rows={2} />
+        <label className="ui-form-label block mb-1">Description</label>
+        <textarea value={description} onChange={e => setDescription(e.target.value)} className="ui-input px-3 py-2 w-full text-sm" rows={2} />
       </div>
 
       <div className="grid grid-cols-3 gap-4">
         <div>
-          <label className="block text-sm font-medium mb-1">Servings</label>
-          <input type="number" inputMode="numeric" min={1} value={servings} onChange={e => setServings(e.target.value === '' ? '' : +e.target.value)} className="border rounded px-3 py-2 w-full text-sm" />
+          <label className="ui-form-label block mb-1">Servings</label>
+          <input type="number" inputMode="numeric" min={1} value={servings} onChange={e => setServings(e.target.value === '' ? '' : +e.target.value)} className="ui-input px-3 py-2 w-full text-sm" />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Prep (mins)</label>
-          <input type="number" value={prepTime} onChange={e => setPrepTime(e.target.value ? +e.target.value : '')} className="border rounded px-3 py-2 w-full text-sm" />
+          <label className="ui-form-label block mb-1">Prep (mins)</label>
+          <input type="number" value={prepTime} onChange={e => setPrepTime(e.target.value ? +e.target.value : '')} className="ui-input px-3 py-2 w-full text-sm" />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Cook (mins)</label>
-          <input type="number" value={cookTime} onChange={e => setCookTime(e.target.value ? +e.target.value : '')} className="border rounded px-3 py-2 w-full text-sm" />
+          <label className="ui-form-label block mb-1">Cook (mins)</label>
+          <input type="number" value={cookTime} onChange={e => setCookTime(e.target.value ? +e.target.value : '')} className="ui-input px-3 py-2 w-full text-sm" />
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">Tags (comma separated)</label>
-        <input value={tags} onChange={e => setTags(e.target.value)} className="border rounded px-3 py-2 w-full text-sm" />
+        <label className="ui-form-label block mb-1">Tags (comma separated)</label>
+        <input value={tags} onChange={e => setTags(e.target.value)} className="ui-input px-3 py-2 w-full text-sm" />
       </div>
 
       <div>
         <div className="flex items-center justify-between mb-2">
-          <label className="text-sm font-medium">Ingredients</label>
+          <label className="ui-form-label">Ingredients</label>
           <div className="flex gap-3">
-            <button type="button" onClick={openPantryPicker} className="text-green-600 text-sm hover:underline">Pick from pantry</button>
-            <button type="button" onClick={addIngredient} className="text-indigo-600 text-sm hover:underline">+ Add</button>
+            <button type="button" onClick={openPantryPicker} className="ui-link-action text-sm hover:underline">Pick from pantry</button>
+            <button type="button" onClick={addIngredient} className="ui-link-action text-sm hover:underline">+ Add</button>
           </div>
         </div>
 
-        <div className="mb-3 p-3 border rounded bg-indigo-50 border-indigo-200">
-          <label className="block text-xs font-medium text-indigo-700 mb-1">Add by barcode</label>
+        <div className="mb-3 ui-card-soft p-3">
+          <label className="block text-xs font-medium ui-link-action mb-1">Add by barcode</label>
           <div className="flex gap-2">
             <input
               placeholder="Scan or type barcode..."
               value={barcodeInput}
               onChange={e => setBarcodeInput(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); handleBarcodeScan() } }}
-              className="border rounded px-2 py-1 text-sm flex-1"
+              className="ui-input px-2 py-1 text-sm flex-1"
             />
-            <button type="button" onClick={handleBarcodeScan} disabled={barcodeLoading} className="bg-indigo-600 text-white px-3 py-1 rounded text-sm hover:bg-indigo-700 disabled:opacity-50">
+            <button type="button" onClick={handleBarcodeScan} disabled={barcodeLoading} className="ui-btn ui-btn-primary px-3 py-1 text-sm disabled:opacity-50">
               {barcodeLoading ? '...' : 'Look up'}
             </button>
           </div>
-          {barcodeError && <p className="text-red-500 text-xs mt-1">{barcodeError}</p>}
+          {barcodeError && <p className="ui-error-text text-xs mt-1">{barcodeError}</p>}
           {barcodeResult && (
             <BarcodeResultCard result={barcodeResult} onAdd={addFromBarcode} />
           )}
         </div>
 
         {pantryOpen && (
-          <div className="mb-3 p-3 border rounded bg-green-50 border-green-200">
+          <div className="mb-3 ui-card-soft p-3">
             <div className="flex items-center justify-between mb-2">
-              <label className="text-xs font-medium text-green-700">Pick from pantry</label>
-              <button type="button" onClick={() => { setPantryOpen(false); setPantrySearch('') }} className="text-gray-400 hover:text-gray-600 text-sm">x</button>
+              <label className="text-xs font-medium ui-link-action">Pick from pantry</label>
+              <button type="button" onClick={() => { setPantryOpen(false); setPantrySearch('') }} className="ui-btn ui-btn-secondary px-2 py-0 text-sm">x</button>
             </div>
             <input
               placeholder="Search pantry..."
               value={pantrySearch}
               onChange={e => searchPantry(e.target.value)}
-              className="border rounded px-2 py-1 text-sm w-full mb-2"
+              className="ui-input px-2 py-1 text-sm w-full mb-2"
             />
             <div className="max-h-48 overflow-y-auto space-y-1">
               {pantryItems.map(item => (
@@ -238,47 +238,47 @@ export default function RecipeEditor() {
                   key={item.id}
                   type="button"
                   onClick={() => addFromPantry(item)}
-                  className="w-full text-left p-2 rounded hover:bg-green-100 flex gap-2 items-center text-sm"
+                  className="ui-list-option w-full text-left p-2 flex gap-2 items-center text-sm"
                 >
                   {item.image_url && <img src={item.image_url} alt="" className="w-8 h-8 object-contain rounded" />}
                   <div className="flex-1 min-w-0">
                     <p className="truncate font-medium">{item.brand ? `${item.brand} ` : ''}{item.name}</p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs ui-muted">
                       Per 100g: {item.calories_per_100g ?? '?'} kcal | P: {item.protein_per_100g ?? '?'}g | C: {item.carbs_per_100g ?? '?'}g | F: {item.fat_per_100g ?? '?'}g
                     </p>
                   </div>
                 </button>
               ))}
-              {pantryItems.length === 0 && <p className="text-xs text-gray-400 py-2">No items found.</p>}
+              {pantryItems.length === 0 && <p className="text-xs ui-muted py-2">No items found.</p>}
             </div>
           </div>
         )}
 
         {ingredients.map((ing, i) => (
-          <div key={i} className="mb-3 p-2 border rounded bg-gray-50">
+          <div key={i} className="mb-3 ui-form-section">
             <div className="flex gap-2 mb-1">
-              <input placeholder="Name" value={ing.name} onChange={e => updateIngredient(i, 'name', e.target.value)} className="border rounded px-2 py-1 text-sm flex-1" />
-              <input placeholder="Qty" type="number" value={ing.quantity ?? ''} onChange={e => updateIngredient(i, 'quantity', e.target.value ? +e.target.value : null)} className="border rounded px-2 py-1 text-sm w-20" />
-              <input placeholder="Unit" value={ing.unit ?? ''} onChange={e => updateIngredient(i, 'unit', e.target.value || null)} className="border rounded px-2 py-1 text-sm w-20" />
-              <button type="button" onClick={() => removeIngredient(i)} className="text-red-400 hover:text-red-600">x</button>
+              <input placeholder="Name" value={ing.name} onChange={e => updateIngredient(i, 'name', e.target.value)} className="ui-input px-2 py-1 text-sm flex-1" />
+              <input placeholder="Qty" type="number" value={ing.quantity ?? ''} onChange={e => updateIngredient(i, 'quantity', e.target.value ? +e.target.value : null)} className="ui-input px-2 py-1 text-sm w-20" />
+              <input placeholder="Unit" value={ing.unit ?? ''} onChange={e => updateIngredient(i, 'unit', e.target.value || null)} className="ui-input px-2 py-1 text-sm w-20" />
+              <button type="button" onClick={() => removeIngredient(i)} className="ui-btn ui-btn-danger-soft px-2 py-0 text-sm">x</button>
             </div>
-            <input placeholder="Notes (e.g. skinless, chopped)" value={ing.notes ?? ''} onChange={e => updateIngredient(i, 'notes', e.target.value || null)} className="border rounded px-2 py-1 text-xs w-full mb-1" />
+            <input placeholder="Notes (e.g. skinless, chopped)" value={ing.notes ?? ''} onChange={e => updateIngredient(i, 'notes', e.target.value || null)} className="ui-input px-2 py-1 text-xs w-full mb-1" />
             <div className="flex gap-2">
-              <input placeholder="kcal" type="number" value={ing.calories ?? ''} onChange={e => updateIngredient(i, 'calories', e.target.value ? +e.target.value : null)} className="border rounded px-2 py-1 text-xs w-20" />
-              <input placeholder="Protein g" type="number" value={ing.protein ?? ''} onChange={e => updateIngredient(i, 'protein', e.target.value ? +e.target.value : null)} className="border rounded px-2 py-1 text-xs w-20" />
-              <input placeholder="Carbs g" type="number" value={ing.carbs ?? ''} onChange={e => updateIngredient(i, 'carbs', e.target.value ? +e.target.value : null)} className="border rounded px-2 py-1 text-xs w-20" />
-              <input placeholder="Fat g" type="number" value={ing.fat ?? ''} onChange={e => updateIngredient(i, 'fat', e.target.value ? +e.target.value : null)} className="border rounded px-2 py-1 text-xs w-20" />
+              <input placeholder="kcal" type="number" value={ing.calories ?? ''} onChange={e => updateIngredient(i, 'calories', e.target.value ? +e.target.value : null)} className="ui-input px-2 py-1 text-xs w-20" />
+              <input placeholder="Protein g" type="number" value={ing.protein ?? ''} onChange={e => updateIngredient(i, 'protein', e.target.value ? +e.target.value : null)} className="ui-input px-2 py-1 text-xs w-20" />
+              <input placeholder="Carbs g" type="number" value={ing.carbs ?? ''} onChange={e => updateIngredient(i, 'carbs', e.target.value ? +e.target.value : null)} className="ui-input px-2 py-1 text-xs w-20" />
+              <input placeholder="Fat g" type="number" value={ing.fat ?? ''} onChange={e => updateIngredient(i, 'fat', e.target.value ? +e.target.value : null)} className="ui-input px-2 py-1 text-xs w-20" />
             </div>
           </div>
         ))}
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">Instructions (one step per line)</label>
-        <textarea value={instructions} onChange={e => setInstructions(e.target.value)} className="border rounded px-3 py-2 w-full text-sm" rows={6} />
+        <label className="ui-form-label block mb-1">Instructions (one step per line)</label>
+        <textarea value={instructions} onChange={e => setInstructions(e.target.value)} className="ui-input px-3 py-2 w-full text-sm" rows={6} />
       </div>
 
-      <button type="submit" className="bg-indigo-600 text-white px-6 py-2 rounded text-sm hover:bg-indigo-700">
+      <button type="submit" className="ui-btn ui-btn-primary px-6 py-2 text-sm">
         {isNew ? 'Create' : 'Save'}
       </button>
     </form>
@@ -291,35 +291,35 @@ function BarcodeResultCard({ result, onAdd }: { result: BarcodeResult; onAdd: (w
   const effectiveWeight = weight || 100
 
   return (
-    <div className="mt-2 p-2 bg-white rounded border text-sm">
+    <div className="ui-card mt-2 p-2 text-sm">
       <div className="flex gap-2 items-start">
         {result.image_url && <img src={result.image_url} alt="" className="w-12 h-12 object-contain rounded" />}
         <div className="flex-1">
           <p className="font-medium">{result.brand ? `${result.brand} - ` : ''}{result.name}</p>
-          {result.quantity && <p className="text-xs text-gray-400">{result.quantity}</p>}
-          <div className="text-xs text-gray-500 mt-1">
+          {result.quantity && <p className="text-xs ui-muted">{result.quantity}</p>}
+          <div className="text-xs ui-muted mt-1">
             Per 100g: {per100.calories ?? '?'} kcal | P: {per100.protein ?? '?'}g | C: {per100.carbs ?? '?'}g | F: {per100.fat ?? '?'}g
           </div>
         </div>
       </div>
       <div className="flex gap-2 items-center mt-2">
-        <label className="text-xs text-gray-500">Weight:</label>
+        <label className="text-xs ui-muted">Weight:</label>
         <input
           type="number"
           inputMode="numeric"
           min={1}
           value={weight}
           onChange={e => setWeight(e.target.value === '' ? '' : +e.target.value)}
-          className="border rounded px-2 py-1 text-xs w-20"
+          className="ui-input px-2 py-1 text-xs w-20"
         />
-        <span className="text-xs text-gray-400">g</span>
-        <span className="text-xs text-gray-500 ml-2">
+        <span className="text-xs ui-muted">g</span>
+        <span className="text-xs ui-muted ml-2">
           = {per100.calories != null ? Math.round(per100.calories * effectiveWeight / 100) : '?'} kcal
         </span>
         <button
           type="button"
           onClick={() => onAdd(effectiveWeight)}
-          className="ml-auto bg-green-600 text-white px-3 py-1 rounded text-xs hover:bg-green-700"
+          className="ui-btn ui-btn-success ml-auto px-3 py-1 text-xs"
         >
           Add ingredient
         </button>

@@ -2,7 +2,11 @@ import type { ReactNode } from 'react'
 import { useAuth } from '../../context/AuthContext'
 
 export default function AuthGate({ children }: { children: ReactNode }) {
-  const { user, loading, signIn } = useAuth()
+  const { user, loading, authEnabled, signIn } = useAuth()
+
+  if (!authEnabled) {
+    return <>{children}</>
+  }
 
   if (loading) {
     return (

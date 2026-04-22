@@ -16,6 +16,11 @@ class FoodLogCreate(BaseModel):
     profile_id: str | None = None
 
 
+class FoodLogUpdate(BaseModel):
+    consumed_servings: float | None = None
+    quantity_g: float | None = None
+
+
 class FoodLogPersist(FoodLogCreate):
     nutrition: Nutrition = Nutrition()
     recipe_yield_servings_snapshot: int | None = None

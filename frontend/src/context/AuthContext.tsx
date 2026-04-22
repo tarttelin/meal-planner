@@ -15,6 +15,7 @@ const auth = app ? getAuth(app) : null
 interface AuthContextValue {
   user: User | null
   loading: boolean
+  authEnabled: boolean
   signIn: () => Promise<void>
   logOut: () => Promise<void>
 }
@@ -22,6 +23,7 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue>({
   user: null,
   loading: true,
+  authEnabled: false,
   signIn: async () => {},
   logOut: async () => {},
 })
@@ -70,7 +72,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, signIn, logOut }}>
+    <AuthContext.Provider value={{ user, loading, authEnabled: !!auth, signIn, logOut }}>
       {children}
     </AuthContext.Provider>
   )

@@ -11,8 +11,8 @@ export default function ProfileManager() {
   return (
     <div className="max-w-lg">
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-xl font-bold">Family Members</h1>
-        <button onClick={() => setShowAdd(true)} className="bg-indigo-600 text-white px-4 py-2 rounded text-sm hover:bg-indigo-700">
+        <h1 className="ui-page-title text-xl font-bold">Family Members</h1>
+        <button onClick={() => setShowAdd(true)} className="ui-btn ui-btn-primary px-4 py-2 text-sm">
           Add Person
         </button>
       </div>
@@ -34,16 +34,16 @@ export default function ProfileManager() {
               onCancel={() => setEditing(null)}
             />
           ) : (
-            <div key={p.id} className="bg-white rounded-lg shadow-sm border p-4">
+            <div key={p.id} className="ui-card p-4">
               <div className="flex items-center justify-between">
                 <h2 className="font-semibold">{p.name}</h2>
                 <div className="flex gap-2">
-                  <button onClick={() => setEditing(p)} className="text-indigo-500 text-sm hover:underline">Edit</button>
-                  <button onClick={async () => { await deleteProfile(p.id); await refreshProfiles() }} className="text-red-400 text-sm hover:underline">Delete</button>
+                  <button onClick={() => setEditing(p)} className="ui-link-action text-sm hover:underline">Edit</button>
+                  <button onClick={async () => { await deleteProfile(p.id); await refreshProfiles() }} className="ui-btn ui-btn-danger-soft px-2 py-1 text-sm">Delete</button>
                 </div>
               </div>
               {(p.calorie_target || p.protein_target || p.carbs_target || p.fat_target) && (
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm ui-muted mt-1">
                   Daily targets:
                   {p.calorie_target ? ` ${p.calorie_target} kcal` : ''}
                   {p.protein_target ? ` | P: ${p.protein_target}g` : ''}
@@ -55,7 +55,7 @@ export default function ProfileManager() {
           )
         ))}
         {profiles.length === 0 && !showAdd && (
-          <p className="text-gray-500 text-sm">No family members yet. Add someone to get started with personal meal logs.</p>
+          <p className="ui-muted text-sm">No family members yet. Add someone to get started with personal meal logs.</p>
         )}
       </div>
     </div>
@@ -86,18 +86,18 @@ function ProfileForm({ initial, onSave, onCancel }: {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-sm border p-4 mb-3 space-y-2">
-      <input placeholder="Name" value={name} onChange={e => setName(e.target.value)} required className="border rounded px-3 py-2 w-full text-sm" />
-      <p className="text-xs text-gray-500">Daily targets (optional):</p>
+    <form onSubmit={handleSubmit} className="ui-card p-4 mb-3 space-y-2">
+      <input placeholder="Name" value={name} onChange={e => setName(e.target.value)} required className="ui-input px-3 py-2 w-full text-sm" />
+      <p className="text-xs ui-muted">Daily targets (optional):</p>
       <div className="grid grid-cols-4 gap-2">
-        <input placeholder="kcal" type="number" value={calTarget} onChange={e => setCalTarget(e.target.value ? +e.target.value : '')} className="border rounded px-2 py-1 text-sm" />
-        <input placeholder="Protein g" type="number" value={proTarget} onChange={e => setProTarget(e.target.value ? +e.target.value : '')} className="border rounded px-2 py-1 text-sm" />
-        <input placeholder="Carbs g" type="number" value={carbTarget} onChange={e => setCarbTarget(e.target.value ? +e.target.value : '')} className="border rounded px-2 py-1 text-sm" />
-        <input placeholder="Fat g" type="number" value={fatTarget} onChange={e => setFatTarget(e.target.value ? +e.target.value : '')} className="border rounded px-2 py-1 text-sm" />
+        <input placeholder="kcal" type="number" value={calTarget} onChange={e => setCalTarget(e.target.value ? +e.target.value : '')} className="ui-input px-2 py-1 text-sm" />
+        <input placeholder="Protein g" type="number" value={proTarget} onChange={e => setProTarget(e.target.value ? +e.target.value : '')} className="ui-input px-2 py-1 text-sm" />
+        <input placeholder="Carbs g" type="number" value={carbTarget} onChange={e => setCarbTarget(e.target.value ? +e.target.value : '')} className="ui-input px-2 py-1 text-sm" />
+        <input placeholder="Fat g" type="number" value={fatTarget} onChange={e => setFatTarget(e.target.value ? +e.target.value : '')} className="ui-input px-2 py-1 text-sm" />
       </div>
       <div className="flex gap-2">
-        <button type="submit" className="bg-indigo-600 text-white px-4 py-1 rounded text-sm hover:bg-indigo-700">Save</button>
-        <button type="button" onClick={onCancel} className="text-gray-500 text-sm hover:underline">Cancel</button>
+        <button type="submit" className="ui-btn ui-btn-primary px-4 py-1 text-sm">Save</button>
+        <button type="button" onClick={onCancel} className="ui-btn ui-btn-secondary px-4 py-1 text-sm">Cancel</button>
       </div>
     </form>
   )
