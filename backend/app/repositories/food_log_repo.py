@@ -26,10 +26,23 @@ class FoodLogRepository:
         await self.session.refresh(entry)
         return entry
 
-    async def delete(self, entry_id: str) -> bool:
+    async def get(self, entry_id: str) -> FoodLogEntry | None:
         stmt = select(FoodLogEntry).where(FoodLogEntry.id == entry_id)
         result = await self.session.execute(stmt)
-        entry = result.scalar_one_or_none()
+        return result.scalar_one_or_none()
+
+    async def update(self, entry_id: str, data: FoodLogPersist) -> FoodLogEntry | None:
+        entry = await self.get(entry_id)
+        if not entry:
+            return None
+        for field, value in data.model_dump().items():
+            setattr(entry, field, value)
+        await self.session.commit()
+        await self.session.refresh(entry)
+        return entry
+
+    async def delete(self, entry_id: str) -> bool:
+        entry = await self.get(entry_id)
         if not entry:
             return False
         await self.session.delete(entry)

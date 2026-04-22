@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from 'react'
+import { Link } from 'react-router-dom'
 import { getMealPlans, createMealPlan, deleteMealPlan } from '../../api/mealPlans'
 import { listRecipes } from '../../api/recipes'
 import type { MealPlan, Recipe } from '../../types'
@@ -29,10 +30,10 @@ const DAY_NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 const FULL_DAY_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
 const slotColors: Record<string, string> = {
-  breakfast: 'bg-amber-50 border-amber-200',
-  lunch: 'bg-green-50 border-green-200',
-  dinner: 'bg-blue-50 border-blue-200',
-  snack: 'bg-purple-50 border-purple-200',
+  breakfast: 'ui-slot-breakfast',
+  lunch: 'ui-slot-lunch',
+  dinner: 'ui-slot-dinner',
+  snack: 'ui-slot-snack',
 }
 
 function formatDate(d: Date) { return d.toISOString().split('T')[0] }
@@ -47,8 +48,8 @@ function DayCard({ date, dayIndex, plans, onAdd, onRemove, profileName }: {
 }) {
   const dateStr = formatDate(date)
   return (
-    <div className="bg-white rounded-lg shadow-sm border p-2 min-h-[200px] flex flex-col">
-      <div className="text-sm font-medium text-gray-500 mb-2">
+    <div className="ui-card p-2 min-h-[200px] flex flex-col">
+      <div className="text-sm font-medium ui-muted mb-2">
         <span className="hidden sm:inline">{DAY_NAMES[dayIndex]}</span>
         <span className="sm:hidden">{FULL_DAY_NAMES[dayIndex]}</span>
         {' '}{date.getDate()}/{date.getMonth() + 1}
@@ -57,23 +58,32 @@ function DayCard({ date, dayIndex, plans, onAdd, onRemove, profileName }: {
         {SLOTS.map(slot => {
           const slotPlans = plans.filter(p => p.date === dateStr && p.slot === slot)
           return (
-            <div key={slot} className={`rounded border px-2 py-1 mb-1 text-xs sm:text-xs ${slotColors[slot]}`}>
-              <span className="font-medium capitalize text-gray-500">{slot}</span>
+            <div key={slot} className={`rounded px-2 py-1 mb-1 text-xs sm:text-xs ${slotColors[slot]}`}>
+              <span className="font-medium capitalize ui-muted">{slot}</span>
               {slotPlans.map(plan => (
                 <div key={plan.id} className="flex items-center justify-between mt-0.5">
-                  <span className="text-gray-800 truncate">
-                    {plan.recipe?.name}
-                    <span className="text-gray-400 ml-1">
+                  <div className="min-w-0 flex-1">
+                    {plan.recipe ? (
+                      <Link
+                        to={`/recipes/${plan.recipe.id}`}
+                        className="ui-link-action hover:underline block truncate"
+                      >
+                        {plan.recipe.name}
+                      </Link>
+                    ) : (
+                      <span className="truncate block">Recipe</span>
+                    )}
+                    <span className="ui-muted">
                       {plan.planned_servings && plan.planned_servings > 1 ? `(${plan.planned_servings}p) ` : ''}
                       {profileName(plan.profile_id) !== 'Everyone' ? profileName(plan.profile_id) : ''}
                     </span>
-                  </span>
-                  <button onClick={() => onRemove(plan.id)} className="text-red-400 hover:text-red-600 ml-1 shrink-0">x</button>
+                  </div>
+                  <button onClick={() => onRemove(plan.id)} className="ml-auto ui-btn ui-btn-danger-soft px-1 py-0 text-xs shrink-0">x</button>
                 </div>
               ))}
               <button
                 onClick={() => onAdd(dateStr, slot)}
-                className="block text-indigo-500 hover:text-indigo-700 mt-0.5"
+                className="block ui-link-action mt-0.5"
               >
                 + add
               </button>
@@ -166,21 +176,21 @@ export default function WeekView() {
     <div>
       {/* Desktop: week nav */}
       <div className="hidden sm:flex items-center justify-between mb-4">
-        <button onClick={() => navigateWeek(-1)} className="px-3 py-1 bg-white border rounded shadow-sm hover:bg-gray-50">Prev</button>
-        <h2 className="text-lg font-semibold">{weekStr}</h2>
-        <button onClick={() => navigateWeek(1)} className="px-3 py-1 bg-white border rounded shadow-sm hover:bg-gray-50">Next</button>
+        <button onClick={() => navigateWeek(-1)} className="ui-btn ui-btn-secondary px-3 py-1 text-sm">Prev</button>
+        <h2 className="ui-page-title text-lg font-semibold">{weekStr}</h2>
+        <button onClick={() => navigateWeek(1)} className="ui-btn ui-btn-secondary px-3 py-1 text-sm">Next</button>
       </div>
 
       {/* Mobile: day nav */}
       <div className="sm:hidden flex items-center justify-between mb-4">
-        <button onClick={() => navigateMobileDay(-1)} className="px-3 py-1 bg-white border rounded shadow-sm hover:bg-gray-50">Prev</button>
+        <button onClick={() => navigateMobileDay(-1)} className="ui-btn ui-btn-secondary px-3 py-1 text-sm">Prev</button>
         <div className="text-center">
-          <h2 className="text-lg font-semibold">
+          <h2 className="ui-page-title text-lg font-semibold">
             {FULL_DAY_NAMES[mobileDay]} {weekDates[mobileDay]?.getDate()}/{(weekDates[mobileDay]?.getMonth() ?? 0) + 1}
           </h2>
-          <p className="text-xs text-gray-400">{weekStr}</p>
+          <p className="text-xs ui-muted">{weekStr}</p>
         </div>
-        <button onClick={() => navigateMobileDay(1)} className="px-3 py-1 bg-white border rounded shadow-sm hover:bg-gray-50">Next</button>
+        <button onClick={() => navigateMobileDay(1)} className="ui-btn ui-btn-secondary px-3 py-1 text-sm">Next</button>
       </div>
 
       {/* Desktop: 7-column grid */}
@@ -215,8 +225,8 @@ export default function WeekView() {
             <button
               key={i}
               onClick={() => setMobileDay(i)}
-              className={`w-9 h-9 rounded-full text-xs font-medium ${
-                i === mobileDay ? 'bg-indigo-600 text-white' : 'bg-white border text-gray-500 hover:bg-gray-50'
+              className={`w-9 h-9 text-xs font-medium ui-pill ${
+                i === mobileDay ? 'ui-pill-active' : ''
               }`}
             >
               {name.charAt(0)}
@@ -233,40 +243,40 @@ export default function WeekView() {
           return true
         })
         return (
-          <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50" onClick={() => { setShowPicker(null); setPickerSearch(''); setPickerTag(null) }}>
-            <div className="bg-white rounded-lg shadow-lg p-4 w-96 max-w-[95vw] max-h-[80vh] flex flex-col" onClick={e => e.stopPropagation()}>
-              <h3 className="font-semibold mb-2">Add to {showPicker.slot}</h3>
+          <div className="fixed inset-0 ui-overlay flex items-center justify-center z-50" onClick={() => { setShowPicker(null); setPickerSearch(''); setPickerTag(null) }}>
+            <div className="ui-modal-panel p-4 w-96 max-w-[95vw] max-h-[80vh] flex flex-col" onClick={e => e.stopPropagation()}>
+              <h3 className="ui-page-title text-base font-semibold mb-2">Add to {showPicker.slot}</h3>
               <div className="flex gap-2 mb-2">
                 <input
                   type="text"
                   placeholder="Search..."
                   value={pickerSearch}
                   onChange={e => setPickerSearch(e.target.value)}
-                  className="border rounded px-2 py-1 text-sm flex-1"
+                  className="ui-input px-2 py-1 text-sm flex-1"
                   autoFocus
                 />
               </div>
               <div className="flex gap-2 mb-2 flex-wrap">
                 <div className="flex items-center gap-1">
-                  <label className="text-xs text-gray-500">For:</label>
+                  <label className="text-xs ui-muted">For:</label>
                   <select
                     value={pickerProfileId}
                     onChange={e => setPickerProfileId(e.target.value)}
-                    className="border rounded px-2 py-1 text-sm"
+                    className="ui-input px-2 py-1 text-sm"
                   >
                     <option value="">Everyone</option>
                     {profiles.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
                   </select>
                 </div>
                 <div className="flex items-center gap-1">
-                  <label className="text-xs text-gray-500">Portions:</label>
+                  <label className="text-xs ui-muted">Portions:</label>
                   <input
                     type="number"
                     inputMode="numeric"
                     min={1}
                     value={pickerServings}
                     onChange={e => setPickerServings(e.target.value === '' ? '' : +e.target.value)}
-                    className="border rounded px-2 py-1 text-sm w-14"
+                    className="ui-input px-2 py-1 text-sm w-14"
                   />
                 </div>
               </div>
@@ -274,7 +284,7 @@ export default function WeekView() {
                 <div className="flex gap-1 mb-2 flex-wrap">
                   <button
                     onClick={() => setPickerTag(null)}
-                    className={`px-2 py-0.5 rounded text-xs ${pickerTag === null ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                    className={`px-2 py-0.5 text-xs ui-pill ${pickerTag === null ? 'ui-pill-active' : ''}`}
                   >
                     All
                   </button>
@@ -282,7 +292,7 @@ export default function WeekView() {
                     <button
                       key={tag}
                       onClick={() => setPickerTag(pickerTag === tag ? null : tag)}
-                      className={`px-2 py-0.5 rounded text-xs ${pickerTag === tag ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                      className={`px-2 py-0.5 text-xs ui-pill ${pickerTag === tag ? 'ui-pill-active' : ''}`}
                     >
                       {tag}
                     </button>
@@ -290,15 +300,15 @@ export default function WeekView() {
                 </div>
               )}
               <div className="overflow-y-auto flex-1">
-                {filtered.length === 0 && <p className="text-gray-500 text-sm">No recipes match.</p>}
+                {filtered.length === 0 && <p className="ui-muted text-sm">No recipes match.</p>}
                 {filtered.map(r => (
                   <button
                     key={r.id}
                     onClick={() => { handleAssign(r.id); setPickerSearch(''); setPickerTag(null) }}
-                    className="block w-full text-left px-3 py-2 rounded hover:bg-indigo-50 text-sm"
+                    className="ui-list-option block w-full text-left px-3 py-2 text-sm"
                   >
                     {r.name}
-                    <span className="text-xs text-gray-400 ml-1">
+                    <span className="text-xs ui-muted ml-1">
                       ({Math.round(r.ingredients.reduce((s, ing) => s + (ing.calories || 0), 0) / (pickerServings || 1))} kcal/serving)
                     </span>
                   </button>

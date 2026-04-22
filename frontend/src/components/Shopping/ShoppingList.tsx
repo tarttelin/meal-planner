@@ -155,40 +155,40 @@ export default function ShoppingList() {
   return (
     <div className="max-w-2xl">
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-xl font-bold">Shopping List</h1>
+        <h1 className="ui-page-title text-xl font-bold">Shopping List</h1>
         <div className="flex items-center gap-2 text-xs">
           <span className={`inline-block w-2 h-2 rounded-full ${online ? 'bg-green-500' : 'bg-red-500'}`} />
-          <span className="text-gray-400">{online ? 'Online' : 'Offline'}</span>
+          <span className="ui-muted">{online ? 'Online' : 'Offline'}</span>
         </div>
       </div>
 
       {pendingCount > 0 && (
-        <div className="bg-amber-50 border border-amber-200 text-amber-800 text-sm px-3 py-2 rounded mb-4 flex items-center justify-between">
+        <div className="ui-alert-warning text-sm px-3 py-2 mb-4 flex items-center justify-between">
           <span>{pendingCount} unsaved change{pendingCount !== 1 ? 's' : ''}</span>
           <button
             onClick={syncPending}
             disabled={syncing || !online}
-            className="bg-amber-600 text-white px-3 py-1 rounded text-xs hover:bg-amber-700 disabled:opacity-50"
+            className="ui-btn ui-btn-secondary px-3 py-1 text-xs disabled:opacity-50"
           >
             {syncing ? 'Syncing...' : 'Sync now'}
           </button>
         </div>
       )}
 
-      {lastSynced && <p className="text-xs text-gray-400 mb-2">Last synced: {lastSynced}</p>}
+      {lastSynced && <p className="text-xs ui-muted mb-2">Last synced: {lastSynced}</p>}
 
-      <div className="bg-white rounded-lg shadow-sm border p-4 mb-4">
+      <div className="ui-card p-4 mb-4">
         <h2 className="text-sm font-semibold mb-2">Generate from meal plan</h2>
         <div className="flex gap-2 items-end flex-wrap">
           <div>
-            <label className="block text-xs text-gray-500">Start</label>
-            <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="border rounded px-2 py-1 text-sm" />
+            <label className="block text-xs ui-muted">Start</label>
+            <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="ui-input px-2 py-1 text-sm" />
           </div>
           <div>
-            <label className="block text-xs text-gray-500">End</label>
-            <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} className="border rounded px-2 py-1 text-sm" />
+            <label className="block text-xs ui-muted">End</label>
+            <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} className="ui-input px-2 py-1 text-sm" />
           </div>
-          <button onClick={handleGenerate} disabled={!online} className="bg-indigo-600 text-white px-3 py-1 rounded text-sm hover:bg-indigo-700 disabled:opacity-50">Generate</button>
+          <button onClick={handleGenerate} disabled={!online} className="ui-btn ui-btn-primary px-3 py-1 text-sm disabled:opacity-50">Generate</button>
         </div>
       </div>
 
@@ -198,33 +198,33 @@ export default function ShoppingList() {
           onChange={e => setNewItem(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && handleAdd()}
           placeholder="Add item..."
-          className="border rounded px-3 py-2 text-sm flex-1"
+          className="ui-input px-3 py-2 text-sm flex-1"
         />
-        <button onClick={handleAdd} disabled={!online} className="bg-indigo-600 text-white px-4 py-2 rounded text-sm hover:bg-indigo-700 disabled:opacity-50">Add</button>
+        <button onClick={handleAdd} disabled={!online} className="ui-btn ui-btn-primary px-4 py-2 text-sm disabled:opacity-50">Add</button>
       </div>
 
       {items.length > 0 && (
-        <p className="text-xs text-gray-400 mb-2">{checkedCount}/{items.length} items checked</p>
+        <p className="text-xs ui-muted mb-2">{checkedCount}/{items.length} items checked</p>
       )}
 
       {sortedCategories.map(cat => (
         <div key={cat} className="mb-4">
-          <h2 className="text-sm font-semibold text-gray-500 mb-1">{cat}</h2>
+          <h2 className="text-sm font-semibold ui-muted mb-1">{cat}</h2>
           <ul className="space-y-1">
             {grouped.get(cat)!.map(item => (
-              <li key={item.id} className={`flex items-center gap-2 bg-white rounded border px-3 py-2 text-sm ${pending[item.id] !== undefined ? 'border-amber-300' : ''}`}>
+              <li key={item.id} className={`ui-card flex items-center gap-2 px-3 py-2 text-sm ${pending[item.id] !== undefined ? 'border-amber-300' : ''}`}>
                 <input type="checkbox" checked={item.added_to_basket} onChange={() => toggleChecked(item)} className="rounded" />
-                <span className={item.added_to_basket ? 'line-through text-gray-400' : ''}>
+                <span className={item.added_to_basket ? 'line-through ui-muted' : ''}>
                   {item.quantity && `${item.quantity} ${item.unit || ''} `}{item.ingredient_name}
                 </span>
-                <button onClick={() => handleDelete(item.id)} disabled={!online} className="ml-auto text-red-400 hover:text-red-600 disabled:opacity-30">x</button>
+                <button onClick={() => handleDelete(item.id)} disabled={!online} className="ml-auto ui-btn ui-btn-danger-soft px-1 py-0 text-xs disabled:opacity-30">x</button>
               </li>
             ))}
           </ul>
         </div>
       ))}
 
-      {items.length === 0 && <p className="text-gray-500 text-sm">No items yet.</p>}
+      {items.length === 0 && <p className="ui-muted text-sm">No items yet.</p>}
 
       <TescoStatus />
     </div>

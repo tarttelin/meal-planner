@@ -12,14 +12,14 @@ export default function RecipeDetail() {
     if (id) getRecipe(id).then(setRecipe)
   }, [id])
 
-  if (!recipe) return <p className="text-gray-500">Loading...</p>
+  if (!recipe) return <p className="ui-muted">Loading...</p>
 
   return (
     <div className="max-w-2xl">
-      <Link to="/recipes" className="text-indigo-600 text-sm hover:underline mb-4 block">Back to recipes</Link>
-      <h1 className="text-2xl font-bold mb-2">{recipe.name}</h1>
-      {recipe.description && <p className="text-gray-600 mb-4">{recipe.description}</p>}
-      <div className="flex gap-4 text-sm text-gray-500 mb-4">
+      <Link to="/recipes" className="ui-link-action text-sm hover:underline mb-4 block">Back to recipes</Link>
+      <h1 className="ui-page-title text-2xl font-bold mb-2">{recipe.name}</h1>
+      {recipe.description && <p className="ui-muted mb-4">{recipe.description}</p>}
+      <div className="flex gap-4 text-sm ui-muted mb-4">
         <span>{recipe.yield_servings} servings</span>
         {recipe.prep_time_mins && <span>{recipe.prep_time_mins}m prep</span>}
         {recipe.cook_time_mins && <span>{recipe.cook_time_mins}m cook</span>}
@@ -43,11 +43,11 @@ export default function RecipeDetail() {
           fat: Math.round(totals.fat / recipe.yield_servings),
         }
         return (
-          <div className="mb-4">
+          <div className="ui-card p-4 mb-4">
             <h2 className="font-semibold mb-2">Ingredients</h2>
-            <table className="w-full text-sm">
+            <table className="ui-table">
               <thead>
-                <tr className="text-left text-gray-500 border-b">
+                <tr className="text-left">
                   <th className="py-1">Ingredient</th>
                   <th className="py-1 w-20 text-right">kcal</th>
                   <th className="py-1 w-20 text-right">Protein</th>
@@ -57,25 +57,25 @@ export default function RecipeDetail() {
               </thead>
               <tbody>
                 {recipe.ingredients.map((ing, i) => (
-                  <tr key={i} className="border-b border-gray-100">
-                    <td className="py-1">{ing.quantity} {ing.unit} {ing.name}{ing.notes && <span className="text-gray-400 ml-1">({ing.notes})</span>}</td>
-                    <td className="py-1 text-right text-gray-500">{ing.calories ?? '-'}</td>
-                    <td className="py-1 text-right text-gray-500">{ing.protein ? `${ing.protein}g` : '-'}</td>
-                    <td className="py-1 text-right text-gray-500">{ing.carbs ? `${ing.carbs}g` : '-'}</td>
-                    <td className="py-1 text-right text-gray-500">{ing.fat ? `${ing.fat}g` : '-'}</td>
+                  <tr key={i}>
+                    <td className="py-1">{ing.quantity} {ing.unit} {ing.name}{ing.notes && <span className="ui-muted ml-1">({ing.notes})</span>}</td>
+                    <td className="py-1 text-right ui-muted">{ing.calories ?? '-'}</td>
+                    <td className="py-1 text-right ui-muted">{ing.protein ? `${ing.protein}g` : '-'}</td>
+                    <td className="py-1 text-right ui-muted">{ing.carbs ? `${ing.carbs}g` : '-'}</td>
+                    <td className="py-1 text-right ui-muted">{ing.fat ? `${ing.fat}g` : '-'}</td>
                   </tr>
                 ))}
               </tbody>
               {hasNutrition && (
                 <tfoot>
-                  <tr className="font-medium border-t">
+                  <tr className="font-medium">
                     <td className="py-1">Total</td>
                     <td className="py-1 text-right">{Math.round(totals.calories)}</td>
                     <td className="py-1 text-right">{Math.round(totals.protein)}g</td>
                     <td className="py-1 text-right">{Math.round(totals.carbs)}g</td>
                     <td className="py-1 text-right">{Math.round(totals.fat)}g</td>
                   </tr>
-                  <tr className="text-gray-500">
+                  <tr className="ui-muted">
                     <td className="py-1">Per serving ({recipe.yield_servings})</td>
                     <td className="py-1 text-right">{perServing.calories}</td>
                     <td className="py-1 text-right">{perServing.protein}g</td>
@@ -90,7 +90,7 @@ export default function RecipeDetail() {
       })()}
 
       {recipe.instructions && recipe.instructions.length > 0 && (
-        <div>
+        <div className="ui-card p-4">
           <h2 className="font-semibold mb-2">Instructions</h2>
           <ol className="list-decimal list-inside text-sm space-y-1">
             {recipe.instructions.map((step, i) => <li key={i}>{step}</li>)}
@@ -99,7 +99,7 @@ export default function RecipeDetail() {
       )}
 
       <div className="flex gap-2 mt-4">
-        <Link to={`/recipes/${recipe.id}/edit`} className="bg-indigo-600 text-white px-4 py-2 rounded text-sm hover:bg-indigo-700">
+        <Link to={`/recipes/${recipe.id}/edit`} className="ui-btn ui-btn-primary px-4 py-2 text-sm">
           Edit
         </Link>
         <button
@@ -107,7 +107,7 @@ export default function RecipeDetail() {
             const items = await importRecipeIngredients(recipe.id)
             alert(`Added ${items.length} ingredient${items.length !== 1 ? 's' : ''} to pantry. Go to Pantry to set categories.`)
           }}
-          className="bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700"
+          className="ui-btn ui-btn-success px-4 py-2 text-sm"
         >
           Add ingredients to pantry
         </button>

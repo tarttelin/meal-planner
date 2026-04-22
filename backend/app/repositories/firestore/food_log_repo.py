@@ -42,6 +42,26 @@ class FoodLogRepository:
         doc_data["date"] = data.date
         return Entity(doc_data)
 
+    async def get(self, entry_id: str) -> Entity | None:
+        doc = await self.db.collection("food_log").document(entry_id).get()
+        if not doc.exists:
+            return None
+        return self._to_entity(doc)
+
+    async def update(self, entry_id: str, data: FoodLogPersist) -> Entity | None:
+        doc_ref = self.db.collection("food_log").document(entry_id)
+        doc = await doc_ref.get()
+        if not doc.exists:
+            return None
+        update_data = data.model_dump()
+        update_data["date"] = data.date.isoformat()
+        await doc_ref.update(update_data)
+        merged = doc.to_dict()
+        merged.update(update_data)
+        merged["id"] = entry_id
+        merged["date"] = data.date
+        return Entity(merged)
+
     async def delete(self, entry_id: str) -> bool:
         doc_ref = self.db.collection("food_log").document(entry_id)
         doc = await doc_ref.get()

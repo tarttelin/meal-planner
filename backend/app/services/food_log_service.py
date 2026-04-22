@@ -1,4 +1,4 @@
-from app.schemas.food_log import FoodLogCreate, FoodLogPersist
+from app.schemas.food_log import FoodLogCreate, FoodLogPersist, FoodLogUpdate
 from app.schemas.nutrition import Nutrition
 
 
@@ -58,3 +58,31 @@ class FoodLogService:
     async def create(self, data: FoodLogCreate):
         persist = await self.build_snapshot(data)
         return await self.food_log_repo.create(persist)
+
+    async def update(self, entry_id: str, data: FoodLogUpdate):
+        existing = await self.food_log_repo.get(entry_id)
+        if existing is None:
+            return None
+
+        fields_set = data.model_fields_set
+        merged = FoodLogCreate(
+            date=existing.date,
+            slot=getattr(existing, "slot", None),
+            name=existing.name,
+            pantry_item_id=getattr(existing, "pantry_item_id", None),
+            recipe_id=getattr(existing, "recipe_id", None),
+            meal_plan_id=getattr(existing, "meal_plan_id", None),
+            consumed_servings=(
+                data.consumed_servings
+                if "consumed_servings" in fields_set
+                else getattr(existing, "consumed_servings", None)
+            ),
+            quantity_g=(
+                data.quantity_g
+                if "quantity_g" in fields_set
+                else getattr(existing, "quantity_g", None)
+            ),
+            profile_id=getattr(existing, "profile_id", None),
+        )
+        persist = await self.build_snapshot(merged)
+        return await self.food_log_repo.update(entry_id, persist)

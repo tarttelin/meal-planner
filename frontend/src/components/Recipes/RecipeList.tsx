@@ -37,9 +37,9 @@ export default function RecipeList() {
           placeholder="Search recipes..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="border rounded px-3 py-2 text-sm w-64"
+          className="ui-input px-3 py-2 text-sm w-64"
         />
-        <Link to="/recipes/new" className="bg-indigo-600 text-white px-4 py-2 rounded text-sm hover:bg-indigo-700">
+        <Link to="/recipes/new" className="ui-btn ui-btn-primary px-4 py-2 text-sm">
           New Recipe
         </Link>
       </div>
@@ -47,7 +47,7 @@ export default function RecipeList() {
         <div className="flex gap-1 mb-4 flex-wrap">
           <button
             onClick={() => setSelectedTag(null)}
-            className={`px-2 py-1 rounded text-xs ${selectedTag === null ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+            className={`px-2 py-1 text-xs ui-pill ${selectedTag === null ? 'ui-pill-active' : ''}`}
           >
             All
           </button>
@@ -55,7 +55,7 @@ export default function RecipeList() {
             <button
               key={tag}
               onClick={() => setSelectedTag(selectedTag === tag ? null : tag)}
-              className={`px-2 py-1 rounded text-xs ${selectedTag === tag ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+              className={`px-2 py-1 text-xs ui-pill ${selectedTag === tag ? 'ui-pill-active' : ''}`}
             >
               {tag}
             </button>
@@ -64,13 +64,13 @@ export default function RecipeList() {
       )}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {recipes.map(r => (
-          <div key={r.id} className="bg-white rounded-lg shadow-sm border p-4">
+          <div key={r.id} className="ui-card p-4">
             <div className="flex justify-between items-start">
-              <Link to={`/recipes/${r.id}`} className="font-medium text-indigo-600 hover:underline">{r.name}</Link>
-              <button onClick={() => handleDelete(r.id)} className="text-red-400 hover:text-red-600 text-sm">Delete</button>
+              <Link to={`/recipes/${r.id}`} className="font-medium ui-link-action hover:underline">{r.name}</Link>
+              <button onClick={() => handleDelete(r.id)} className="ui-btn ui-btn-danger-soft px-2 py-1 text-sm">Delete</button>
             </div>
-            {r.description && <p className="text-sm text-gray-500 mt-1">{r.description}</p>}
-            <div className="flex gap-2 mt-2 text-xs text-gray-400">
+            {r.description && <p className="text-sm ui-muted mt-1">{r.description}</p>}
+            <div className="flex gap-2 mt-2 text-xs ui-muted">
               <span>{r.yield_servings} servings</span>
               {r.prep_time_mins && <span>{r.prep_time_mins}m prep</span>}
               {r.cook_time_mins && <span>{r.cook_time_mins}m cook</span>}
@@ -78,7 +78,7 @@ export default function RecipeList() {
             {r.tags && r.tags.length > 0 && (
               <div className="flex gap-1 mt-2 flex-wrap">
                 {r.tags.map(t => (
-                  <button key={t} onClick={() => setSelectedTag(t)} className="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-xs hover:bg-gray-200">
+                  <button key={t} onClick={() => setSelectedTag(t)} className="ui-pill px-2 py-0.5 text-xs">
                     {t}
                   </button>
                 ))}
@@ -86,7 +86,7 @@ export default function RecipeList() {
             )}
           </div>
         ))}
-        {recipes.length === 0 && <p className="text-gray-500 col-span-full">No recipes found.</p>}
+        {recipes.length === 0 && <p className="ui-muted col-span-full">No recipes found.</p>}
       </div>
     </div>
   )
