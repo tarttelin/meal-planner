@@ -39,6 +39,12 @@ variable "cloudbuild_source_bucket_name" {
   default     = ""
 }
 
+variable "artifact_registry_repository_id" {
+  description = "Artifact Registry Docker repository ID for Meal Planner images."
+  type        = string
+  default     = "meal-planner"
+}
+
 variable "use_service_account_key" {
   description = "Create a GitHub Actions service account key for the current deploy workflow."
   type        = bool

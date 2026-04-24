@@ -18,6 +18,11 @@ output "cloudbuild_source_bucket" {
   value       = google_storage_bucket.cloudbuild_source.name
 }
 
+output "artifact_registry_repository" {
+  description = "Artifact Registry Docker repository for Meal Planner images."
+  value       = "${google_artifact_registry_repository.docker.location}-docker.pkg.dev/${var.project_id}/${google_artifact_registry_repository.docker.repository_id}"
+}
+
 output "github_actions_service_account" {
   description = "Service account used by GitHub Actions."
   value       = google_service_account.github_actions.email

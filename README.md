@@ -63,6 +63,7 @@ Optional GitHub Actions variable:
 | Variable | Default | Purpose |
 | --- | --- | --- |
 | `FIREBASE_AUTH_DOMAIN` | `tartties-meals.firebaseapp.com` | Firebase auth domain compiled into the frontend. |
+| `IMAGE_REPOSITORY` | `europe-west1-docker.pkg.dev/tartties-meals/meal-planner` | Artifact Registry Docker repository used by Cloud Build. |
 | `FIT_FILES_BUCKET` | `tartties-meals-shopping-fit-files` | GCS bucket used for uploaded FIT files. |
 | `CLOUDBUILD_SOURCE_BUCKET` | `tartties-meals-cloudbuild-source` | GCS bucket where GitHub uploads Cloud Build source bundles. |
 
@@ -104,6 +105,7 @@ For Meal Planner FIT uploads, Terraform should provide:
 
 - Private GCS bucket, default name `tartties-meals-shopping-fit-files`.
 - Private GCS bucket for Cloud Build source bundles, default name `tartties-meals-cloudbuild-source`.
+- Artifact Registry Docker repository, default path `europe-west1-docker.pkg.dev/tartties-meals/meal-planner`.
 - IAM binding allowing the Cloud Run runtime service account to write objects.
 - IAM binding allowing GitHub Actions to upload source bundles and submit Cloud Build jobs.
 
