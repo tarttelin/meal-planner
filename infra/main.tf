@@ -48,6 +48,14 @@ resource "google_firebase_project" "default" {
   depends_on = [google_project_service.required_apis]
 }
 
+resource "google_project_service_identity" "cloud_run" {
+  provider = google-beta
+  project  = var.project_id
+  service  = "run.googleapis.com"
+
+  depends_on = [google_project_service.required_apis]
+}
+
 resource "google_firebase_web_app" "meal_planner" {
   provider     = google-beta
   project      = var.project_id
@@ -108,6 +116,16 @@ resource "google_storage_bucket" "cloudbuild_source" {
   depends_on = [google_project_service.required_apis]
 }
 
+resource "google_artifact_registry_repository" "docker" {
+  project       = var.project_id
+  location      = var.region
+  repository_id = var.artifact_registry_repository_id
+  description   = "Docker images for Meal Planner"
+  format        = "DOCKER"
+
+  depends_on = [google_project_service.required_apis]
+}
+
 resource "google_service_account" "github_actions" {
   project      = var.project_id
   account_id   = "meal-planner-github-actions"
@@ -164,7 +182,6 @@ resource "google_service_account_key" "github_actions" {
 resource "google_project_iam_member" "cloud_build_roles" {
   for_each = toset([
     "roles/iam.serviceAccountUser",
-    "roles/artifactregistry.writer",
     "roles/logging.logWriter",
     "roles/run.admin",
     "roles/storage.admin",
@@ -181,6 +198,22 @@ resource "google_storage_bucket_iam_member" "cloud_build_source_read" {
   bucket = google_storage_bucket.cloudbuild_source.name
   role   = "roles/storage.objectViewer"
   member = "serviceAccount:${local.cloud_build_service_account}"
+}
+
+resource "google_artifact_registry_repository_iam_member" "cloud_build_docker_writer" {
+  project    = var.project_id
+  location   = google_artifact_registry_repository.docker.location
+  repository = google_artifact_registry_repository.docker.name
+  role       = "roles/artifactregistry.writer"
+  member     = "serviceAccount:${local.cloud_build_service_account}"
+}
+
+resource "google_artifact_registry_repository_iam_member" "cloud_run_docker_reader" {
+  project    = var.project_id
+  location   = google_artifact_registry_repository.docker.location
+  repository = google_artifact_registry_repository.docker.name
+  role       = "roles/artifactregistry.reader"
+  member     = "serviceAccount:${google_project_service_identity.cloud_run.email}"
 }
 
 resource "google_project_iam_member" "runtime_firestore" {

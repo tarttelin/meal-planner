@@ -11,5 +11,8 @@ fit_files_bucket_name = ""
 # Optional. Defaults to "${project_id}-cloudbuild-source".
 cloudbuild_source_bucket_name = ""
 
+# Optional. Docker repo ID under Artifact Registry.
+artifact_registry_repository_id = "meal-planner"
+
 # The current GitHub workflow uses GCP_SA_KEY.
 use_service_account_key = true

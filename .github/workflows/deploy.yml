@@ -61,5 +61,5 @@ jobs:
             --config=cloudbuild.yaml \
             --gcs-source-staging-dir=gs://${{ vars.CLOUDBUILD_SOURCE_BUCKET || 'tartties-meals-cloudbuild-source' }}/source \
             --service-account=projects/${{ env.GCP_PROJECT_ID }}/serviceAccounts/meal-planner-cloud-build@${{ env.GCP_PROJECT_ID }}.iam.gserviceaccount.com \
-            --substitutions=_REGION=${{ env.GCP_REGION }},SHORT_SHA=${{ github.sha }},_FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }},_FIREBASE_AUTH_DOMAIN=${{ vars.FIREBASE_AUTH_DOMAIN || 'tartties-meals.firebaseapp.com' }},_API_KEY=${{ secrets.API_KEY }},_FIT_FILES_BUCKET=${{ vars.FIT_FILES_BUCKET || 'tartties-meals-shopping-fit-files' }},_STRAVA_CLIENT_ID=${{ secrets.STRAVA_CLIENT_ID }},_STRAVA_CLIENT_SECRET=${{ secrets.STRAVA_CLIENT_SECRET }} \
+            --substitutions=_REGION=${{ env.GCP_REGION }},SHORT_SHA=${{ github.sha }},_FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }},_FIREBASE_AUTH_DOMAIN=${{ vars.FIREBASE_AUTH_DOMAIN || 'tartties-meals.firebaseapp.com' }},_IMAGE_REPOSITORY=${{ vars.IMAGE_REPOSITORY || 'europe-west1-docker.pkg.dev/tartties-meals/meal-planner' }},_API_KEY=${{ secrets.API_KEY }},_FIT_FILES_BUCKET=${{ vars.FIT_FILES_BUCKET || 'tartties-meals-shopping-fit-files' }},_STRAVA_CLIENT_ID=${{ secrets.STRAVA_CLIENT_ID }},_STRAVA_CLIENT_SECRET=${{ secrets.STRAVA_CLIENT_SECRET }} \
             .

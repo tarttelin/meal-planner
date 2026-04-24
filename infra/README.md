@@ -8,6 +8,7 @@ The GCP project itself is created manually first. Terraform then owns the durabl
 - Firebase project enablement
 - Firebase Web App registration
 - Firestore native database
+- Artifact Registry Docker repository for app images
 - private GCS bucket for uploaded Strava `.fit` files
 - private GCS bucket for Cloud Build source bundles uploaded by GitHub Actions
 - service account and IAM for GitHub Actions deploys
@@ -70,6 +71,7 @@ terraform output github_actions_service_account
 terraform output -raw github_actions_service_account_key
 terraform output fit_files_bucket
 terraform output cloudbuild_source_bucket
+terraform output artifact_registry_repository
 ```
 
 ## GitHub Configuration
@@ -88,3 +90,4 @@ Recommended GitHub variables:
 - `FIREBASE_AUTH_DOMAIN`: `tartties-meals.firebaseapp.com`
 - `FIT_FILES_BUCKET`: `terraform output -raw fit_files_bucket`
 - `CLOUDBUILD_SOURCE_BUCKET`: `terraform output -raw cloudbuild_source_bucket`
+- `IMAGE_REPOSITORY`: `terraform output -raw artifact_registry_repository`
