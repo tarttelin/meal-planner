@@ -11,6 +11,7 @@ const navItems = [
   { to: '/shopping', label: 'Shopping', icon: 'shopping' },
   { to: '/pantry', label: 'Pantry', icon: 'pantry' },
   { to: '/log', label: 'My Log', icon: 'log' },
+  { to: '/training', label: 'Training', icon: 'training' },
   { to: '/profiles', label: 'Family', icon: 'family' },
 ] as const satisfies ReadonlyArray<{ to: string; label: string; icon: NavIconName }>
 

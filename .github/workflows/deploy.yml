@@ -59,5 +59,6 @@ jobs:
           gcloud builds submit \
             --suppress-logs \
             --config=cloudbuild.yaml \
-            --substitutions=_REGION=${{ env.GCP_REGION }},SHORT_SHA=${{ github.sha }},_FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }},_FIREBASE_AUTH_DOMAIN=npzr-2010.firebaseapp.com,_API_KEY=${{ secrets.API_KEY }} \
+            --gcs-source-staging-dir=gs://${{ vars.CLOUDBUILD_SOURCE_BUCKET || 'tartties-meals-cloudbuild-source' }}/source \
+            --substitutions=_REGION=${{ env.GCP_REGION }},SHORT_SHA=${{ github.sha }},_FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }},_FIREBASE_AUTH_DOMAIN=${{ vars.FIREBASE_AUTH_DOMAIN || 'tartties-meals.firebaseapp.com' }},_API_KEY=${{ secrets.API_KEY }},_FIT_FILES_BUCKET=${{ vars.FIT_FILES_BUCKET || 'tartties-meals-shopping-fit-files' }},_STRAVA_CLIENT_ID=${{ secrets.STRAVA_CLIENT_ID }},_STRAVA_CLIENT_SECRET=${{ secrets.STRAVA_CLIENT_SECRET }} \
             .

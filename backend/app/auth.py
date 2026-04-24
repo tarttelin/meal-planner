@@ -29,6 +29,8 @@ class FirebaseAuthMiddleware(BaseHTTPMiddleware):
         path = request.url.path
         if not path.startswith("/api/"):
             return await call_next(request)
+        if path == "/api/fitness/strava/callback":
+            return await call_next(request)
 
         # API key auth (for Claude Code / scripts)
         if API_KEY and request.headers.get("x-api-key") == API_KEY:

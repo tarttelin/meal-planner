@@ -1,0 +1,2 @@
+bucket = "tartties-meals-tfstate"
+prefix = "meal-planner/terraform/state"

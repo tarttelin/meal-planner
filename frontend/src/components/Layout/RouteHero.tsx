@@ -58,6 +58,15 @@ const routeHeroes: ReadonlyArray<RouteHeroConfig> = [
     highlights: ['Daily totals', 'Planned meals', 'Training context'],
   },
   {
+    path: '/training',
+    eyebrow: 'Performance Mode',
+    title: 'Training',
+    description: 'Sync Strava runs, scan the week at pace, and keep original files attached when you export them.',
+    imageSrc: '/imagery/log-hero.png',
+    imagePosition: 'right center',
+    highlights: ['Strava sync', 'Run summaries', 'FIT file upload'],
+  },
+  {
     path: '/profiles',
     eyebrow: 'Kitchen Mode',
     title: 'Family Members',

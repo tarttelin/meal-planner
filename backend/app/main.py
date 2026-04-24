@@ -6,7 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from app.config import REPO_TYPE
 from app.auth import FirebaseAuthMiddleware
-from app.routers import recipes, meal_plans, shopping_list, tesco, barcode, pantry, food_log, profiles
+from app.routers import recipes, meal_plans, shopping_list, tesco, barcode, pantry, food_log, profiles, fitness
 
 
 @asynccontextmanager
@@ -32,7 +32,7 @@ app.add_middleware(
 all_routers = [
     recipes.router, meal_plans.router, shopping_list.router,
     tesco.router, barcode.router, pantry.router,
-    food_log.router, profiles.router,
+    food_log.router, profiles.router, fitness.router,
 ]
 for r in all_routers:
     app.include_router(r, prefix="/api")

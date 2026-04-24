@@ -34,7 +34,7 @@ steps:
       - '--cpu=1'
       - '--max-instances=2'
       - '--timeout=60s'
-      - '--set-env-vars=REPO_TYPE=firestore,ALLOWED_DOMAIN=tarttelin.co.uk,API_KEY=${_API_KEY}'
+      - '--set-env-vars=REPO_TYPE=firestore,ALLOWED_DOMAIN=tarttelin.co.uk,API_KEY=${_API_KEY},FIT_FILES_BUCKET=${_FIT_FILES_BUCKET},STRAVA_CLIENT_ID=${_STRAVA_CLIENT_ID},STRAVA_CLIENT_SECRET=${_STRAVA_CLIENT_SECRET}'
       - '--allow-unauthenticated'
 
 options:
@@ -44,8 +44,11 @@ options:
 substitutions:
   _REGION: 'europe-west1'
   _FIREBASE_API_KEY: ''
-  _FIREBASE_AUTH_DOMAIN: 'npzr-2010.firebaseapp.com'
+  _FIREBASE_AUTH_DOMAIN: 'tartties-meals.firebaseapp.com'
   _API_KEY: ''
+  _FIT_FILES_BUCKET: 'tartties-meals-shopping-fit-files'
+  _STRAVA_CLIENT_ID: ''
+  _STRAVA_CLIENT_SECRET: ''
 
 images:
   - 'gcr.io/$PROJECT_ID/meal-planner:$SHORT_SHA'

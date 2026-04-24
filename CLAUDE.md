@@ -18,6 +18,12 @@ Never activate the venv manually. `uv run` handles everything.
 - `REPO_TYPE=firestore` — uses Google Cloud Firestore
 - `ALLOWED_DOMAIN` — restrict Firebase Auth to this email domain (empty = auth disabled)
 - `API_KEY` — shared secret for machine access (Claude Code, scripts)
+- `FIT_FILES_BUCKET` — GCS bucket for uploaded Strava `.fit` files in production; local dev falls back to `backend/data/fit_files`
+- `STRAVA_CLIENT_ID` — Strava OAuth client ID for activity sync
+- `STRAVA_CLIENT_SECRET` — Strava OAuth client secret for activity sync
+
+### Infrastructure
+Dedicated Meal Planner GCP/Firebase infrastructure lives in `infra/`. Terraform state is stored in a GCS bucket via `infra/backend.hcl`; bootstrap it with `infra/bootstrap-state-bucket.sh PROJECT_ID`.
 
 ### Deployed API access
 The deployed API at `https://meal-planner-567448989003.europe-west1.run.app` requires auth.

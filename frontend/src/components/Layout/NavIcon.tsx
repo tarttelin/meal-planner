@@ -1,4 +1,4 @@
-export type NavIconName = 'calendar' | 'recipes' | 'shopping' | 'pantry' | 'log' | 'family'
+export type NavIconName = 'calendar' | 'recipes' | 'shopping' | 'pantry' | 'log' | 'training' | 'family'
 
 type NavIconProps = {
   name: NavIconName
@@ -83,6 +83,15 @@ function renderIcon(name: NavIconName) {
           <path d="M4.5 18a4.5 4.5 0 0 1 9 0" />
           <circle cx="16.75" cy="9.25" r="2.25" />
           <path d="M14.25 18a4 4 0 0 1 5 0" />
+        </>
+      )
+    case 'training':
+      return (
+        <>
+          <path d="M6 18.5 9.5 8l3 5 2-7.5 3.5 13" />
+          <path d="M4 18.5h16" />
+          <path d="M8.5 11h2.75" />
+          <path d="M13.5 13.5h2.75" />
         </>
       )
   }

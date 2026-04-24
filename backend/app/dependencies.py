@@ -10,6 +10,7 @@ if REPO_TYPE == "firestore":
     from app.repositories.firestore.food_log_repo import FoodLogRepository
     from app.repositories.firestore.shopping_list_repo import ShoppingListRepository
     from app.repositories.firestore.profile_repo import ProfileRepository
+    from app.repositories.firestore.fitness_repo import FitnessRepository
 
     async def get_recipe_repo():
         return RecipeRepository()
@@ -29,6 +30,9 @@ if REPO_TYPE == "firestore":
     async def get_profile_repo():
         return ProfileRepository()
 
+    async def get_fitness_repo():
+        return FitnessRepository()
+
     async def get_food_log_service(
         food_log_repo=Depends(get_food_log_repo),
         recipe_repo=Depends(get_recipe_repo),
@@ -44,6 +48,7 @@ else:
     from app.repositories.meal_plan_repo import MealPlanRepository
     from app.repositories.food_log_repo import FoodLogRepository
     from app.repositories.shopping_list_repo import ShoppingListRepository
+    from app.repositories.fitness_repo import FitnessRepository
 
     async def get_recipe_repo(session: AsyncSession = Depends(get_session)):
         return RecipeRepository(session)
@@ -64,6 +69,9 @@ else:
         # SQLite profiles don't have a separate repo — create a thin wrapper
         from app.repositories.profile_repo import ProfileRepository
         return ProfileRepository(session)
+
+    async def get_fitness_repo(session: AsyncSession = Depends(get_session)):
+        return FitnessRepository(session)
 
     async def get_food_log_service(
         food_log_repo=Depends(get_food_log_repo),

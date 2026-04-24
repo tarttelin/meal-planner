@@ -1,0 +1,15 @@
+project_id = "tartties-meals"
+
+region             = "europe-west1"
+storage_location   = "EU"
+firestore_location = "eur3"
+allowed_domain     = "tarttelin.co.uk"
+
+# Optional. Defaults to "${project_id}-shopping-fit-files".
+fit_files_bucket_name = ""
+
+# Optional. Defaults to "${project_id}-cloudbuild-source".
+cloudbuild_source_bucket_name = ""
+
+# The current GitHub workflow uses GCP_SA_KEY.
+use_service_account_key = true
