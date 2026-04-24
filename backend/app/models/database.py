@@ -12,7 +12,7 @@ class Base(DeclarativeBase):
 
 async def init_db():
     os.makedirs(os.path.dirname(DATABASE_URL.replace("sqlite+aiosqlite:///", "")), exist_ok=True)
-    from app.models import recipe, meal_plan, shopping_list, pantry_item, food_log, profile  # noqa: F401
+    from app.models import recipe, meal_plan, shopping_list, pantry_item, food_log, profile, fitness  # noqa: F401
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
         for table, col, coldef in [

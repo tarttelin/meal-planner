@@ -8,6 +8,8 @@ import ShoppingList from './components/Shopping/ShoppingList'
 import PantryList from './components/Pantry/PantryList'
 import DailyLog from './components/DailyLog/DailyLog'
 import ProfileManager from './components/Profiles/ProfileManager'
+import FitnessDashboard from './components/Fitness/FitnessDashboard'
+import FitnessActivityDetail from './components/Fitness/FitnessActivityDetail'
 
 export default function App() {
   return (
@@ -22,6 +24,8 @@ export default function App() {
           <Route path="/shopping" element={<ShoppingList />} />
           <Route path="/pantry" element={<PantryList />} />
           <Route path="/log" element={<DailyLog />} />
+          <Route path="/training" element={<FitnessDashboard />} />
+          <Route path="/training/:id" element={<FitnessActivityDetail />} />
           <Route path="/profiles" element={<ProfileManager />} />
         </Route>
       </Routes>

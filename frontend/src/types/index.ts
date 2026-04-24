@@ -105,3 +105,38 @@ export interface ShoppingListItem {
   tesco_product_id: string | null
   added_to_basket: boolean
 }
+
+export interface StravaConnectionStatus {
+  connected: boolean
+  athlete_id: number | null
+  athlete_name: string | null
+  scope: string | null
+}
+
+export interface FitnessActivity {
+  id: string
+  provider: string
+  provider_activity_id: string
+  name: string
+  sport_type: string | null
+  start_date: string
+  timezone: string | null
+  distance_m: number | null
+  moving_time_s: number | null
+  elapsed_time_s: number | null
+  total_elevation_gain_m: number | null
+  average_speed_mps: number | null
+  max_speed_mps: number | null
+  average_heartrate: number | null
+  max_heartrate: number | null
+  calories: number | null
+  summary_polyline: string | null
+  strava_url: string | null
+  fit_file_path: string | null
+  fit_download_status: string
+}
+
+export interface FitnessActivityDetail extends FitnessActivity {
+  streams: Record<string, unknown> | null
+  raw: Record<string, unknown> | null
+}
