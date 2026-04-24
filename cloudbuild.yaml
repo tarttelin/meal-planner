@@ -40,6 +40,7 @@ steps:
 options:
   machineType: 'E2_MEDIUM'
   substitutionOption: 'ALLOW_LOOSE'
+  logging: CLOUD_LOGGING_ONLY
 
 substitutions:
   _REGION: 'europe-west1'
