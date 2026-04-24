@@ -133,6 +133,12 @@ resource "google_storage_bucket_iam_member" "github_actions_source_upload" {
   member = "serviceAccount:${local.github_actions_service_account}"
 }
 
+resource "google_storage_bucket_iam_member" "github_actions_source_read" {
+  bucket = google_storage_bucket.cloudbuild_source.name
+  role   = "roles/storage.legacyBucketReader"
+  member = "serviceAccount:${local.github_actions_service_account}"
+}
+
 resource "google_service_account_key" "github_actions" {
   count              = var.use_service_account_key ? 1 : 0
   service_account_id = google_service_account.github_actions.name
