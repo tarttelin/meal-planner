@@ -11,7 +11,7 @@ provider "google-beta" {
 locals {
   fit_files_bucket_name          = var.fit_files_bucket_name != "" ? var.fit_files_bucket_name : "${var.project_id}-shopping-fit-files"
   cloudbuild_source_bucket_name  = var.cloudbuild_source_bucket_name != "" ? var.cloudbuild_source_bucket_name : "${var.project_id}-cloudbuild-source"
-  cloud_build_service_account    = "${data.google_project.project.number}@cloudbuild.gserviceaccount.com"
+  cloud_build_service_account    = google_service_account.cloud_build.email
   runtime_service_account        = "${data.google_project.project.number}-compute@developer.gserviceaccount.com"
   github_actions_service_account = google_service_account.github_actions.email
 }
@@ -116,6 +116,15 @@ resource "google_service_account" "github_actions" {
   depends_on = [google_project_service.required_apis]
 }
 
+resource "google_service_account" "cloud_build" {
+  project      = var.project_id
+  account_id   = "meal-planner-cloud-build"
+  display_name = "Meal Planner Cloud Build"
+  description  = "Builds and deploys Meal Planner from Cloud Build."
+
+  depends_on = [google_project_service.required_apis]
+}
+
 resource "google_project_iam_member" "github_actions_roles" {
   for_each = toset([
     "roles/cloudbuild.builds.editor",
@@ -139,6 +148,12 @@ resource "google_storage_bucket_iam_member" "github_actions_source_read" {
   member = "serviceAccount:${local.github_actions_service_account}"
 }
 
+resource "google_service_account_iam_member" "github_actions_act_as_cloud_build" {
+  service_account_id = google_service_account.cloud_build.name
+  role               = "roles/iam.serviceAccountUser"
+  member             = "serviceAccount:${local.github_actions_service_account}"
+}
+
 resource "google_service_account_key" "github_actions" {
   count              = var.use_service_account_key ? 1 : 0
   service_account_id = google_service_account.github_actions.name
@@ -148,6 +163,7 @@ resource "google_service_account_key" "github_actions" {
 resource "google_project_iam_member" "cloud_build_roles" {
   for_each = toset([
     "roles/iam.serviceAccountUser",
+    "roles/logging.logWriter",
     "roles/run.admin",
     "roles/storage.admin",
   ])

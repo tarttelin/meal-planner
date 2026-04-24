@@ -11,6 +11,7 @@ The GCP project itself is created manually first. Terraform then owns the durabl
 - private GCS bucket for uploaded Strava `.fit` files
 - private GCS bucket for Cloud Build source bundles uploaded by GitHub Actions
 - service account and IAM for GitHub Actions deploys
+- dedicated service account and IAM for Cloud Build deployments
 - Cloud Build and Cloud Run deploy permissions
 - runtime service account access to Firestore and the FIT bucket
 
