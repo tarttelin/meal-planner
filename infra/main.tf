@@ -22,6 +22,7 @@ data "google_project" "project" {
 
 resource "google_project_service" "required_apis" {
   for_each = toset([
+    "artifactregistry.googleapis.com",
     "cloudbuild.googleapis.com",
     "cloudresourcemanager.googleapis.com",
     "containerregistry.googleapis.com",
@@ -163,6 +164,7 @@ resource "google_service_account_key" "github_actions" {
 resource "google_project_iam_member" "cloud_build_roles" {
   for_each = toset([
     "roles/iam.serviceAccountUser",
+    "roles/artifactregistry.writer",
     "roles/logging.logWriter",
     "roles/run.admin",
     "roles/storage.admin",
