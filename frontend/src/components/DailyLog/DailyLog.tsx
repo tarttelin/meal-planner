@@ -302,7 +302,7 @@ export default function DailyLog() {
   }
 
   return (
-    <div className="max-w-lg mx-auto">
+    <div className="max-w-3xl mx-auto w-full">
       <div className="flex items-center justify-between mb-4">
         <button onClick={() => navigate(-1)} className="ui-btn ui-btn-secondary px-3 py-1 text-sm">Prev</button>
         <div className="text-center">
@@ -312,10 +312,10 @@ export default function DailyLog() {
         <button onClick={() => navigate(1)} className="ui-btn ui-btn-secondary px-3 py-1 text-sm">Next</button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+      <div className="grid grid-cols-1 gap-3 mb-4">
         <div className="ui-fusion-panel ui-fusion-nutrition p-4">
           <h3 className="text-xs uppercase font-semibold ui-muted mb-2">Nutrition</h3>
-          <div className="grid grid-cols-4 text-center">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
             <div>
               <p className="text-2xl font-bold">{Math.round(dayTotal.calories)}</p>
               {targets?.calories && <p className="text-xs ui-muted">/ {targets.calories}</p>}

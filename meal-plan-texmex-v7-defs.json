@@ -1,0 +1,526 @@
+{
+  "recipes": [
+    {
+      "key": "oats_cinnamon",
+      "id": "df1070fa-3880-4eb4-97b9-e6ecb393ec93",
+      "name": "Cinnamon & Honey Overnight Oats",
+      "description": "Tex-Mex week — Monday post-long-run breakfast. Prep night before.",
+      "yield_servings": 1,
+      "prep_time_mins": 5,
+      "cook_time_mins": 0,
+      "tags": ["tex-mex", "breakfast", "overnight", "run-day", "post-run"],
+      "instructions": [
+        "Night before: mix oats, yoghurt, milk, honey, cinnamon and chia.",
+        "Refrigerate overnight. Top with sliced banana post-run as recovery."
+      ],
+      "ingredients": [
+        {"pantry_name": "Irish Organic Jumbo Oats", "quantity_g": 60},
+        {"pantry_name": "Yogurt Total 0%", "quantity_g": 100},
+        {"pantry_name": "SEMI SKIMMED MILK", "quantity_g": 120, "unit": "ml"},
+        {"pantry_name": "honey", "quantity_g": 7},
+        {"pantry_name": "Ground Cinnamon", "quantity_g": 2},
+        {"pantry_name": "Chia seeds", "quantity_g": 15},
+        {"pantry_name": "banana", "quantity_g": 100, "notes": "sliced on top"}
+      ]
+    },
+    {
+      "key": "oats_smoky_paprika",
+      "id": "ef394497-7ed0-4441-a147-dbc5d063bbd2",
+      "name": "Smoky Paprika & Honey Overnight Oats",
+      "description": "Wednesday breakfast — savoury-leaning oats with smoked paprika.",
+      "yield_servings": 1,
+      "prep_time_mins": 5,
+      "cook_time_mins": 0,
+      "tags": ["tex-mex", "breakfast", "overnight", "run-day"],
+      "instructions": [
+        "Night before: mix oats, yoghurt, milk, paprika, honey and chia.",
+        "Refrigerate. Top with sliced banana in the morning."
+      ],
+      "ingredients": [
+        {"pantry_name": "Irish Organic Jumbo Oats", "quantity_g": 60},
+        {"pantry_name": "Yogurt Total 0%", "quantity_g": 100},
+        {"pantry_name": "SEMI SKIMMED MILK", "quantity_g": 120, "unit": "ml"},
+        {"pantry_name": "smoked paprika", "quantity_g": 1},
+        {"pantry_name": "honey", "quantity_g": 7},
+        {"pantry_name": "Chia seeds", "quantity_g": 15},
+        {"pantry_name": "banana", "quantity_g": 100, "notes": "sliced on top"}
+      ]
+    },
+    {
+      "key": "oats_mexican_hot_choc",
+      "id": "48e61f61-2b68-46fb-8311-89e033195529",
+      "name": "Mexican Hot Chocolate Overnight Oats",
+      "description": "Friday post-long-run breakfast — cocoa, cinnamon and chilli.",
+      "yield_servings": 1,
+      "prep_time_mins": 5,
+      "cook_time_mins": 0,
+      "tags": ["tex-mex", "breakfast", "overnight", "run-day", "post-run"],
+      "instructions": [
+        "Night before: mix oats, yoghurt, milk, cocoa, cinnamon, chilli, honey and chia.",
+        "Refrigerate. Top with sliced banana — Mexican hot chocolate in oat form."
+      ],
+      "ingredients": [
+        {"pantry_name": "Irish Organic Jumbo Oats", "quantity_g": 60},
+        {"pantry_name": "Yogurt Total 0%", "quantity_g": 100},
+        {"pantry_name": "SEMI SKIMMED MILK", "quantity_g": 120, "unit": "ml"},
+        {"pantry_name": "CACAO", "quantity_g": 2},
+        {"pantry_name": "Ground Cinnamon", "quantity_g": 1},
+        {"pantry_name": "Crushed chilli", "quantity_g": 0.3, "notes": "pinch"},
+        {"pantry_name": "honey", "quantity_g": 7},
+        {"pantry_name": "Chia seeds", "quantity_g": 15},
+        {"pantry_name": "banana", "quantity_g": 100, "notes": "sliced on top"}
+      ]
+    },
+    {
+      "key": "chia_pudding_vanilla",
+      "id": "b07f0e6d-9386-4ec1-8c84-b7adc9a30cb0",
+      "name": "Vanilla & Cinnamon Chia Pudding with Fruit",
+      "description": "Thursday rest-day breakfast — chia pudding topped with banana, blueberries, yoghurt and granola.",
+      "yield_servings": 1,
+      "prep_time_mins": 5,
+      "cook_time_mins": 0,
+      "tags": ["tex-mex", "breakfast", "overnight", "rest-day"],
+      "instructions": [
+        "Night before: mix chia, milk, vanilla, cinnamon and honey. Refrigerate.",
+        "Morning: top with sliced banana, blueberries, yoghurt and granola for crunch."
+      ],
+      "ingredients": [
+        {"pantry_name": "Chia seeds", "quantity_g": 45},
+        {"pantry_name": "SEMI SKIMMED MILK", "quantity_g": 150, "unit": "ml"},
+        {"pantry_name": "Madagascan Vanilla Extract", "quantity_g": 5},
+        {"pantry_name": "Ground Cinnamon", "quantity_g": 1},
+        {"pantry_name": "honey", "quantity_g": 7},
+        {"pantry_name": "banana", "quantity_g": 100, "notes": "sliced"},
+        {"pantry_name": "Blueberries", "quantity_g": 40},
+        {"pantry_name": "Yogurt Total 0%", "quantity_g": 40},
+        {"pantry_name": "High Protein Granola", "quantity_g": 10, "notes": "on top"}
+      ]
+    },
+    {
+      "key": "boiled_eggs_paprika_toast",
+      "id": "e164bc20-0618-4837-9412-b2b546136d97",
+      "name": "Boiled Eggs with Smoked Paprika Salt & Toast",
+      "description": "Tuesday rest-day breakfast — boiled eggs (prepped night before) with smoked paprika salt, sourdough, avocado and cherry tomatoes.",
+      "yield_servings": 1,
+      "prep_time_mins": 10,
+      "cook_time_mins": 0,
+      "tags": ["tex-mex", "breakfast", "rest-day"],
+      "instructions": [
+        "Night before: boil 2 eggs, cool and refrigerate.",
+        "Morning: peel, halve, sprinkle smoked paprika salt.",
+        "Toast sourdough with butter, slice the avocado.",
+        "Plate with halved cherry tomatoes and fresh chives."
+      ],
+      "ingredients": [
+        {"pantry_name": "Large free range eggs", "quantity_g": 120, "notes": "boiled"},
+        {"pantry_name": "Bread", "quantity_g": 40, "notes": "1 thick slice sourdough"},
+        {"pantry_name": "Unsalted Butter", "quantity_g": 5},
+        {"pantry_name": "avocado", "quantity_g": 60, "notes": "sliced"},
+        {"pantry_name": "smoked paprika", "quantity_g": 1, "notes": "with flaky sea salt"},
+        {"pantry_name": "cherry tomatoes", "quantity_g": 60, "notes": "halved"},
+        {"pantry_name": "fresh chives", "quantity_g": 2}
+      ]
+    },
+    {
+      "key": "scrambled_eggs_salsa",
+      "id": "44e13afb-bc4f-49f2-8858-fbd27e3f666f",
+      "name": "Scrambled Eggs with Salsa & Toast",
+      "description": "Saturday post-parkrun breakfast — quick scramble with salsa and sourdough.",
+      "yield_servings": 1,
+      "prep_time_mins": 2,
+      "cook_time_mins": 5,
+      "tags": ["tex-mex", "breakfast", "run-day", "parkrun", "post-run"],
+      "instructions": [
+        "Scramble eggs gently in butter.",
+        "Pile onto toasted sourdough, salsa alongside, salt and chives.",
+        "Post-parkrun recovery."
+      ],
+      "ingredients": [
+        {"pantry_name": "Large free range eggs", "quantity_g": 180, "notes": "scrambled"},
+        {"pantry_name": "Unsalted Butter", "quantity_g": 5},
+        {"pantry_name": "Bread", "quantity_g": 60, "notes": "1 thick slice sourdough"},
+        {"pantry_name": "Mild Salsa", "quantity_g": 30},
+        {"pantry_name": "fresh chives", "quantity_g": 2}
+      ]
+    },
+    {
+      "key": "scrambled_eggs_roasted_tom",
+      "id": "c3fee900-13a6-443b-af3d-7439b3484861",
+      "name": "Scrambled Eggs with Roasted Tomatoes & Toast",
+      "description": "Sunday rest-day breakfast — three eggs with pan-warmed cherry tomatoes on sourdough.",
+      "yield_servings": 1,
+      "prep_time_mins": 2,
+      "cook_time_mins": 7,
+      "tags": ["tex-mex", "breakfast", "rest-day"],
+      "instructions": [
+        "Warm halved cherry tomatoes in butter for 2 min.",
+        "Scramble eggs gently alongside.",
+        "Pile onto toasted sourdough, dust paprika, pepper, chives and a drizzle of olive oil."
+      ],
+      "ingredients": [
+        {"pantry_name": "Large free range eggs", "quantity_g": 180, "notes": "scrambled"},
+        {"pantry_name": "Unsalted Butter", "quantity_g": 5},
+        {"pantry_name": "cherry tomatoes", "quantity_g": 60, "notes": "halved, pan-fried"},
+        {"pantry_name": "Bread", "quantity_g": 40, "notes": "1 thick slice sourdough"},
+        {"pantry_name": "smoked paprika", "quantity_g": 1},
+        {"pantry_name": "fresh chives", "quantity_g": 2},
+        {"pantry_name": "olive oil", "quantity_g": 5, "notes": "drizzle"}
+      ]
+    },
+    {
+      "key": "burrito_bowl_chipotle",
+      "id": "0657e305-42d3-421d-b86c-623b50f67b0b",
+      "name": "Chipotle Chicken Burrito Bowl",
+      "description": "Batch [A] — cook Sunday, eat Mon/Wed/Fri lunches.",
+      "yield_servings": 3,
+      "prep_time_mins": 15,
+      "cook_time_mins": 30,
+      "tags": ["tex-mex", "lunch", "batch", "chicken"],
+      "instructions": [
+        "Mix chipotle paste, paprika, lime juice, oil, garlic, cumin and salt.",
+        "Coat chicken thighs. Bake 200C for 25 min or pan-fry 6 min each side until charred.",
+        "Cool, shred with two forks, divide into 3 containers, fridge (use by Friday).",
+        "To serve: reheat chicken. Bowl up with rice, black beans, sweetcorn, red onion, lime, soured cream and coriander."
+      ],
+      "ingredients": [
+        {"pantry_name": "Chicken Thigh Fillets Skinless and Boneless", "quantity_g": 450},
+        {"pantry_name": "CHIPOTLE CHILLI PASTE", "quantity_g": 30},
+        {"pantry_name": "smoked paprika", "quantity_g": 7},
+        {"pantry_name": "Lime", "quantity_g": 130, "notes": "juiced"},
+        {"pantry_name": "olive oil", "quantity_g": 14},
+        {"pantry_name": "garlic", "quantity_g": 9, "notes": "3 cloves"},
+        {"pantry_name": "Ground Cumin", "quantity_g": 2},
+        {"pantry_name": "TESCO Jasmine Rice", "quantity_g": 360, "notes": "cooked"},
+        {"pantry_name": "black beans", "quantity_g": 150, "notes": "drained"},
+        {"pantry_name": "sweetcorn", "quantity_g": 120},
+        {"pantry_name": "red onion", "quantity_g": 90, "notes": "diced"},
+        {"pantry_name": "Soured cream", "quantity_g": 45},
+        {"pantry_name": "Fresh Coriander ", "quantity_g": 10},
+        {"pantry_name": "Sriracha Sauce", "quantity_g": 10, "notes": "hot sauce"}
+      ]
+    },
+    {
+      "key": "egg_quesadilla",
+      "id": "592693db-41bc-45d4-8c2c-5b8d0cd7a7ae",
+      "name": "Egg & Black Bean Quesadilla",
+      "description": "Tuesday lunch — quick quesadilla with scrambled eggs, mashed beans, cheese and pickled jalapeños.",
+      "yield_servings": 1,
+      "prep_time_mins": 5,
+      "cook_time_mins": 8,
+      "tags": ["tex-mex", "lunch", "quick"],
+      "instructions": [
+        "Scramble eggs loosely.",
+        "Lay tortilla flat, spread mashed beans on one half, top with eggs, cheese, jalapeños and spring onion.",
+        "Fold. Dry-fry 2 min each side until crispy.",
+        "Serve with avocado, soured cream and hot sauce. (Tortilla 1 of 5 used.)"
+      ],
+      "ingredients": [
+        {"pantry_name": "Wheat Flour Tortilla Wraps with Added Protein", "quantity_g": 60, "notes": "1 tortilla"},
+        {"pantry_name": "Large free range eggs", "quantity_g": 120, "notes": "scrambled"},
+        {"pantry_name": "black beans", "quantity_g": 60, "notes": "drained, mashed"},
+        {"pantry_name": "Our Mature Cheddar", "quantity_g": 40, "notes": "grated"},
+        {"pantry_name": "Old El Paso Jalapenos", "quantity_g": 15, "notes": "pickled"},
+        {"pantry_name": "spring onions", "quantity_g": 15, "notes": "sliced"},
+        {"pantry_name": "avocado", "quantity_g": 30},
+        {"pantry_name": "Soured cream", "quantity_g": 15},
+        {"pantry_name": "Sriracha Sauce", "quantity_g": 5, "notes": "hot sauce"}
+      ]
+    },
+    {
+      "key": "loaded_bean_soup",
+      "id": "ab094807-57ff-4571-8053-b83623c26c8d",
+      "name": "Loaded Black Bean & Sweetcorn Soup",
+      "description": "Thursday rest-day lunch — chunky soup loaded with black beans, sweetcorn, smoky spice and tortilla chip crunch.",
+      "yield_servings": 1,
+      "prep_time_mins": 5,
+      "cook_time_mins": 20,
+      "tags": ["tex-mex", "lunch", "soup", "rest-day"],
+      "instructions": [
+        "Fry garlic and jalapeño 1 min, add cumin and paprika.",
+        "Add beans, tomatoes and stock; simmer 15 min. Mash some beans for thickness, add sweetcorn.",
+        "Serve with soured cream, crushed chips, diced avocado and coriander."
+      ],
+      "ingredients": [
+        {"pantry_name": "black beans", "quantity_g": 200, "notes": "drained"},
+        {"pantry_name": "Italian Chopped Tomatoes", "quantity_g": 150},
+        {"pantry_name": "sweetcorn", "quantity_g": 80},
+        {"pantry_name": "Organic Chicken Stock Cubes -  8 Pack", "quantity_g": 300, "unit": "ml"},
+        {"pantry_name": "Ground Cumin", "quantity_g": 2},
+        {"pantry_name": "smoked paprika", "quantity_g": 2},
+        {"pantry_name": "garlic", "quantity_g": 3, "notes": "1 clove"},
+        {"pantry_name": "fresh jalapenos", "quantity_g": 8, "notes": "diced"},
+        {"pantry_name": "Soured cream", "quantity_g": 15},
+        {"pantry_name": "Tortilla chips", "quantity_g": 20, "notes": "crushed"},
+        {"pantry_name": "avocado", "quantity_g": 30, "notes": "diced"},
+        {"pantry_name": "Fresh Coriander ", "quantity_g": 5}
+      ]
+    },
+    {
+      "key": "tortilla_soup",
+      "id": "946ea79e-62cc-4379-b2f8-df3937713deb",
+      "name": "Chicken Tortilla Soup",
+      "description": "Batch [F] — cook Saturday, eat Sat & Sun lunches.",
+      "yield_servings": 2,
+      "prep_time_mins": 10,
+      "cook_time_mins": 25,
+      "tags": ["tex-mex", "lunch", "batch", "soup"],
+      "instructions": [
+        "Fry garlic and jalapeño 1 min, add spices and chipotle paste.",
+        "Add diced chicken, sear 2 min. Add tomatoes and stock, simmer 20 min.",
+        "Finish with lime juice. Portion half for Sunday.",
+        "To serve: top with crushed tortilla chips, diced avocado, soured cream and coriander."
+      ],
+      "ingredients": [
+        {"pantry_name": "Chicken Thigh Fillets Skinless and Boneless", "quantity_g": 280, "notes": "diced"},
+        {"pantry_name": "Italian Chopped Tomatoes", "quantity_g": 400},
+        {"pantry_name": "Organic Chicken Stock Cubes -  8 Pack", "quantity_g": 600, "unit": "ml"},
+        {"pantry_name": "CHIPOTLE CHILLI PASTE", "quantity_g": 15},
+        {"pantry_name": "Ground Cumin", "quantity_g": 2},
+        {"pantry_name": "smoked paprika", "quantity_g": 2},
+        {"pantry_name": "garlic", "quantity_g": 6, "notes": "2 cloves"},
+        {"pantry_name": "fresh jalapenos", "quantity_g": 15, "notes": "diced"},
+        {"pantry_name": "Lime", "quantity_g": 65, "notes": "juiced"},
+        {"pantry_name": "Tortilla chips", "quantity_g": 40, "notes": "crushed, to serve"},
+        {"pantry_name": "avocado", "quantity_g": 80, "notes": "diced, to serve"},
+        {"pantry_name": "Soured cream", "quantity_g": 30},
+        {"pantry_name": "Fresh Coriander ", "quantity_g": 10}
+      ]
+    },
+    {
+      "key": "chorizo_chilli",
+      "id": "1da41b6e-fb99-406c-80aa-4087246345e2",
+      "name": "Smoky Black Bean & Chorizo Chilli with Rice",
+      "description": "Batch [B] — cook Monday, eat Mon & Thu dinners.",
+      "yield_servings": 2,
+      "prep_time_mins": 10,
+      "cook_time_mins": 30,
+      "tags": ["tex-mex", "dinner", "batch", "chilli"],
+      "instructions": [
+        "Fry diced chorizo until oils run.",
+        "Add garlic, jalapeño and pepper for 3 min. Add spices for 1 min.",
+        "Add tomatoes and beans, simmer 25 min until thick. Portion half for Thursday.",
+        "Serve over rice with soured cream and coriander."
+      ],
+      "ingredients": [
+        {"pantry_name": "chorizo", "quantity_g": 120, "notes": "diced"},
+        {"pantry_name": "black beans", "quantity_g": 240, "notes": "drained"},
+        {"pantry_name": "Italian Chopped Tomatoes", "quantity_g": 400},
+        {"pantry_name": "red pepper", "quantity_g": 150, "notes": "diced"},
+        {"pantry_name": "fresh jalapenos", "quantity_g": 15, "notes": "deseeded, diced"},
+        {"pantry_name": "garlic", "quantity_g": 6, "notes": "2 cloves"},
+        {"pantry_name": "smoked paprika", "quantity_g": 15},
+        {"pantry_name": "Ground Cumin", "quantity_g": 5},
+        {"pantry_name": "CHIPOTLE CHILLI PASTE", "quantity_g": 5},
+        {"pantry_name": "CACAO", "quantity_g": 5},
+        {"pantry_name": "Ground Cinnamon", "quantity_g": 0.5, "notes": "pinch"},
+        {"pantry_name": "TESCO Jasmine Rice", "quantity_g": 220, "notes": "cooked"},
+        {"pantry_name": "Soured cream", "quantity_g": 30},
+        {"pantry_name": "Fresh Coriander ", "quantity_g": 10}
+      ]
+    },
+    {
+      "key": "fish_tacos",
+      "id": "6cb80026-82d0-43fc-aa22-3d2353bed73e",
+      "name": "Chipotle & Lime Fish Tacos",
+      "description": "Tuesday dinner — chipotle-rubbed white fish or prawns in 2 tortillas with red cabbage, avocado and pickled red onion.",
+      "yield_servings": 1,
+      "prep_time_mins": 15,
+      "cook_time_mins": 8,
+      "tags": ["tex-mex", "dinner", "fish"],
+      "instructions": [
+        "Quick-pickle the red onion: slice, cover with cider vinegar, sugar and salt for 10 min.",
+        "Coat fish in chipotle, lime, paprika and oil. Pan-fry 3-4 min each side. Break into chunks.",
+        "Warm tortillas. Load with fish, cabbage, avocado, pickled onion, soured cream and coriander.",
+        "(Tortillas 2 & 3 of 5 used.)"
+      ],
+      "ingredients": [
+        {"pantry_name": "White Fish Fillet", "quantity_g": 220},
+        {"pantry_name": "CHIPOTLE CHILLI PASTE", "quantity_g": 15},
+        {"pantry_name": "Lime", "quantity_g": 65, "notes": "juiced"},
+        {"pantry_name": "smoked paprika", "quantity_g": 5},
+        {"pantry_name": "olive oil", "quantity_g": 5},
+        {"pantry_name": "Wheat Flour Tortilla Wraps with Added Protein", "quantity_g": 120, "notes": "2 tortillas"},
+        {"pantry_name": "red cabbage", "quantity_g": 60, "notes": "shredded"},
+        {"pantry_name": "avocado", "quantity_g": 40, "notes": "sliced"},
+        {"pantry_name": "red onion", "quantity_g": 60, "notes": "quick pickled"},
+        {"pantry_name": "Organic Apple cider vinegar with the mother", "quantity_g": 30, "unit": "ml"},
+        {"pantry_name": "Sugar - Demerara", "quantity_g": 0.5, "notes": "pinch for pickle"},
+        {"pantry_name": "Soured cream", "quantity_g": 15},
+        {"pantry_name": "Fresh Coriander ", "quantity_g": 5}
+      ]
+    },
+    {
+      "key": "carnitas_rice",
+      "id": "af755a66-9b33-490e-bde6-bb2103a3a944",
+      "name": "Pork Carnitas with Charred Peppers & Rice",
+      "description": "Wednesday dinner — half of the carnitas batch [C] cooked Wed evening; the other half is reused as Saturday tacos.",
+      "yield_servings": 1,
+      "prep_time_mins": 15,
+      "cook_time_mins": 150,
+      "tags": ["tex-mex", "dinner", "batch", "pork"],
+      "instructions": [
+        "Batch (cooks 2 portions): mix pork with spices, garlic, juices, chipotle and salt; add bay leaf.",
+        "Oven 160C covered for 2.5 hrs (or pressure cooker 45 min). Shred, crisp some in a hot dry pan.",
+        "Portion half for Saturday tacos.",
+        "Serve this portion with cooked rice, a charred halved red pepper, lime squeeze and coriander."
+      ],
+      "ingredients": [
+        {"pantry_name": "pork shoulder", "quantity_g": 225, "notes": "diced (half batch)"},
+        {"pantry_name": "smoked paprika", "quantity_g": 7.5, "notes": "half batch"},
+        {"pantry_name": "Ground Cumin", "quantity_g": 2.5, "notes": "half batch"},
+        {"pantry_name": "Morrisons cook it oregano", "quantity_g": 2.5, "notes": "half batch"},
+        {"pantry_name": "garlic", "quantity_g": 4.5, "notes": "1.5 cloves (half batch)"},
+        {"pantry_name": "orange", "quantity_g": 150, "notes": "juiced (half batch)"},
+        {"pantry_name": "Lime", "quantity_g": 32, "notes": "juiced (half batch)"},
+        {"pantry_name": "CHIPOTLE CHILLI PASTE", "quantity_g": 7.5, "notes": "half batch"},
+        {"pantry_name": "Bay Leaves", "quantity_g": 0.25, "notes": "half batch"},
+        {"pantry_name": "TESCO Jasmine Rice", "quantity_g": 120, "notes": "cooked"},
+        {"pantry_name": "red pepper", "quantity_g": 150, "notes": "halved, charred"},
+        {"pantry_name": "Fresh Coriander ", "quantity_g": 5}
+      ]
+    },
+    {
+      "key": "carnitas_tacos",
+      "name": "Pork Carnitas Tacos",
+      "description": "Saturday dinner — reheats the second half of Wednesday's carnitas batch [C] in 2 tortillas with red cabbage, avocado, pickled red onion and cheddar.",
+      "yield_servings": 1,
+      "prep_time_mins": 10,
+      "cook_time_mins": 8,
+      "tags": ["tex-mex", "dinner", "batch", "pork", "parkrun"],
+      "instructions": [
+        "Reheat the remaining carnitas portion in a hot dry pan to re-crisp.",
+        "Quick-pickle the red onion: slice, cover with cider vinegar, sugar and salt for 10 min.",
+        "Warm tortillas. Load generously — pork, cabbage, avocado, pickled onion, cheese, soured cream, lime and coriander.",
+        "(Tortillas 4 & 5 of 5 — all used up.)"
+      ],
+      "ingredients": [
+        {"pantry_name": "pork shoulder", "quantity_g": 225, "notes": "diced (half batch)"},
+        {"pantry_name": "smoked paprika", "quantity_g": 7.5, "notes": "half batch"},
+        {"pantry_name": "Ground Cumin", "quantity_g": 2.5, "notes": "half batch"},
+        {"pantry_name": "Morrisons cook it oregano", "quantity_g": 2.5, "notes": "half batch"},
+        {"pantry_name": "garlic", "quantity_g": 4.5, "notes": "1.5 cloves (half batch)"},
+        {"pantry_name": "orange", "quantity_g": 150, "notes": "juiced (half batch)"},
+        {"pantry_name": "Lime", "quantity_g": 32, "notes": "juiced (half batch)"},
+        {"pantry_name": "CHIPOTLE CHILLI PASTE", "quantity_g": 7.5, "notes": "half batch"},
+        {"pantry_name": "Bay Leaves", "quantity_g": 0.25, "notes": "half batch"},
+        {"pantry_name": "Wheat Flour Tortilla Wraps with Added Protein", "quantity_g": 120, "notes": "2 tortillas"},
+        {"pantry_name": "red cabbage", "quantity_g": 60, "notes": "shredded"},
+        {"pantry_name": "avocado", "quantity_g": 40, "notes": "sliced"},
+        {"pantry_name": "red onion", "quantity_g": 60, "notes": "quick pickled"},
+        {"pantry_name": "Organic Apple cider vinegar with the mother", "quantity_g": 30, "unit": "ml"},
+        {"pantry_name": "Sugar - Demerara", "quantity_g": 0.5, "notes": "pinch for pickle"},
+        {"pantry_name": "Soured cream", "quantity_g": 15},
+        {"pantry_name": "Our Mature Cheddar", "quantity_g": 30, "notes": "grated"},
+        {"pantry_name": "Fresh Coriander ", "quantity_g": 5}
+      ]
+    },
+    {
+      "key": "prawn_jalapeno_bowl",
+      "id": "00fafbb4-a930-4fc7-94ab-f10a3274f997",
+      "name": "Jalapeño & Lime King Prawn Rice Bowl",
+      "description": "Friday dinner — quick seared prawns over rice with black beans, charred sweetcorn, avocado and lime.",
+      "yield_servings": 1,
+      "prep_time_mins": 5,
+      "cook_time_mins": 8,
+      "tags": ["tex-mex", "dinner", "prawns", "quick", "run-day"],
+      "instructions": [
+        "Sear prawns with garlic, jalapeño, paprika and cumin in olive oil, 2 min each side.",
+        "Squeeze over lime juice.",
+        "Bowl up rice; top with prawns, beans, avocado, charred sweetcorn (dry-fry until blackened) and coriander. Hot sauce."
+      ],
+      "ingredients": [
+        {"pantry_name": "Tesco Raw King Prawns", "quantity_g": 200, "notes": "defrosted"},
+        {"pantry_name": "fresh jalapenos", "quantity_g": 15, "notes": "sliced"},
+        {"pantry_name": "garlic", "quantity_g": 6, "notes": "2 cloves"},
+        {"pantry_name": "Lime", "quantity_g": 65, "notes": "juiced"},
+        {"pantry_name": "smoked paprika", "quantity_g": 5},
+        {"pantry_name": "Ground Cumin", "quantity_g": 5},
+        {"pantry_name": "olive oil", "quantity_g": 14},
+        {"pantry_name": "TESCO Jasmine Rice", "quantity_g": 120, "notes": "cooked"},
+        {"pantry_name": "black beans", "quantity_g": 50},
+        {"pantry_name": "avocado", "quantity_g": 40, "notes": "sliced"},
+        {"pantry_name": "sweetcorn", "quantity_g": 40, "notes": "charred"},
+        {"pantry_name": "Fresh Coriander ", "quantity_g": 5},
+        {"pantry_name": "Sriracha Sauce", "quantity_g": 5, "notes": "hot sauce"}
+      ]
+    },
+    {
+      "key": "prawn_one_pan",
+      "id": "4d7129c3-6911-48a9-8cf3-e87c428acab2",
+      "name": "Smoky Prawn & Black Bean One-Pan with Rice",
+      "description": "Sunday dinner — quick smoky prawn one-pan with black beans, peppers and tomatoes over rice.",
+      "yield_servings": 1,
+      "prep_time_mins": 5,
+      "cook_time_mins": 12,
+      "tags": ["tex-mex", "dinner", "prawns", "one-pan", "rest-day"],
+      "instructions": [
+        "Fry garlic and pepper 2 min. Add spices and chipotle paste.",
+        "Add tomatoes and beans, simmer 8 min. Add prawns, cook 3 min until pink.",
+        "Finish with lime and coriander. Serve over rice with hot sauce."
+      ],
+      "ingredients": [
+        {"pantry_name": "Tesco Raw King Prawns", "quantity_g": 180, "notes": "defrosted"},
+        {"pantry_name": "black beans", "quantity_g": 100, "notes": "drained"},
+        {"pantry_name": "Italian Chopped Tomatoes", "quantity_g": 120},
+        {"pantry_name": "red pepper", "quantity_g": 150, "notes": "sliced"},
+        {"pantry_name": "garlic", "quantity_g": 6, "notes": "2 cloves"},
+        {"pantry_name": "smoked paprika", "quantity_g": 5},
+        {"pantry_name": "Ground Cumin", "quantity_g": 5},
+        {"pantry_name": "CHIPOTLE CHILLI PASTE", "quantity_g": 5},
+        {"pantry_name": "olive oil", "quantity_g": 5},
+        {"pantry_name": "TESCO Jasmine Rice", "quantity_g": 120, "notes": "cooked"},
+        {"pantry_name": "Lime", "quantity_g": 30, "notes": "juiced"},
+        {"pantry_name": "Fresh Coriander ", "quantity_g": 5},
+        {"pantry_name": "Sriracha Sauce", "quantity_g": 5, "notes": "hot sauce"}
+      ]
+    },
+    {
+      "key": "pre_run_banana",
+      "name": "Pre-Run Banana",
+      "description": "Pre-run snack — a single banana 20-30 min before heading out.",
+      "yield_servings": 1,
+      "prep_time_mins": 0,
+      "cook_time_mins": 0,
+      "tags": ["snack", "pre-run", "run-day"],
+      "instructions": [
+        "Eat a banana 20-30 min before heading out for the run."
+      ],
+      "ingredients": [
+        {"pantry_name": "banana", "quantity_g": 100}
+      ]
+    }
+  ],
+  "meal_plans": [
+    {"date": "2026-04-27", "slot": "snack",     "recipe_key": "pre_run_banana"},
+    {"date": "2026-04-27", "slot": "breakfast", "recipe_key": "oats_cinnamon"},
+    {"date": "2026-04-27", "slot": "lunch",     "recipe_key": "burrito_bowl_chipotle"},
+    {"date": "2026-04-27", "slot": "dinner",    "recipe_key": "chorizo_chilli"},
+
+    {"date": "2026-04-28", "slot": "breakfast", "recipe_key": "boiled_eggs_paprika_toast"},
+    {"date": "2026-04-28", "slot": "lunch",     "recipe_key": "egg_quesadilla"},
+    {"date": "2026-04-28", "slot": "dinner",    "recipe_key": "fish_tacos"},
+
+    {"date": "2026-04-29", "slot": "snack",     "recipe_key": "pre_run_banana"},
+    {"date": "2026-04-29", "slot": "breakfast", "recipe_key": "oats_smoky_paprika"},
+    {"date": "2026-04-29", "slot": "lunch",     "recipe_key": "burrito_bowl_chipotle"},
+    {"date": "2026-04-29", "slot": "dinner",    "recipe_key": "carnitas_rice"},
+
+    {"date": "2026-04-30", "slot": "breakfast", "recipe_key": "chia_pudding_vanilla"},
+    {"date": "2026-04-30", "slot": "lunch",     "recipe_key": "loaded_bean_soup"},
+    {"date": "2026-04-30", "slot": "dinner",    "recipe_key": "chorizo_chilli"},
+
+    {"date": "2026-05-01", "slot": "snack",     "recipe_key": "pre_run_banana"},
+    {"date": "2026-05-01", "slot": "breakfast", "recipe_key": "oats_mexican_hot_choc"},
+    {"date": "2026-05-01", "slot": "lunch",     "recipe_key": "burrito_bowl_chipotle"},
+    {"date": "2026-05-01", "slot": "dinner",    "recipe_key": "prawn_jalapeno_bowl"},
+
+    {"date": "2026-05-02", "slot": "snack",     "recipe_key": "pre_run_banana"},
+    {"date": "2026-05-02", "slot": "breakfast", "recipe_key": "scrambled_eggs_salsa"},
+    {"date": "2026-05-02", "slot": "lunch",     "recipe_key": "tortilla_soup"},
+    {"date": "2026-05-02", "slot": "dinner",    "recipe_key": "carnitas_tacos"},
+
+    {"date": "2026-05-03", "slot": "breakfast", "recipe_key": "scrambled_eggs_roasted_tom"},
+    {"date": "2026-05-03", "slot": "lunch",     "recipe_key": "tortilla_soup"},
+    {"date": "2026-05-03", "slot": "dinner",    "recipe_key": "prawn_one_pan"}
+  ]
+}

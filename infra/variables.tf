@@ -27,6 +27,12 @@ variable "allowed_domain" {
   default     = "tarttelin.co.uk"
 }
 
+variable "custom_domain" {
+  description = "Custom domain mapped to the Meal Planner Cloud Run service."
+  type        = string
+  default     = "meals.tarttelin.co.uk"
+}
+
 variable "fit_files_bucket_name" {
   description = "Bucket name for uploaded FIT files. Defaults to PROJECT_ID-shopping-fit-files."
   type        = string
