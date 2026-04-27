@@ -83,12 +83,6 @@ For the current Cloud Run URL, use:
 https://meal-planner-562863312675.europe-west1.run.app/api/fitness/strava/callback
 ```
 
-If a custom domain such as `meal-planner.saskcowgames.com` is added later, update the Strava app settings and use:
-
-```text
-https://meal-planner.saskcowgames.com/api/fitness/strava/callback
-```
-
 Strava does not expose original FIT-file download through its documented OAuth API. The app syncs activity data automatically and provides an activity deep link plus a manual `.fit` upload control. In production, uploaded FIT files are written to GCS.
 
 ## GCP Infrastructure

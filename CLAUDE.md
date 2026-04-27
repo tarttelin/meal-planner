@@ -26,10 +26,10 @@ Never activate the venv manually. `uv run` handles everything.
 Dedicated Meal Planner GCP/Firebase infrastructure lives in `infra/`. Terraform state is stored in a GCS bucket via `infra/backend.hcl`; bootstrap it with `infra/bootstrap-state-bucket.sh PROJECT_ID`.
 
 ### Deployed API access
-The deployed API at `https://meal-planner-567448989003.europe-west1.run.app` requires auth.
+The deployed API at `https://meal-planner-562863312675.europe-west1.run.app` requires auth.
 Use the `X-API-Key` header for machine access:
 ```bash
-curl -H "X-API-Key: $MEAL_PLANNER_API_KEY" https://meal-planner-567448989003.europe-west1.run.app/api/recipes
+curl -H "X-API-Key: $MEAL_PLANNER_API_KEY" https://meal-planner-562863312675.europe-west1.run.app/api/recipes
 ```
 
 ### Running locally

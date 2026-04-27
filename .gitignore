@@ -10,3 +10,8 @@ dist/
 infra/.terraform/
 infra/backend.hcl
 infra/terraform.tfvars
+.codex
+.idea/
+.~lock.*#
+*.docx
+backups/

@@ -43,3 +43,13 @@ output "runtime_service_account" {
   description = "Default Cloud Run runtime service account granted Firestore and FIT bucket access."
   value       = local.runtime_service_account
 }
+
+output "custom_domain" {
+  description = "Custom domain mapped to the Meal Planner Cloud Run service."
+  value       = google_cloud_run_domain_mapping.meal_planner.name
+}
+
+output "custom_domain_dns_records" {
+  description = "DNS records to create in Route 53 for the custom Cloud Run domain mapping."
+  value       = google_cloud_run_domain_mapping.meal_planner.status[0].resource_records
+}

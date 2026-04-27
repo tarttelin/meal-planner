@@ -229,3 +229,18 @@ resource "google_storage_bucket_iam_member" "runtime_fit_files" {
   role   = "roles/storage.objectUser"
   member = "serviceAccount:${local.runtime_service_account}"
 }
+
+resource "google_cloud_run_domain_mapping" "meal_planner" {
+  name     = var.custom_domain
+  location = var.region
+
+  metadata {
+    namespace = var.project_id
+  }
+
+  spec {
+    route_name = "meal-planner"
+  }
+
+  depends_on = [google_project_service.required_apis]
+}
