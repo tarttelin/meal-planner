@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getFitnessActivity, uploadFitFile } from '../../api/fitness'
 import type { FitnessActivityDetail as FitnessActivityDetailType } from '../../types'
-import { formatDateTime, formatDistance, formatDuration, formatPace } from './format'
+import { formatDateTime, formatDistance, formatDuration, formatPace, formatSecondsPerKm } from './format'
 
 export default function FitnessActivityDetail() {
   const { id } = useParams()
@@ -44,6 +44,10 @@ export default function FitnessActivityDetail() {
   if (!activity) return <p className="ui-error-text text-sm">{error || 'Activity not found'}</p>
 
   const streamKeys = activity.streams ? Object.keys(activity.streams) : []
+  const derived = activity.derived_metrics
+  const splits = derived?.splits || []
+  const insights = derived?.insights || []
+  const aiAnalysis = derived?.ai_analysis
 
   return (
     <div className="fitness-page">
@@ -70,6 +74,87 @@ export default function FitnessActivityDetail() {
         <div className="fitness-stat"><span>Heart Rate</span><strong>{activity.average_heartrate ? `${Math.round(activity.average_heartrate)} bpm` : '-'}</strong></div>
         <div className="fitness-stat"><span>Calories</span><strong>{activity.calories ? Math.round(activity.calories) : '-'}</strong></div>
       </div>
+
+      <section className="fitness-detail-grid">
+        <div className="fitness-detail-main">
+          <section className="ui-card p-4">
+            <div className="fitness-section-heading">
+              <div>
+                <h3 className="ui-page-title text-base font-semibold">Deterministic Insights</h3>
+                <p className="text-sm ui-muted">Computed from Strava activity detail and stream data.</p>
+              </div>
+            </div>
+            <div className="fitness-insight-grid">
+              {insights.length > 0 ? insights.map(insight => (
+                <div key={`${insight.title}-${insight.value}`} className={`fitness-insight fitness-insight-${insight.kind}`}>
+                  <span>{insight.title}</span>
+                  <strong>{insight.value}</strong>
+                  <p>{insight.detail}</p>
+                </div>
+              )) : (
+                <p className="text-sm ui-muted">Open this activity after Strava stream data has synced to see computed insights.</p>
+              )}
+            </div>
+          </section>
+
+          <section className="ui-card p-4">
+            <div className="fitness-section-heading">
+              <div>
+                <h3 className="ui-page-title text-base font-semibold">Kilometer Splits</h3>
+                <p className="text-sm ui-muted">Generated from distance, time, heart-rate, and altitude streams when available.</p>
+              </div>
+              {derived?.stopped_time_s ? (
+                <span className="fitness-chip">Stopped {formatDuration(derived.stopped_time_s)}</span>
+              ) : null}
+            </div>
+            {splits.length > 0 ? (
+              <div className="fitness-split-table">
+                <div className="fitness-split-row fitness-split-head">
+                  <span>Km</span>
+                  <span>Pace</span>
+                  <span>Time</span>
+                  <span>HR</span>
+                  <span>Elev</span>
+                </div>
+                {splits.map(split => (
+                  <div key={split.index} className="fitness-split-row">
+                    <strong>{split.index}</strong>
+                    <span>{formatSecondsPerKm(split.pace_s_per_km)}</span>
+                    <span>{formatDuration(split.moving_time_s)}</span>
+                    <span>{split.average_heartrate ? `${Math.round(split.average_heartrate)} bpm` : '-'}</span>
+                    <span>{Math.round(split.elevation_gain_m)} m</span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm ui-muted">Split data is not available yet for this activity.</p>
+            )}
+          </section>
+        </div>
+
+        <aside className="fitness-detail-side">
+          <section className="ui-card p-4 fitness-ai-card">
+            <h3 className="ui-page-title text-base font-semibold">AI Analysis</h3>
+            <p className="text-sm ui-muted mt-1">
+              {aiAnalysis?.message || 'No AI analysis has been saved for this activity yet.'}
+            </p>
+            <div className="fitness-ai-placeholder">
+              <span>Status</span>
+              <strong>{aiAnalysis?.status === 'not_analyzed' ? 'Not analysed' : aiAnalysis?.status || 'Not analysed'}</strong>
+            </div>
+          </section>
+
+          <section className="ui-card p-4 fitness-log-source">
+            <h3 className="ui-page-title text-base font-semibold">My Log Source</h3>
+            <p className="text-sm ui-muted mt-1">The daily training card should use this compact activity summary.</p>
+            <div className="fitness-log-preview">
+              <div><span>Calories</span><strong>{activity.calories ? `${Math.round(activity.calories)} kcal` : '-'}</strong></div>
+              <div><span>Activity</span><strong>{activity.name}</strong></div>
+              <div><span>Summary</span><strong>{formatDistance(activity.distance_m)} · {formatDuration(activity.moving_time_s)}</strong></div>
+            </div>
+          </section>
+        </aside>
+      </section>
 
       <section className="ui-card p-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
