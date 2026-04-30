@@ -139,4 +139,31 @@ export interface FitnessActivity {
 export interface FitnessActivityDetail extends FitnessActivity {
   streams: Record<string, unknown> | null
   raw: Record<string, unknown> | null
+  derived_metrics: FitnessDerivedMetrics | null
+}
+
+export interface FitnessSplit {
+  index: number
+  distance_m: number
+  moving_time_s: number
+  pace_s_per_km: number
+  average_heartrate: number | null
+  elevation_gain_m: number
+}
+
+export interface FitnessInsight {
+  kind: string
+  title: string
+  value: string
+  detail: string
+}
+
+export interface FitnessDerivedMetrics {
+  splits: FitnessSplit[]
+  insights: FitnessInsight[]
+  stopped_time_s: number
+  ai_analysis: {
+    status: 'not_analyzed' | string
+    message: string
+  }
 }

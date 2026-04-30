@@ -64,11 +64,12 @@ class StravaService:
         if activity is None:
             return None
         if getattr(activity, "streams", None):
-            return activity
+            return self._with_derived_metrics(activity)
         connection = await self._authorized_connection()
         detail = await self._get_activity_from_strava(connection.access_token, activity.provider_activity_id)
         streams = await self._get_streams(connection.access_token, activity.provider_activity_id)
-        return await self.repo.upsert_activity(self._activity_payload(detail, streams=streams))
+        activity = await self.repo.upsert_activity(self._activity_payload(detail, streams=streams))
+        return self._with_derived_metrics(activity)
 
     async def upload_fit_file(self, activity_id: str, file: UploadFile):
         activity = await self.repo.get_activity(activity_id)
@@ -212,6 +213,175 @@ class StravaService:
                 for item in value
             ]
         return value
+
+    def _with_derived_metrics(self, activity):
+        activity.derived_metrics = self._derive_metrics(activity)
+        return activity
+
+    def _derive_metrics(self, activity) -> dict:
+        streams = getattr(activity, "streams", None) or {}
+        splits = self._derive_kilometer_splits(streams)
+        insights = self._derive_insights(activity, splits)
+        moving_time = getattr(activity, "moving_time_s", None)
+        elapsed_time = getattr(activity, "elapsed_time_s", None)
+        stopped_time = elapsed_time - moving_time if elapsed_time is not None and moving_time is not None else None
+        return {
+            "splits": splits,
+            "insights": insights,
+            "stopped_time_s": stopped_time if stopped_time is not None and stopped_time > 0 else 0,
+            "ai_analysis": {
+                "status": "not_analyzed",
+                "message": "No AI analysis has been saved for this activity yet.",
+            },
+        }
+
+    def _derive_insights(self, activity, splits: list[dict]) -> list[dict]:
+        insights = []
+        full_splits = [split for split in splits if split.get("distance_m", 0) >= 900 and split.get("pace_s_per_km")]
+        fastest = min(full_splits, key=lambda split: split["pace_s_per_km"], default=None)
+        if fastest:
+            insights.append({
+                "kind": "pace",
+                "title": "Fastest split",
+                "value": f"Km {fastest['index']}",
+                "detail": f"{self._format_pace(fastest['pace_s_per_km'])} over {fastest['distance_m'] / 1000:.1f} km.",
+            })
+
+        distance_m = getattr(activity, "distance_m", None)
+        moving_time_s = getattr(activity, "moving_time_s", None)
+        if distance_m and moving_time_s:
+            average_pace = moving_time_s / (distance_m / 1000)
+            final_split = splits[-1] if splits else None
+            final_pace = final_split.get("pace_s_per_km") if final_split else None
+            if final_pace:
+                delta = round(final_pace - average_pace)
+                direction = "slower" if delta > 0 else "faster"
+                insights.append({
+                    "kind": "pace",
+                    "title": "Final split vs average",
+                    "value": f"{abs(delta)} sec/km {direction}",
+                    "detail": f"Final split pace {self._format_pace(final_pace)}; activity average {self._format_pace(average_pace)}.",
+                })
+
+        elapsed_time_s = getattr(activity, "elapsed_time_s", None)
+        if elapsed_time_s is not None and moving_time_s is not None:
+            stopped_time = max(elapsed_time_s - moving_time_s, 0)
+            insights.append({
+                "kind": "time",
+                "title": "Stopped time",
+                "value": self._format_duration(stopped_time),
+                "detail": "Difference between elapsed time and moving time.",
+            })
+
+        calories = getattr(activity, "calories", None)
+        if calories is not None:
+            insights.append({
+                "kind": "nutrition",
+                "title": "Food log impact",
+                "value": f"{round(calories)} kcal",
+                "detail": "This is the activity calorie burn to surface on My Log.",
+            })
+        return insights
+
+    def _derive_kilometer_splits(self, streams: dict) -> list[dict]:
+        distance = self._stream_data(streams, "distance")
+        time_data = self._stream_data(streams, "time")
+        heartrate = self._stream_data(streams, "heartrate")
+        altitude = self._stream_data(streams, "altitude")
+        if not distance or not time_data or len(distance) != len(time_data):
+            return []
+
+        splits = []
+        total_distance = distance[-1]
+        if not isinstance(total_distance, int | float) or total_distance <= 0:
+            return []
+
+        split_count = int((total_distance + 999) // 1000)
+        for split_index in range(1, split_count + 1):
+            start_distance = (split_index - 1) * 1000
+            end_distance = min(split_index * 1000, total_distance)
+            distance_delta = end_distance - start_distance
+            if distance_delta <= 0:
+                continue
+
+            start_time = self._interpolate_stream_at_distance(distance, time_data, start_distance)
+            end_time = self._interpolate_stream_at_distance(distance, time_data, end_distance)
+            if start_time is None or end_time is None:
+                continue
+            time_delta = end_time - start_time
+            if time_delta <= 0:
+                continue
+
+            indexes = [
+                index
+                for index, meters in enumerate(distance)
+                if isinstance(meters, int | float) and start_distance <= meters <= end_distance
+            ]
+            hr_values = [
+                heartrate[index]
+                for index in indexes
+                if index < len(heartrate) and isinstance(heartrate[index], int | float)
+            ]
+            elevation_gain = 0
+            previous_altitude = None
+            for index in indexes:
+                current_altitude = altitude[index] if index < len(altitude) else None
+                if not isinstance(current_altitude, int | float):
+                    continue
+                if previous_altitude is not None and current_altitude > previous_altitude:
+                    elevation_gain += current_altitude - previous_altitude
+                previous_altitude = current_altitude
+            splits.append({
+                "index": split_index,
+                "distance_m": round(distance_delta, 1),
+                "moving_time_s": round(time_delta),
+                "pace_s_per_km": round(time_delta / (distance_delta / 1000), 1),
+                "average_heartrate": round(sum(hr_values) / len(hr_values), 1) if hr_values else None,
+                "elevation_gain_m": round(elevation_gain, 1),
+            })
+        return splits
+
+    def _interpolate_stream_at_distance(self, distance: list, values: list, target_distance: float):
+        if not distance or not values:
+            return None
+        if target_distance <= distance[0]:
+            return values[0]
+        for index in range(1, min(len(distance), len(values))):
+            previous_distance = distance[index - 1]
+            current_distance = distance[index]
+            if not isinstance(previous_distance, int | float) or not isinstance(current_distance, int | float):
+                continue
+            if current_distance < target_distance:
+                continue
+            previous_value = values[index - 1]
+            current_value = values[index]
+            if not isinstance(previous_value, int | float) or not isinstance(current_value, int | float):
+                return None
+            distance_delta = current_distance - previous_distance
+            if distance_delta <= 0:
+                return current_value
+            ratio = (target_distance - previous_distance) / distance_delta
+            return previous_value + (current_value - previous_value) * ratio
+        final_value = values[-1]
+        return final_value if isinstance(final_value, int | float) else None
+
+    def _stream_data(self, streams: dict, key: str) -> list:
+        stream = streams.get(key)
+        if not isinstance(stream, dict):
+            return []
+        data = stream.get("data")
+        return data if isinstance(data, list) else []
+
+    def _format_pace(self, seconds_per_km: float) -> str:
+        minutes = int(seconds_per_km // 60)
+        seconds = round(seconds_per_km % 60)
+        return f"{minutes}:{seconds:02d}/km"
+
+    def _format_duration(self, seconds: int | float) -> str:
+        seconds = round(seconds)
+        minutes = seconds // 60
+        remainder = seconds % 60
+        return f"{minutes}:{remainder:02d}"
 
     def _require_config(self) -> None:
         if not STRAVA_CLIENT_ID or not STRAVA_CLIENT_SECRET:

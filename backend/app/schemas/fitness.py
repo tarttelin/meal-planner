@@ -41,6 +41,7 @@ class FitnessActivityOut(BaseModel):
 class FitnessActivityDetail(FitnessActivityOut):
     streams: dict | None = None
     raw: dict | None = None
+    derived_metrics: dict | None = None
 
 
 class FitnessSyncResult(BaseModel):

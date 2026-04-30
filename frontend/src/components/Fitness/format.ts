@@ -14,7 +14,11 @@ export function formatDuration(seconds: number | null): string {
 
 export function formatPace(distanceM: number | null, movingTimeS: number | null): string {
   if (!distanceM || !movingTimeS) return '-'
-  const secondsPerKm = movingTimeS / (distanceM / 1000)
+  return formatSecondsPerKm(movingTimeS / (distanceM / 1000))
+}
+
+export function formatSecondsPerKm(secondsPerKm: number | null): string {
+  if (secondsPerKm == null) return '-'
   const mins = Math.floor(secondsPerKm / 60)
   const secs = Math.round(secondsPerKm % 60)
   return `${mins}:${String(secs).padStart(2, '0')} /km`
