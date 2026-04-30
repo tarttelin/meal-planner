@@ -174,9 +174,44 @@ class StravaService:
             "strava_url": f"https://www.strava.com/activities/{provider_id}",
             "fit_file_path": None,
             "fit_download_status": "not_available",
-            "streams": streams,
+            "streams": self._normalise_streams(streams),
             "raw": {**activity, "fit_export_note": FIT_EXPORT_NOTE},
         }
+
+    def _normalise_streams(self, streams: dict | None) -> dict | None:
+        if streams is None:
+            return None
+        normalised = {}
+        for key, stream in streams.items():
+            if key == "latlng" and isinstance(stream, dict):
+                normalised[key] = {
+                    **stream,
+                    "data": self._normalise_latlng_data(stream.get("data")),
+                }
+            else:
+                normalised[key] = self._firestore_safe_value(stream)
+        return normalised
+
+    def _normalise_latlng_data(self, data):
+        if not isinstance(data, list):
+            return self._firestore_safe_value(data)
+        points = []
+        for point in data:
+            if isinstance(point, list) and len(point) == 2:
+                points.append({"lat": point[0], "lng": point[1]})
+            else:
+                points.append(self._firestore_safe_value(point))
+        return points
+
+    def _firestore_safe_value(self, value):
+        if isinstance(value, dict):
+            return {key: self._firestore_safe_value(item) for key, item in value.items()}
+        if isinstance(value, list):
+            return [
+                {"values": self._firestore_safe_value(item)} if isinstance(item, list) else self._firestore_safe_value(item)
+                for item in value
+            ]
+        return value
 
     def _require_config(self) -> None:
         if not STRAVA_CLIENT_ID or not STRAVA_CLIENT_SECRET:
