@@ -18,4 +18,4 @@ COPY backend/app ./app
 COPY --from=frontend /build/dist ./static
 ENV REPO_TYPE=firestore
 EXPOSE 8080
-CMD ["uv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["uv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080", "--log-config", "app/logging.json"]
